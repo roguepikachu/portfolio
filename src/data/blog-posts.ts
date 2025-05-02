@@ -1,4 +1,3 @@
-
 import { BlogPost } from "@/types/blog";
 
 export const blogPosts: BlogPost[] = [
@@ -481,7 +480,7 @@ const Button: React.FC<ButtonProps> = ({
     <button 
       onClick={onClick}
       disabled={disabled}
-      className={`btn btn-${variant}`}
+      className={\`button button-\${variant}\`}
     >
       {text}
     </button>
