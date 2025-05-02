@@ -8,45 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight, Calendar, Clock } from 'lucide-react';
 import { BlogPost as BlogPostType } from '@/types/blog';
 import { BlogPostCard } from '@/components/blog-post-card';
-
-// Function to estimate reading time
-const calculateReadingTime = (content: string): number => {
-  const wordsPerMinute = 200;
-  const wordCount = content.split(/\s+/).length;
-  return Math.ceil(wordCount / wordsPerMinute);
-};
-
-// Function to convert markdown to HTML (basic implementation)
-const markdownToHtml = (markdown: string): string => {
-  // This is a very basic implementation
-  // In a real app, you would use a library like react-markdown
-  let html = markdown;
-  
-  // Handle code blocks
-  html = html.replace(/```(.+?)\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>');
-  
-  // Handle headers
-  html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
-  html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
-  html = html.replace(/^### (.*$)/gm, '<h3>$1</h3>');
-  
-  // Handle bold and italic
-  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  
-  // Handle links
-  html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
-  
-  // Handle paragraphs
-  html = html.replace(/^\s*(\n)?(.+)/gm, function(m) {
-    return /^<(\/)?(h\d|pre|table|tr|td|th|tbody|ul|ol|li|blockquote)/.test(m) ? m : '<p>' + m + '</p>';
-  });
-  
-  // Handle line breaks
-  html = html.replace(/\n/g, '<br>');
-  
-  return html;
-};
+import { MarkdownRenderer, calculateReadingTime } from '@/utils/markdown-utils';
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>();
@@ -159,10 +121,7 @@ export default function BlogPost() {
           
           {/* Post content */}
           {post.content ? (
-            <div 
-              className="prose prose-lg dark:prose-invert max-w-none"
-              dangerouslySetInnerHTML={{ __html: markdownToHtml(post.content) }}
-            />
+            <MarkdownRenderer content={post.content} />
           ) : (
             <p className="text-muted-foreground">No content available for this post.</p>
           )}

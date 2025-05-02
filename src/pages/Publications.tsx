@@ -6,6 +6,14 @@ import { Badge } from "@/components/ui/badge";
 import { publications } from "@/data/publications";
 import { PublicationCard } from "@/components/publication-card";
 import { Search, X } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Publications() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -68,12 +76,21 @@ export default function Publications() {
     }
   };
   
-  // Toggle year selection
-  const toggleYear = (year: string) => {
-    if (selectedYear === year) {
+  // Handle tag selection from dropdown
+  const handleTagSelect = (value: string) => {
+    if (value === "all") {
+      setSelectedTags([]);
+    } else {
+      toggleTag(value);
+    }
+  };
+
+  // Handle year selection
+  const handleYearSelect = (value: string) => {
+    if (value === "all") {
       setSelectedYear(null);
     } else {
-      setSelectedYear(year);
+      setSelectedYear(value);
     }
   };
   
@@ -134,18 +151,42 @@ export default function Publications() {
                   </Button>
                 )}
               </div>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {allTags.map(tag => (
-                  <Badge
-                    key={tag}
-                    variant={selectedTags.includes(tag) ? "default" : "outline"}
-                    className="cursor-pointer hover:bg-accent/80"
-                    onClick={() => toggleTag(tag)}
-                  >
-                    {tag}
-                  </Badge>
-                ))}
+              
+              {/* Tags dropdown */}
+              <div className="mt-2">
+                <Select onValueChange={handleTagSelect}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a tag to filter" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="all">All Tags</SelectItem>
+                      {allTags.map(tag => (
+                        <SelectItem key={tag} value={tag}>
+                          {tag} {selectedTags.includes(tag) && "✓"}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
+              
+              {/* Selected tags */}
+              {selectedTags.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {selectedTags.map(tag => (
+                    <Badge
+                      key={tag}
+                      variant="default"
+                      className="cursor-pointer"
+                      onClick={() => toggleTag(tag)}
+                    >
+                      {tag}
+                      <X className="ml-1 h-3 w-3" />
+                    </Badge>
+                  ))}
+                </div>
+              )}
             </div>
             
             {/* Years filter */}
@@ -163,17 +204,20 @@ export default function Publications() {
                   </Button>
                 )}
               </div>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {allYears.map(year => (
-                  <Badge
-                    key={year}
-                    variant={selectedYear === year ? "default" : "outline"}
-                    className="cursor-pointer hover:bg-accent/80"
-                    onClick={() => toggleYear(year)}
-                  >
-                    {year}
-                  </Badge>
-                ))}
+              
+              {/* Year dropdown */}
+              <div className="mt-2">
+                <Select onValueChange={handleYearSelect} value={selectedYear || "all"}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a year" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Years</SelectItem>
+                    {allYears.map(year => (
+                      <SelectItem key={year} value={year}>{year}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>
