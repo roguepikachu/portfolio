@@ -1,9 +1,13 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { cn } from '@/lib/utils';
+import { Copy, CheckCheck } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useTheme } from '@/components/theme-provider';
 
 interface MarkdownRendererProps {
   content: string;
@@ -11,25 +15,68 @@ interface MarkdownRendererProps {
 }
 
 export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) => {
+  const { theme } = useTheme();
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
+
+  const copyToClipboard = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setCopiedCode(code);
+    setTimeout(() => setCopiedCode(null), 2000);
+  };
+
+  const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const syntaxTheme = isDark ? vscDarkPlus : oneLight;
+
   return (
     <div className={cn("prose prose-lg dark:prose-invert max-w-none", className)}>
       <ReactMarkdown
         components={{
-          code({node, inline, className, children, ...props}) {
+          code({className, children, ...props}) {
             const match = /language-(\w+)/.exec(className || '');
-            return !inline && match ? (
-              <SyntaxHighlighter
-                style={vscDarkPlus}
-                language={match[1]}
-                PreTag="div"
-                {...props}
-              >
-                {String(children).replace(/\n$/, '')}
-              </SyntaxHighlighter>
-            ) : (
-              <code className={cn("bg-muted px-1.5 py-0.5 rounded text-sm", className)} {...props}>
-                {children}
-              </code>
+            const codeString = String(children).replace(/\n$/, '');
+            
+            if (!match) {
+              return (
+                <code className={cn("bg-muted px-1.5 py-0.5 rounded text-sm", className)} {...props}>
+                  {children}
+                </code>
+              );
+            }
+            
+            return (
+              <div className="relative group my-6">
+                <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 rounded-md bg-primary/10 hover:bg-primary/20"
+                    onClick={() => copyToClipboard(codeString)}
+                  >
+                    {copiedCode === codeString ? (
+                      <CheckCheck className="h-4 w-4 text-green-500" />
+                    ) : (
+                      <Copy className="h-4 w-4" />
+                    )}
+                    <span className="sr-only">Copy code</span>
+                  </Button>
+                </div>
+                <div className="absolute top-2 left-2 z-10 opacity-70">
+                  <span className="text-xs font-mono py-1 px-2 rounded bg-primary/10 text-primary">
+                    {match[1]}
+                  </span>
+                </div>
+                <SyntaxHighlighter
+                  style={syntaxTheme}
+                  language={match[1]}
+                  PreTag="div"
+                  className="!bg-muted !mt-0 rounded-lg border"
+                  showLineNumbers
+                  wrapLines
+                  {...props}
+                >
+                  {codeString}
+                </SyntaxHighlighter>
+              </div>
             );
           },
           h1: ({node, ...props}) => <h1 className="text-3xl font-bold mt-8 mb-4 scroll-m-20" {...props} />,
