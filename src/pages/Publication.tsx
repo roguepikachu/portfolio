@@ -6,39 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, ExternalLink } from 'lucide-react';
 import { Publication as PublicationType } from '@/types/publication';
-
-// Function to convert markdown to HTML (basic implementation)
-const markdownToHtml = (markdown?: string): string => {
-  if (!markdown) return '';
-  
-  // This is a simplified implementation
-  let html = markdown;
-  
-  // Handle code blocks
-  html = html.replace(/```(.+?)\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>');
-  
-  // Handle headers
-  html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
-  html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
-  html = html.replace(/^### (.*$)/gm, '<h3>$1</h3>');
-  
-  // Handle bold and italic
-  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  
-  // Handle links
-  html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
-  
-  // Handle paragraphs
-  html = html.replace(/^\s*(\n)?(.+)/gm, function(m) {
-    return /^<(\/)?(h\d|pre|table|tr|td|th|tbody|ul|ol|li|blockquote)/.test(m) ? m : '<p>' + m + '</p>';
-  });
-  
-  // Handle line breaks
-  html = html.replace(/\n/g, '<br>');
-  
-  return html;
-};
+import { MarkdownRenderer } from '@/utils/markdown-utils';
 
 export default function Publication() {
   const { id } = useParams<{ id: string }>();
@@ -139,10 +107,7 @@ export default function Publication() {
           
           {/* Publication content */}
           {publication.content ? (
-            <div 
-              className="prose prose-lg dark:prose-invert max-w-none"
-              dangerouslySetInnerHTML={{ __html: markdownToHtml(publication.content) }}
-            />
+            <MarkdownRenderer content={publication.content} />
           ) : (
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className="text-muted-foreground">{publication.summary}</p>

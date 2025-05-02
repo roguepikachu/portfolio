@@ -5,11 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BlogPostCard } from "@/components/blog-post-card";
 import { blogPosts } from "@/data/blog-posts";
-import { Search, X } from "lucide-react";
+import { Search, X, ChevronDown } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Blog() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [isTagsOpen, setIsTagsOpen] = useState(false);
   
   // Extract unique tags from all blog posts
   const allTags = useMemo(() => {
@@ -52,6 +61,15 @@ export default function Blog() {
       setSelectedTags(selectedTags.filter(t => t !== tag));
     } else {
       setSelectedTags([...selectedTags, tag]);
+    }
+  };
+
+  // Handle tag selection from dropdown
+  const handleTagSelect = (value: string) => {
+    if (value === "all") {
+      setSelectedTags([]);
+    } else {
+      toggleTag(value);
     }
   };
   
@@ -109,18 +127,42 @@ export default function Blog() {
                 </Button>
               )}
             </div>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {allTags.map(tag => (
-                <Badge
-                  key={tag}
-                  variant={selectedTags.includes(tag) ? "default" : "outline"}
-                  className="cursor-pointer hover:bg-accent/80"
-                  onClick={() => toggleTag(tag)}
-                >
-                  {tag}
-                </Badge>
-              ))}
+            
+            {/* Tag dropdown */}
+            <div className="mt-2">
+              <Select onValueChange={handleTagSelect}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a tag to filter" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="all">All Tags</SelectItem>
+                    {allTags.map(tag => (
+                      <SelectItem key={tag} value={tag}>
+                        {tag} {selectedTags.includes(tag) && "✓"}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
+            
+            {/* Selected tags */}
+            {selectedTags.length > 0 && (
+              <div className="mt-4 flex flex-wrap gap-2">
+                {selectedTags.map(tag => (
+                  <Badge
+                    key={tag}
+                    variant="default"
+                    className="cursor-pointer"
+                    onClick={() => toggleTag(tag)}
+                  >
+                    {tag}
+                    <X className="ml-1 h-3 w-3" />
+                  </Badge>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         
