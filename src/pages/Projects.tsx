@@ -9,7 +9,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
-import { GitHub, Search, ExternalLink } from "lucide-react";
+import { Github, Search, ExternalLink } from "lucide-react";
 
 interface Project {
   id: number;
@@ -158,7 +158,7 @@ export default function Projects() {
                 <div className="mt-6 pt-4 border-t flex items-center gap-3">
                   <Button size="sm" variant="outline" asChild>
                     <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                      <GitHub className="mr-1 h-3 w-3" />
+                      <Github className="mr-1 h-3 w-3" />
                       Code
                     </a>
                   </Button>
