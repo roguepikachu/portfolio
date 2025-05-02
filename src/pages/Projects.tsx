@@ -79,14 +79,14 @@ const allTags = Array.from(new Set(projects.flatMap(project => project.tags)));
 
 export default function Projects() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTag, setSelectedTag] = useState<string>("");
+  const [selectedTag, setSelectedTag] = useState<string>("all");
   
   // Filter projects based on search query and selected tag
   const filteredProjects = projects.filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          project.description.toLowerCase().includes(searchQuery.toLowerCase());
     
-    const matchesTag = selectedTag === "" || project.tags.includes(selectedTag);
+    const matchesTag = selectedTag === "all" || project.tags.includes(selectedTag);
     
     return matchesSearch && matchesTag;
   });
@@ -118,7 +118,7 @@ export default function Projects() {
               <SelectValue placeholder="Filter by tag" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Tags</SelectItem>
+              <SelectItem value="all">All Tags</SelectItem>
               {allTags.map((tag) => (
                 <SelectItem key={tag} value={tag}>{tag}</SelectItem>
               ))}
@@ -183,7 +183,7 @@ export default function Projects() {
               variant="link" 
               onClick={() => {
                 setSearchQuery("");
-                setSelectedTag("");
+                setSelectedTag("all");
               }}
             >
               Clear filters
