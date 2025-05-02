@@ -1,7 +1,6 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { GitHub, Linkedin, ArrowRight } from "lucide-react";
+import { Github, Linkedin, ArrowRight } from "lucide-react";
 import { ContactModal } from "@/components/contact-modal";
 import { Link } from "react-router-dom";
 
@@ -26,7 +25,7 @@ export default function Home() {
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <Button asChild className="inline-flex items-center">
                   <a href="https://github.com/" target="_blank" rel="noopener noreferrer">
-                    <GitHub className="mr-2 h-4 w-4" />
+                    <Github className="mr-2 h-4 w-4" />
                     GitHub Profile
                   </a>
                 </Button>
@@ -96,7 +95,7 @@ export default function Home() {
                   <div className="flex items-center gap-3 mt-4 pt-4 border-t">
                     <Button size="sm" variant="outline" asChild>
                       <a href="https://github.com/" target="_blank" rel="noopener noreferrer">
-                        <GitHub className="mr-1 h-3 w-3" />
+                        <Github className="mr-1 h-3 w-3" />
                         Code
                       </a>
                     </Button>
