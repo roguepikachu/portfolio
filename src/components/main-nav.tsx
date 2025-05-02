@@ -11,6 +11,7 @@ import { ContactModal } from "./contact-modal";
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Projects", href: "/projects" },
+  { name: "Publications", href: "/publications" },
   { name: "Blog", href: "/blog" },
   { name: "About", href: "/about" },
 ];
