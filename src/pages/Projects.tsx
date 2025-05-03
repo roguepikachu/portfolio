@@ -9,7 +9,10 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
-import { Github, Search, ExternalLink } from "lucide-react";
+import { Github, Search, ExternalLink, FileText } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import ReactMarkdown from "react-markdown";
 
 interface Project {
   id: number;
@@ -20,9 +23,10 @@ interface Project {
   demoUrl?: string;
   image?: string;
   featured?: boolean;
+  readme?: string;
 }
 
-// Sample project data
+// Sample project data with README content
 const projects: Project[] = [
   {
     id: 1,
@@ -32,6 +36,32 @@ const projects: Project[] = [
     githubUrl: "https://github.com/",
     demoUrl: "https://example.com",
     featured: true,
+    readme: `# Personal Portfolio
+
+A modern developer portfolio built with React, TypeScript, and Tailwind CSS.
+
+## Features
+
+- Responsive design for all device sizes
+- Dark and light mode
+- Project showcase
+- Contact form
+- Blog integration
+
+## Installation
+
+\`\`\`bash
+npm install
+npm start
+\`\`\`
+
+## Technologies Used
+
+- React
+- TypeScript
+- Tailwind CSS
+- Vite
+`
   },
   {
     id: 2,
@@ -40,6 +70,25 @@ const projects: Project[] = [
     tags: ["Next.js", "React", "MDX"],
     githubUrl: "https://github.com/",
     featured: true,
+    readme: `# Blog Platform
+
+A full-featured blog platform with markdown support and comment system.
+
+## Features
+
+- Markdown content editing
+- Comment system with threaded replies
+- Tags and categories
+- SEO optimized
+- Image uploads
+
+## Tech Stack
+
+- Next.js
+- React
+- MDX
+- MongoDB
+`
   },
   {
     id: 3,
@@ -80,6 +129,8 @@ const allTags = Array.from(new Set(projects.flatMap(project => project.tags)));
 export default function Projects() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState<string>("all");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [readmeOpen, setReadmeOpen] = useState(false);
   
   // Filter projects based on search query and selected tag
   const filteredProjects = projects.filter(project => {
@@ -170,6 +221,19 @@ export default function Projects() {
                       </a>
                     </Button>
                   )}
+                  {project.readme && (
+                    <Button 
+                      size="sm" 
+                      variant="secondary"
+                      onClick={() => {
+                        setSelectedProject(project);
+                        setReadmeOpen(true);
+                      }}
+                    >
+                      <FileText className="mr-1 h-3 w-3" />
+                      README
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
@@ -189,6 +253,30 @@ export default function Projects() {
               Clear filters
             </Button>
           </div>
+        )}
+        
+        {/* README Dialog */}
+        {selectedProject && (
+          <Dialog open={readmeOpen} onOpenChange={setReadmeOpen}>
+            <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>{selectedProject.title} - README</DialogTitle>
+                <DialogDescription>
+                  Project documentation and setup instructions
+                </DialogDescription>
+              </DialogHeader>
+              <div className="prose dark:prose-invert max-w-none mt-4">
+                <ReactMarkdown>
+                  {selectedProject.readme || "No README available for this project."}
+                </ReactMarkdown>
+              </div>
+              <div className="flex justify-end mt-4">
+                <Button variant="outline" onClick={() => setReadmeOpen(false)}>
+                  Close
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         )}
       </div>
     </div>

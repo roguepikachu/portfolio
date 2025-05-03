@@ -7,14 +7,21 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
 import { ContactModal } from "./contact-modal";
+import { sectionConfig } from "@/App";
 
-const navItems = [
+// Base navigation items
+const baseNavItems = [
   { name: "Home", href: "/" },
-  { name: "Projects", href: "/projects" },
-  { name: "Publications", href: "/publications" },
-  { name: "Blog", href: "/blog" },
+  { name: "Projects", href: "/projects", configKey: "projects" },
+  { name: "Publications", href: "/publications", configKey: "publications" },
+  { name: "Blog", href: "/blog", configKey: "blog" },
   { name: "About", href: "/about" },
 ];
+
+// Filter nav items based on section config
+const navItems = baseNavItems.filter(item => 
+  !item.configKey || sectionConfig[item.configKey as keyof typeof sectionConfig]
+);
 
 export function MainNav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
