@@ -6,7 +6,7 @@ import { ContactModal } from "@/components/contact-modal";
 import { Link } from "react-router-dom";
 import { publications } from "@/data/publications";
 import { PublicationCard } from "@/components/publication-card";
-import { sectionConfig } from "@/App";
+import { sectionConfig } from "@/config/sectionConfig";
 
 export default function Home() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
