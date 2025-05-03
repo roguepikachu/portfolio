@@ -7,7 +7,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
 import { ContactModal } from "./contact-modal";
-import { sectionConfig } from "@/App";
+import { sectionConfig } from "@/config/sectionConfig";
 
 // Base navigation items
 const baseNavItems = [

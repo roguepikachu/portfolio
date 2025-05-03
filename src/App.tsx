@@ -14,16 +14,9 @@ import About from "./pages/About";
 import Publications from "./pages/Publications";
 import Publication from "./pages/Publication";
 import NotFound from "./pages/NotFound";
+import { sectionConfig } from "./config/sectionConfig";
 
 const queryClient = new QueryClient();
-
-// Define sections that can be enabled/disabled
-// These settings would ideally come from a settings context or API in a real app
-export const sectionConfig = {
-  projects: true,    // Set to false to disable Projects section
-  publications: true, // Set to false to disable Publications section
-  blog: true,        // Set to false to disable Blog section
-};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
