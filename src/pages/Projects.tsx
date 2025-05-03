@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,21 +12,11 @@ import { Github, Search, ExternalLink, FileText } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import ReactMarkdown from "react-markdown";
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  tags: string[];
-  githubUrl: string;
-  demoUrl?: string;
-  image?: string;
-  featured?: boolean;
-  readme?: string;
-}
+import { Link } from "react-router-dom";
+import { Project } from "@/types/project";
 
 // Sample project data with README content
-const projects: Project[] = [
+export const projects: Project[] = [
   {
     id: 1,
     title: "Personal Portfolio",
@@ -192,7 +181,9 @@ export default function Projects() {
                     Featured
                   </div>
                 )}
-                <h2 className="text-xl font-bold">{project.title}</h2>
+                <Link to={`/projects/${project.id}`}>
+                  <h2 className="text-xl font-bold hover:text-primary transition-colors">{project.title}</h2>
+                </Link>
                 <p className="mt-2 text-muted-foreground text-sm flex-grow">
                   {project.description}
                 </p>
@@ -221,19 +212,16 @@ export default function Projects() {
                       </a>
                     </Button>
                   )}
-                  {project.readme && (
-                    <Button 
-                      size="sm" 
-                      variant="secondary"
-                      onClick={() => {
-                        setSelectedProject(project);
-                        setReadmeOpen(true);
-                      }}
-                    >
+                  <Button 
+                    size="sm" 
+                    variant="secondary"
+                    asChild
+                  >
+                    <Link to={`/projects/${project.id}`}>
                       <FileText className="mr-1 h-3 w-3" />
-                      README
-                    </Button>
-                  )}
+                      Details
+                    </Link>
+                  </Button>
                 </div>
               </div>
             </div>
