@@ -60,8 +60,9 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
                     <span className="sr-only">Copy code</span>
                   </Button>
                 </div>
-                <div className="absolute top-2 left-2 z-10 opacity-70">
-                  <span className="text-xs font-mono py-1 px-2 rounded bg-primary/10 text-primary">
+                {/* Fix language indicator positioning */}
+                <div className="absolute top-0 left-4 z-10 -translate-y-1/2">
+                  <span className="text-xs font-mono px-2 py-1 rounded-sm bg-background border text-primary">
                     {match[1]}
                   </span>
                 </div>
@@ -69,9 +70,21 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
                   style={syntaxTheme}
                   language={match[1]}
                   PreTag="div"
-                  className="!bg-muted !mt-0 rounded-lg border"
+                  className="!bg-muted !mt-0 rounded-lg border overflow-hidden"
                   showLineNumbers
                   wrapLines
+                  lineProps={{style: {
+                    wordBreak: 'break-all',
+                    whiteSpace: 'pre-wrap',
+                    background: isDark ? 'transparent' : '#f8f8f8',
+                    lineHeight: '1.5'
+                  }}}
+                  customStyle={{
+                    margin: 0,
+                    padding: '2rem 0 1.5rem',
+                    borderRadius: '0.5rem',
+                    backgroundColor: isDark ? '#1A1F2C' : '#f8f8f8',
+                  }}
                   {...props}
                 >
                   {codeString}
