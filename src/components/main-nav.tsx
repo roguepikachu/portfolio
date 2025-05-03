@@ -25,6 +25,9 @@ export function MainNav() {
     return location.pathname === path;
   };
 
+  // Check if we're on the Home or About page to hide the contact button
+  const hideContactButton = location.pathname === "/" || location.pathname === "/about";
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-40 border-b bg-background/80 backdrop-blur">
@@ -51,11 +54,13 @@ export function MainNav() {
             </nav>
           </div>
           <div className="flex items-center gap-2">
-            <div className="hidden md:block">
-              <Button onClick={() => setContactModalOpen(true)}>
-                Contact
-              </Button>
-            </div>
+            {!hideContactButton && (
+              <div className="hidden md:block">
+                <Button onClick={() => setContactModalOpen(true)}>
+                  Contact
+                </Button>
+              </div>
+            )}
             <ThemeToggle />
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild className="md:hidden">
@@ -89,15 +94,17 @@ export function MainNav() {
                         {item.name}
                       </Link>
                     ))}
-                    <Button 
-                      className="w-full mt-4" 
-                      onClick={() => {
-                        setContactModalOpen(true);
-                        setMobileMenuOpen(false);
-                      }}
-                    >
-                      Contact
-                    </Button>
+                    {!hideContactButton && (
+                      <Button 
+                        className="w-full mt-4" 
+                        onClick={() => {
+                          setContactModalOpen(true);
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        Contact
+                      </Button>
+                    )}
                   </div>
                 </div>
               </SheetContent>
