@@ -73,17 +73,24 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
                   className="!bg-muted !mt-0 rounded-lg border overflow-hidden"
                   showLineNumbers
                   wrapLines
-                  lineProps={{style: {
-                    wordBreak: 'break-all',
-                    whiteSpace: 'pre-wrap',
-                    background: isDark ? 'transparent' : '#f8f8f8',
-                    lineHeight: '1.5'
-                  }}}
+                  lineProps={() => ({
+                    style: {
+                      wordBreak: 'break-all',
+                      whiteSpace: 'pre-wrap',
+                      backgroundColor: 'transparent',
+                      lineHeight: '1.5'
+                    }
+                  })}
                   customStyle={{
                     margin: 0,
                     padding: '2rem 0 1.5rem',
                     borderRadius: '0.5rem',
                     backgroundColor: isDark ? '#1A1F2C' : '#f8f8f8',
+                  }}
+                  codeTagProps={{
+                    style: {
+                      backgroundColor: 'transparent',
+                    }
                   }}
                   {...props}
                 >
