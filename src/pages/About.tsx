@@ -1,10 +1,13 @@
-
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Download, ExternalLink } from "lucide-react";
+import { ContactModal } from "@/components/contact-modal";
 
 export default function About() {
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+  
   // Tech stack data organized by categories
   const techStack = {
     frontend: [
@@ -76,10 +79,8 @@ export default function About() {
                   Download Resume
                 </a>
               </Button>
-              <Button variant="outline" asChild>
-                <a href="mailto:your.email@example.com">
-                  Contact Me
-                </a>
+              <Button variant="outline" onClick={() => setContactModalOpen(true)}>
+                Contact Me
               </Button>
             </div>
           </div>
@@ -245,6 +246,8 @@ export default function About() {
             </div>
           </div>
         </section>
+        
+        <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
       </div>
     </div>
   );
