@@ -5,7 +5,7 @@ import { blogPosts } from '@/data/blog-posts';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ArrowRight, Calendar, Clock, MessageCircle, ThumbsUp, Share, Copy, Check, Facebook, Twitter, Google } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, Clock, MessageCircle, ThumbsUp, Share, Copy, Check, Facebook, Twitter, Mail } from 'lucide-react';
 import { BlogPost as BlogPostType } from '@/types/blog';
 import { BlogPostCard } from '@/components/blog-post-card';
 import { MarkdownRenderer, calculateReadingTime } from '@/utils/markdown-utils';
@@ -487,7 +487,7 @@ export default function BlogPost() {
                     onClick={() => authenticateWithProvider('google')}
                     className="flex items-center gap-2"
                   >
-                    <Google className="h-4 w-4" />
+                    <Mail className="h-4 w-4" />
                     Sign in with Google
                   </Button>
                   <Button 
