@@ -5,17 +5,27 @@ import { blogPosts } from '@/data/blog-posts';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ArrowRight, Calendar, Clock, MessageCircle, ThumbsUp, Share, Copy, Check, Image, Paperclip, Facebook, Twitter, Linkedin } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, Clock, MessageCircle, ThumbsUp, Share, Copy, Check, Facebook, Twitter, Google } from 'lucide-react';
 import { BlogPost as BlogPostType } from '@/types/blog';
 import { BlogPostCard } from '@/components/blog-post-card';
 import { MarkdownRenderer, calculateReadingTime } from '@/utils/markdown-utils';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 
+// Create new types for authentication and database integration
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+  provider: 'google' | 'facebook' | 'twitter';
+}
+
 // Interfaces for comments and related features
 interface Comment {
   id: string;
   author: string;
+  authorId: string;
   content: string;
   date: string;
   likes: number;
@@ -30,14 +40,14 @@ export default function BlogPost() {
   const [prevPost, setPrevPost] = useState<BlogPostType | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPostType[]>([]);
   
-  // New state for comments and related features
+  // State for comments and authentication
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
   const [replyToId, setReplyToId] = useState<string | null>(null);
   const [replyContent, setReplyContent] = useState('');
   const [linkCopied, setLinkCopied] = useState(false);
-  const [showImageUpload, setShowImageUpload] = useState(false);
-  const [showAttachmentUpload, setShowAttachmentUpload] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -62,11 +72,22 @@ export default function BlogPost() {
     // Scroll to top
     window.scrollTo(0, 0);
 
-    // Mock comments data - in a real app this would come from an API
-    setComments([
+    // In a real app, we would fetch comments from a database
+    // For now, we're using mock data
+    fetchComments();
+    
+  }, [id]);
+
+  // Mock function to fetch comments
+  // In a real app, this would be an API call to your database
+  const fetchComments = () => {
+    // This is where you would fetch comments from your database
+    // For now, we'll use mock data
+    const mockComments: Comment[] = [
       {
         id: '1',
         author: 'John Doe',
+        authorId: 'user1',
         content: 'This is a great article! I particularly liked the section about React hooks.',
         date: '2023-05-01T12:00:00Z',
         likes: 5,
@@ -75,6 +96,7 @@ export default function BlogPost() {
           {
             id: '1-1',
             author: 'Jane Smith',
+            authorId: 'user2',
             content: 'I agree, the hooks explanation was very clear.',
             date: '2023-05-01T14:30:00Z',
             likes: 2,
@@ -86,24 +108,43 @@ export default function BlogPost() {
       {
         id: '2',
         author: 'Alex Johnson',
+        authorId: 'user3',
         content: 'Here\'s an example of code formatting in comments:\n```javascript\nconst greeting = "Hello world";\nconsole.log(greeting);\n```',
         date: '2023-05-02T09:15:00Z',
         likes: 3,
         userHasLiked: true,
         replies: []
       }
-    ]);
+    ];
     
-  }, [id]);
+    setComments(mockComments);
+  };
+
+  // Mock authentication functions
+  const authenticateWithProvider = (provider: 'google' | 'facebook' | 'twitter') => {
+    // In a real app, this would authenticate with the provider
+    // For now, we'll simulate a successful authentication
+    const mockUser: User = {
+      id: `user-${Date.now()}`,
+      name: `${provider.charAt(0).toUpperCase() + provider.slice(1)} User`,
+      email: `user@${provider}.com`,
+      provider
+    };
+    
+    setUser(mockUser);
+    toast.success(`Successfully authenticated with ${provider.charAt(0).toUpperCase() + provider.slice(1)}`);
+    setIsAuthModalOpen(false);
+  };
   
   const handleCommentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newComment.trim()) return;
+    if (!newComment.trim() || !user) return;
     
-    // In a real app, you would send this to an API
+    // In a real app, you would send this to a database
     const newCommentObj: Comment = {
       id: `${Date.now()}`,
-      author: 'Current User', // In a real app, this would be the logged-in user
+      author: user.name,
+      authorId: user.id,
       content: newComment,
       date: new Date().toISOString(),
       likes: 0,
@@ -111,18 +152,36 @@ export default function BlogPost() {
       replies: []
     };
     
+    // Update local state
     setComments(prev => [newCommentObj, ...prev]);
     setNewComment('');
+    
+    // In a real app, this is where you would save the comment to your database
+    saveCommentToDatabase(newCommentObj);
+    
     toast.success('Comment added successfully');
   };
   
+  // Mock function to save comment to database
+  const saveCommentToDatabase = (comment: Comment) => {
+    // In a real app, this would be an API call to your database
+    console.log('Saving comment to database:', comment);
+    // Example API call:
+    // await fetch('/api/comments', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ comment, postId: id })
+    // });
+  };
+  
   const handleReplySubmit = (commentId: string) => {
-    if (!replyContent.trim()) return;
+    if (!replyContent.trim() || !user) return;
     
-    // In a real app, you would send this to an API
+    // In a real app, you would send this to a database
     const newReply: Comment = {
       id: `${commentId}-${Date.now()}`,
-      author: 'Current User', // In a real app, this would be the logged-in user
+      author: user.name,
+      authorId: user.id,
       content: replyContent,
       date: new Date().toISOString(),
       likes: 0,
@@ -130,6 +189,7 @@ export default function BlogPost() {
       replies: []
     };
     
+    // Update local state
     setComments(prev => prev.map(comment => {
       if (comment.id === commentId) {
         return {
@@ -142,10 +202,31 @@ export default function BlogPost() {
     
     setReplyToId(null);
     setReplyContent('');
+    
+    // In a real app, this is where you would save the reply to your database
+    saveReplyToDatabase(commentId, newReply);
+    
     toast.success('Reply added successfully');
   };
   
+  // Mock function to save reply to database
+  const saveReplyToDatabase = (commentId: string, reply: Comment) => {
+    // In a real app, this would be an API call to your database
+    console.log('Saving reply to database:', { commentId, reply });
+    // Example API call:
+    // await fetch(`/api/comments/${commentId}/replies`, {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ reply, postId: id })
+    // });
+  };
+  
   const toggleLike = (commentId: string, isReply = false, parentId?: string) => {
+    if (!user) {
+      setIsAuthModalOpen(true);
+      return;
+    }
+    
     if (isReply && parentId) {
       setComments(prev => prev.map(comment => {
         if (comment.id === parentId) {
@@ -166,6 +247,9 @@ export default function BlogPost() {
         }
         return comment;
       }));
+      
+      // In a real app, this is where you would update the like in your database
+      saveLikeToDatabase(commentId, !comments.find(c => c.id === parentId)?.replies.find(r => r.id === commentId)?.userHasLiked);
     } else {
       setComments(prev => prev.map(comment => {
         if (comment.id === commentId) {
@@ -178,7 +262,22 @@ export default function BlogPost() {
         }
         return comment;
       }));
+      
+      // In a real app, this is where you would update the like in your database
+      saveLikeToDatabase(commentId, !comments.find(c => c.id === commentId)?.userHasLiked);
     }
+  };
+  
+  // Mock function to save like to database
+  const saveLikeToDatabase = (commentId: string, liked: boolean) => {
+    // In a real app, this would be an API call to your database
+    console.log('Saving like to database:', { commentId, liked });
+    // Example API call:
+    // await fetch(`/api/comments/${commentId}/like`, {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ userId: user.id, liked })
+    // });
   };
   
   const copyToClipboard = () => {
@@ -210,16 +309,9 @@ export default function BlogPost() {
     window.open(shareUrl, '_blank', 'width=600,height=400');
   };
   
-  const handleImageUpload = () => {
-    // In a real app, this would trigger a file upload dialog
-    toast.info('Image upload functionality would be implemented here');
-    setShowImageUpload(false);
-  };
-  
-  const handleAttachmentUpload = () => {
-    // In a real app, this would trigger a file upload dialog
-    toast.info('File attachment functionality would be implemented here');
-    setShowAttachmentUpload(false);
+  const handleLogout = () => {
+    setUser(null);
+    toast.info('You have been logged out');
   };
   
   if (!post) {
@@ -330,15 +422,6 @@ export default function BlogPost() {
             <Button 
               variant="outline" 
               size="sm" 
-              className="rounded-full" 
-              onClick={() => shareOnSocialMedia('linkedin')}
-            >
-              <Linkedin className="h-4 w-4" />
-              <span className="sr-only">Share on LinkedIn</span>
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
               onClick={copyToClipboard} 
               className="ml-auto"
             >
@@ -394,94 +477,76 @@ export default function BlogPost() {
               Comments ({comments.length})
             </h2>
             
-            {/* Add comment form */}
-            <form onSubmit={handleCommentSubmit} className="mt-6">
-              <div className="space-y-4">
-                <Textarea 
-                  placeholder="Write a comment... Markdown and code blocks are supported."
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  className="min-h-[100px]"
-                />
-                <div className="flex items-center justify-between flex-wrap gap-3">
-                  <div className="flex items-center gap-2">
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setShowImageUpload(!showImageUpload)}
-                    >
-                      <Image className="h-4 w-4 mr-1" />
-                      Add Image
-                    </Button>
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setShowAttachmentUpload(!showAttachmentUpload)}
-                    >
-                      <Paperclip className="h-4 w-4 mr-1" />
-                      Attach File
-                    </Button>
-                  </div>
-                  <Button type="submit" disabled={!newComment.trim()}>
-                    Submit Comment
+            {/* Authentication section */}
+            {!user ? (
+              <div className="mt-6 p-6 border rounded-lg bg-muted/50">
+                <h3 className="text-lg font-medium mb-4">Sign in to comment</h3>
+                <div className="flex flex-wrap gap-3">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => authenticateWithProvider('google')}
+                    className="flex items-center gap-2"
+                  >
+                    <Google className="h-4 w-4" />
+                    Sign in with Google
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => authenticateWithProvider('facebook')}
+                    className="flex items-center gap-2"
+                  >
+                    <Facebook className="h-4 w-4" />
+                    Sign in with Facebook
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => authenticateWithProvider('twitter')}
+                    className="flex items-center gap-2"
+                  >
+                    <Twitter className="h-4 w-4" />
+                    Sign in with Twitter
                   </Button>
                 </div>
+                <p className="text-sm text-muted-foreground mt-4">
+                  Sign in to leave comments and like posts. We'll never post to your account without permission.
+                </p>
               </div>
-              
-              {showImageUpload && (
-                <div className="mt-4 p-4 border rounded-md">
-                  <p className="text-sm mb-2">Upload an image:</p>
+            ) : (
+              <>
+                {/* User info and logout */}
+                <div className="mt-6 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <input 
-                      type="text" 
-                      className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" 
-                      placeholder="Image URL or upload" 
-                    />
-                    <Button size="sm" onClick={handleImageUpload}>Upload</Button>
-                    <Button 
-                      type="button" 
-                      variant="ghost" 
-                      size="sm"
-                      onClick={() => setShowImageUpload(false)}
-                    >
-                      Cancel
-                    </Button>
+                    <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center">
+                      {user.name.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="font-medium">{user.name}</p>
+                      <p className="text-xs text-muted-foreground">{user.email}</p>
+                    </div>
                   </div>
-                  <div className="mt-2">
-                    <label className="text-sm">Alt text (for accessibility):</label>
-                    <input 
-                      type="text" 
-                      className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" 
-                      placeholder="Describe this image" 
-                    />
-                  </div>
+                  <Button variant="ghost" size="sm" onClick={handleLogout}>
+                    Sign out
+                  </Button>
                 </div>
-              )}
-              
-              {showAttachmentUpload && (
-                <div className="mt-4 p-4 border rounded-md">
-                  <p className="text-sm mb-2">Attach a file (PDF, ZIP, etc.):</p>
-                  <div className="flex items-center gap-2">
-                    <input 
-                      type="text" 
-                      className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" 
-                      placeholder="File URL or upload"
+                
+                {/* Add comment form */}
+                <form onSubmit={handleCommentSubmit} className="mt-4">
+                  <div className="space-y-4">
+                    <Textarea 
+                      placeholder="Write a comment... Markdown and code blocks are supported."
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      className="min-h-[100px]"
                     />
-                    <Button size="sm" onClick={handleAttachmentUpload}>Upload</Button>
-                    <Button 
-                      type="button" 
-                      variant="ghost" 
-                      size="sm"
-                      onClick={() => setShowAttachmentUpload(false)}
-                    >
-                      Cancel
-                    </Button>
+                    <div className="flex items-center justify-end">
+                      <Button type="submit" disabled={!newComment.trim()}>
+                        Submit Comment
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              )}
-            </form>
+                </form>
+              </>
+            )}
             
             {/* Display comments */}
             <div className="mt-8 space-y-8">
@@ -511,7 +576,7 @@ export default function BlogPost() {
                     </Button>
                   </div>
                   
-                  {/* Parse comment content - in this demo, we're displaying the markdown */}
+                  {/* Parse comment content */}
                   <div className="mt-2 text-sm">
                     <MarkdownRenderer content={comment.content} />
                   </div>
@@ -521,14 +586,20 @@ export default function BlogPost() {
                     <Button 
                       variant="ghost" 
                       size="sm"
-                      onClick={() => setReplyToId(replyToId === comment.id ? null : comment.id)}
+                      onClick={() => {
+                        if (!user) {
+                          setIsAuthModalOpen(true);
+                          return;
+                        }
+                        setReplyToId(replyToId === comment.id ? null : comment.id);
+                      }}
                     >
                       {replyToId === comment.id ? "Cancel" : "Reply"}
                     </Button>
                   </div>
                   
                   {/* Reply form */}
-                  {replyToId === comment.id && (
+                  {replyToId === comment.id && user && (
                     <div className="mt-4 pl-4 border-l-2">
                       <Textarea 
                         placeholder="Write a reply..."
