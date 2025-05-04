@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Mail } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -14,6 +14,53 @@ interface AuthSectionProps {
 export function AuthSection({ currentUser, onUserChange }: AuthSectionProps) {
   const [email, setEmail] = useState('');
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  
+  // Track and handle auth state changes
+  useEffect(() => {
+    // Check for hash parameters indicating a redirect from email link
+    const handleEmailSignInWithToken = async () => {
+      const hash = window.location.hash;
+      if (hash && hash.includes('access_token')) {
+        // Clear the hash to avoid processing it again on reload
+        window.location.hash = '';
+        
+        // Get session - this will use the tokens from the URL if available
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('Error getting session:', error);
+          toast.error('Authentication failed');
+        } else if (data?.session) {
+          onUserChange(data.session.user);
+          toast.success('Successfully signed in');
+        }
+      }
+    };
+    
+    // Initial check for existing session
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session?.user) {
+        onUserChange(data.session.user);
+      }
+    };
+    
+    checkSession();
+    handleEmailSignInWithToken();
+    
+    // Set up a subscription for auth state changes
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        onUserChange(session.user);
+      } else if (event === 'SIGNED_OUT') {
+        onUserChange(null);
+      }
+    });
+    
+    return () => {
+      authListener.subscription?.unsubscribe();
+    };
+  }, [onUserChange]);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();

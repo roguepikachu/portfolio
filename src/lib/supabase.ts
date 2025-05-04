@@ -17,3 +17,12 @@ export const supabase = createClient(
   supabaseUrl || 'https://your-supabase-project-url.supabase.co',
   supabaseAnonKey || 'your-supabase-anon-key'
 );
+
+// Set up persistent storage for auth session
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_IN' && session) {
+    localStorage.setItem('supabase-auth', JSON.stringify(session));
+  } else if (event === 'SIGNED_OUT') {
+    localStorage.removeItem('supabase-auth');
+  }
+});
