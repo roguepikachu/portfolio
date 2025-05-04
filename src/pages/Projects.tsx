@@ -212,16 +212,6 @@ export default function Projects() {
                       </a>
                     </Button>
                   )}
-                  <Button 
-                    size="sm" 
-                    variant="secondary"
-                    asChild
-                  >
-                    <Link to={`/projects/${project.id}`}>
-                      <FileText className="mr-1 h-3 w-3" />
-                      Details
-                    </Link>
-                  </Button>
                 </div>
               </div>
             </div>
