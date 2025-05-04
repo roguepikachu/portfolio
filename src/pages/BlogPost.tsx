@@ -1,4 +1,3 @@
-
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { blogPosts } from '@/data/blog-posts';
@@ -94,6 +93,7 @@ export default function BlogPost() {
   });
 
   return (
+    
     <div className="container py-12 md:py-16">
       <div className="mx-auto max-w-3xl">
         {/* Back to blog link */}
@@ -247,5 +247,6 @@ export default function BlogPost() {
         )}
       </div>
     </div>
+  
   );
 }
