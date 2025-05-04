@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Facebook, Twitter, Mail } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { User } from '@supabase/supabase-js';
@@ -12,15 +12,19 @@ interface AuthSectionProps {
 }
 
 export function AuthSection({ currentUser, onUserChange }: AuthSectionProps) {
+  const [email, setEmail] = useState('');
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
-  const authenticateWithProvider = async (provider: 'google' | 'facebook' | 'twitter') => {
+  const handleEmailAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    
     setIsAuthenticating(true);
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
+      const { error } = await supabase.auth.signInWithOtp({
+        email: email.trim(),
         options: {
-          redirectTo: window.location.origin + window.location.pathname,
+          emailRedirectTo: window.location.origin + window.location.pathname,
         },
       });
       
@@ -28,10 +32,10 @@ export function AuthSection({ currentUser, onUserChange }: AuthSectionProps) {
         throw error;
       }
       
-      toast.success(`Redirecting to ${provider} for authentication`);
+      toast.success('Check your email for the login link');
     } catch (error) {
-      console.error(`Error authenticating with ${provider}:`, error);
-      toast.error(`Failed to authenticate with ${provider}`);
+      console.error('Error authenticating with email:', error);
+      toast.error('Failed to send login email');
     } finally {
       setIsAuthenticating(false);
     }
@@ -55,37 +59,29 @@ export function AuthSection({ currentUser, onUserChange }: AuthSectionProps) {
     return (
       <div className="mt-6 p-6 border rounded-lg bg-muted/50">
         <h3 className="text-lg font-medium mb-4">Sign in to comment</h3>
-        <div className="flex flex-wrap gap-3">
-          <Button 
-            variant="outline" 
-            onClick={() => authenticateWithProvider('google')}
-            className="flex items-center gap-2"
-            disabled={isAuthenticating}
-          >
-            <Mail className="h-4 w-4" />
-            Sign in with Google
-          </Button>
-          <Button 
-            variant="outline" 
-            onClick={() => authenticateWithProvider('facebook')}
-            className="flex items-center gap-2"
-            disabled={isAuthenticating}
-          >
-            <Facebook className="h-4 w-4" />
-            Sign in with Facebook
-          </Button>
-          <Button 
-            variant="outline" 
-            onClick={() => authenticateWithProvider('twitter')}
-            className="flex items-center gap-2"
-            disabled={isAuthenticating}
-          >
-            <Twitter className="h-4 w-4" />
-            Sign in with Twitter
-          </Button>
-        </div>
+        <form onSubmit={handleEmailAuth}>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <input 
+              type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Your email"
+              className="flex-1 px-3 py-2 border rounded-md"
+              required
+            />
+            <Button 
+              type="submit"
+              variant="outline" 
+              className="flex items-center gap-2"
+              disabled={isAuthenticating || !email.trim()}
+            >
+              <Mail className="h-4 w-4" />
+              {isAuthenticating ? 'Sending...' : 'Sign in with Email'}
+            </Button>
+          </div>
+        </form>
         <p className="text-sm text-muted-foreground mt-4">
-          Sign in to leave comments and like posts. We'll never post to your account without permission.
+          We'll send you a magic link to sign in. No password needed.
         </p>
       </div>
     );
