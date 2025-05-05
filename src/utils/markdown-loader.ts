@@ -62,18 +62,22 @@ export function loadBlogPosts(): BlogPost[] {
       
       if (file && file.attributes) {
         const formattedDate = formatDate(file.attributes.date);
-        posts.push({
-          id: file.attributes.id || path.split('/').pop()?.replace('.md', ''),
-          title: file.attributes.title,
+        const post: BlogPost = {
+          id: file.attributes.id || path.split('/').pop()?.replace('.md', '') || '',
+          title: file.attributes.title || 'Untitled',
           date: formattedDate,
           excerpt: file.attributes.excerpt || '',
           tags: file.attributes.tags || [],
-          content: file.html,
+          content: file.html || '',
           pinned: file.attributes.pinned || false,
           release: file.attributes.release || false,
-        });
+        };
+        posts.push(post);
+        console.log(`Loaded blog post: ${post.title} (${post.date})`);
       }
     }
+    
+    console.log(`Total blog posts loaded: ${posts.length}`);
   } catch (error) {
     console.error('Error loading blog posts:', error);
   }
@@ -100,18 +104,22 @@ export function loadPublications(): Publication[] {
       
       if (file && file.attributes) {
         const formattedDate = formatDate(file.attributes.date);
-        publications.push({
-          id: file.attributes.id || path.split('/').pop()?.replace('.md', ''),
-          title: file.attributes.title,
+        const publication: Publication = {
+          id: file.attributes.id || path.split('/').pop()?.replace('.md', '') || '',
+          title: file.attributes.title || 'Untitled',
           date: formattedDate,
           summary: file.attributes.summary || '',
           link: file.attributes.link || '',
           tags: file.attributes.tags || [],
           featured: file.attributes.featured || false,
-          content: file.html,
-        });
+          content: file.html || '',
+        };
+        publications.push(publication);
+        console.log(`Loaded publication: ${publication.title} (${publication.date})`);
       }
     }
+    
+    console.log(`Total publications loaded: ${publications.length}`);
   } catch (error) {
     console.error('Error loading publications:', error);
   }
@@ -137,19 +145,23 @@ export function loadProjects(): Project[] {
       const file = projectImports[path] as any;
       
       if (file && file.attributes) {
-        projects.push({
-          id: file.attributes.id || path.split('/').pop()?.replace('.md', ''),
-          title: file.attributes.title,
+        const project: Project = {
+          id: file.attributes.id || path.split('/').pop()?.replace('.md', '') || '',
+          title: file.attributes.title || 'Untitled',
           description: file.attributes.description || '',
           tags: file.attributes.tags || [],
           githubUrl: file.attributes.githubUrl || '',
           demoUrl: file.attributes.demoUrl || '',
           image: file.attributes.image || '',
           featured: file.attributes.featured || false,
-          readme: file.html,
-        });
+          readme: file.html || '',
+        };
+        projects.push(project);
+        console.log(`Loaded project: ${project.title}`);
       }
     }
+    
+    console.log(`Total projects loaded: ${projects.length}`);
   } catch (error) {
     console.error('Error loading projects:', error);
   }
