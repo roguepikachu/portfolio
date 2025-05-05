@@ -35,6 +35,36 @@ This paper presents a comprehensive survey of optimization techniques for traini
 ## Abstract
 This paper examines reliability patterns in distributed systems architecture.
     `
+  },
+  {
+    id: "blockchain-data-integrity",
+    title: "Blockchain Solutions for Data Integrity in Healthcare",
+    date: "2024-08-05",
+    summary: "An analysis of blockchain implementation strategies to ensure data integrity in healthcare information systems.",
+    link: "https://example.com/publication3",
+    tags: ["Blockchain", "Healthcare", "Data Integrity"],
+    featured: false,
+    content: `
+# Blockchain Solutions for Data Integrity in Healthcare
+
+## Abstract
+This paper analyzes blockchain implementation strategies for ensuring data integrity in healthcare information systems.
+    `
+  },
+  {
+    id: "quantum-computing-applications",
+    title: "Practical Applications of Quantum Computing in Cryptography",
+    date: "2024-06-12",
+    summary: "Exploring the potential applications and implications of quantum computing in modern cryptographic systems.",
+    link: "https://example.com/publication4",
+    tags: ["Quantum Computing", "Cryptography", "Security"],
+    featured: false,
+    content: `
+# Practical Applications of Quantum Computing in Cryptography
+
+## Abstract
+This paper explores potential applications and implications of quantum computing in modern cryptographic systems.
+    `
   }
 ];
 
