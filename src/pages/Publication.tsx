@@ -7,30 +7,49 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, ExternalLink } from 'lucide-react';
 import { Publication as PublicationType } from '@/types/publication';
 import { MarkdownRenderer } from '@/utils/markdown-utils';
+import { ContentLoader } from '@/components/ui/content-loader';
 
 export default function Publication() {
   const { id } = useParams<{ id: string }>();
   const [publication, setPublication] = useState<PublicationType | null>(null);
   const [relatedPublications, setRelatedPublications] = useState<PublicationType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     if (!id) return;
     
-    // Find current publication
-    const currentPublication = publications.find(p => p.id === id);
-    if (!currentPublication) return;
+    setIsLoading(true);
     
-    setPublication(currentPublication);
-    
-    // Find related publications based on tags
-    const related = publications
-      .filter(p => p.id !== id && p.tags.some(tag => currentPublication.tags.includes(tag)))
-      .slice(0, 2);
-    setRelatedPublications(related);
-    
-    // Scroll to top
-    window.scrollTo(0, 0);
+    // Simulate network delay to show loading state (remove in production)
+    setTimeout(() => {
+      // Find current publication
+      const currentPublication = publications.find(p => p.id === id);
+      if (!currentPublication) {
+        setIsLoading(false);
+        return;
+      }
+      
+      setPublication(currentPublication);
+      
+      // Find related publications based on tags
+      const related = publications
+        .filter(p => p.id !== id && p.tags.some(tag => currentPublication.tags.includes(tag)))
+        .slice(0, 2);
+      setRelatedPublications(related);
+      
+      // Scroll to top
+      window.scrollTo(0, 0);
+      setIsLoading(false);
+    }, 800);
   }, [id]);
+  
+  if (isLoading) {
+    return (
+      <div className="container py-16">
+        <ContentLoader message="Loading publication..." />
+      </div>
+    );
+  }
   
   if (!publication) {
     return (

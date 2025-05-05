@@ -10,6 +10,7 @@ import { BlogPostCard } from '@/components/blog-post-card';
 import { MarkdownRenderer, calculateReadingTime } from '@/utils/markdown-utils';
 import { toast } from 'sonner';
 import { CommentSection } from '@/components/blog/CommentSection';
+import { ContentLoader } from '@/components/ui/content-loader';
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>();
@@ -18,29 +19,39 @@ export default function BlogPost() {
   const [prevPost, setPrevPost] = useState<BlogPostType | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPostType[]>([]);
   const [linkCopied, setLinkCopied] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!id) return;
     
-    // Find current post
-    const currentPostIndex = blogPosts.findIndex(p => p.id === id);
-    if (currentPostIndex === -1) return;
+    setIsLoading(true);
     
-    const currentPost = blogPosts[currentPostIndex];
-    setPost(currentPost);
-    
-    // Find next and previous posts
-    setPrevPost(currentPostIndex > 0 ? blogPosts[currentPostIndex - 1] : null);
-    setNextPost(currentPostIndex < blogPosts.length - 1 ? blogPosts[currentPostIndex + 1] : null);
-    
-    // Find related posts based on tags
-    const related = blogPosts
-      .filter(p => p.id !== id && p.tags.some(tag => currentPost.tags.includes(tag)))
-      .slice(0, 2);
-    setRelatedPosts(related);
-    
-    // Scroll to top
-    window.scrollTo(0, 0);
+    // Simulate network delay to show loading state (remove in production)
+    setTimeout(() => {
+      // Find current post
+      const currentPostIndex = blogPosts.findIndex(p => p.id === id);
+      if (currentPostIndex === -1) {
+        setIsLoading(false);
+        return;
+      }
+      
+      const currentPost = blogPosts[currentPostIndex];
+      setPost(currentPost);
+      
+      // Find next and previous posts
+      setPrevPost(currentPostIndex > 0 ? blogPosts[currentPostIndex - 1] : null);
+      setNextPost(currentPostIndex < blogPosts.length - 1 ? blogPosts[currentPostIndex + 1] : null);
+      
+      // Find related posts based on tags
+      const related = blogPosts
+        .filter(p => p.id !== id && p.tags.some(tag => currentPost.tags.includes(tag)))
+        .slice(0, 2);
+      setRelatedPosts(related);
+      
+      // Scroll to top
+      window.scrollTo(0, 0);
+      setIsLoading(false);
+    }, 800);
   }, [id]);
   
   const copyToClipboard = () => {
@@ -71,6 +82,14 @@ export default function BlogPost() {
     
     window.open(shareUrl, '_blank', 'width=600,height=400');
   };
+  
+  if (isLoading) {
+    return (
+      <div className="container py-16">
+        <ContentLoader message="Loading blog post..." />
+      </div>
+    );
+  }
   
   if (!post) {
     return (
