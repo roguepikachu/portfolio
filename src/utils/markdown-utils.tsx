@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { Copy, CheckCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/theme-provider';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 interface MarkdownRendererProps {
   content: string;
@@ -17,6 +18,7 @@ interface MarkdownRendererProps {
 export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) => {
   const { theme } = useTheme();
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [imageLoading, setImageLoading] = useState<Record<string, boolean>>({});
 
   const copyToClipboard = (code: string) => {
     navigator.clipboard.writeText(code);
@@ -26,6 +28,14 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
 
   const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
   const syntaxTheme = isDark ? vscDarkPlus : oneLight;
+
+  const handleImageLoad = (src: string) => {
+    setImageLoading(prev => ({ ...prev, [src]: false }));
+  };
+
+  const handleImageError = (src: string) => {
+    setImageLoading(prev => ({ ...prev, [src]: false }));
+  };
 
   return (
     <div className={cn("prose prose-lg max-w-none", className)}>
@@ -109,7 +119,34 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
           blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-muted-foreground pl-4 py-1 my-4 italic text-base" {...props} />,
           a: ({node, ...props}) => <a className="text-primary underline underline-offset-2 hover:text-primary/80 text-base" {...props} />,
           table: ({node, ...props}) => <div className="overflow-x-auto my-6"><table className="w-full border-collapse text-base" {...props} /></div>,
-          img: ({node, src, alt, ...props}) => <img src={src} alt={alt} className="my-6 rounded-md" {...props} />,
+          img: ({node, src, alt, ...props}) => {
+            if (!src) return null;
+            
+            if (src && !imageLoading[src]) {
+              setImageLoading(prev => ({ ...prev, [src]: true }));
+            }
+            
+            return (
+              <div className="my-6 relative">
+                {imageLoading[src] && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <LoadingSpinner size={24} />
+                  </div>
+                )}
+                <img 
+                  src={src} 
+                  alt={alt} 
+                  className={cn(
+                    "rounded-md transition-opacity",
+                    imageLoading[src] ? "opacity-0" : "opacity-100"
+                  )}
+                  onLoad={() => handleImageLoad(src)}
+                  onError={() => handleImageError(src)}
+                  {...props} 
+                />
+              </div>
+            );
+          },
         }}
       >
         {content}
