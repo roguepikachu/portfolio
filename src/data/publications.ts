@@ -9,7 +9,7 @@ export const fallbackPublications: Publication[] = [
   {
     id: "machine-learning-models-optimization",
     title: "Optimization Techniques for Large-Scale Machine Learning Models",
-    date: "2023-01-15", // Updated date format
+    date: "2023-01-15",
     summary: "A comprehensive survey of optimization methods for training deep neural networks with limited computational resources.",
     link: "https://example.com/publication1",
     tags: ["Machine Learning", "Optimization", "Research"],
@@ -24,7 +24,7 @@ This paper presents a comprehensive survey of optimization techniques for traini
   {
     id: "distributed-systems-reliability",
     title: "Reliability Patterns in Distributed Systems Architecture",
-    date: "2023-11-20", // Updated date format
+    date: "2023-11-20",
     summary: "Exploring design patterns that enhance fault tolerance and reliability in distributed computing environments.",
     link: "https://example.com/publication2",
     tags: ["Distributed Systems", "Architecture", "Reliability"],
@@ -39,7 +39,7 @@ This paper examines reliability patterns in distributed systems architecture.
   {
     id: "blockchain-data-integrity",
     title: "Blockchain Solutions for Data Integrity in Healthcare",
-    date: "2023-08-05", // Updated date format
+    date: "2023-08-05",
     summary: "An analysis of blockchain implementation strategies to ensure data integrity in healthcare information systems.",
     link: "https://example.com/publication3",
     tags: ["Blockchain", "Healthcare", "Data Integrity"],
@@ -54,7 +54,7 @@ This paper analyzes blockchain implementation strategies for ensuring data integ
   {
     id: "quantum-computing-applications",
     title: "Practical Applications of Quantum Computing in Cryptography",
-    date: "2023-06-12", // Updated date format
+    date: "2023-06-12",
     summary: "Exploring the potential applications and implications of quantum computing in modern cryptographic systems.",
     link: "https://example.com/publication4",
     tags: ["Quantum Computing", "Cryptography", "Security"],
