@@ -14,17 +14,15 @@ interface AuthSectionProps {
 export function AuthSection({ currentUser, onUserChange }: AuthSectionProps) {
   const [email, setEmail] = useState('');
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const [isProcessingAuth, setIsProcessingAuth] = useState(false);
   
   // Track and handle auth state changes
   useEffect(() => {
     // Check for hash parameters indicating a redirect from email link
     const handleEmailSignInWithToken = async () => {
       const hash = window.location.hash;
-      if (hash && hash.includes('access_token') && !isProcessingAuth) {
-        setIsProcessingAuth(true);
+      if (hash && hash.includes('access_token')) {
         // Clear the hash to avoid processing it again on reload
-        window.history.replaceState(null, '', window.location.pathname);
+        window.location.hash = '';
         
         // Get session - this will use the tokens from the URL if available
         const { data, error } = await supabase.auth.getSession();
@@ -36,7 +34,6 @@ export function AuthSection({ currentUser, onUserChange }: AuthSectionProps) {
           onUserChange(data.session.user);
           toast.success('Successfully signed in');
         }
-        setIsProcessingAuth(false);
       }
     };
     
@@ -63,7 +60,7 @@ export function AuthSection({ currentUser, onUserChange }: AuthSectionProps) {
     return () => {
       authListener.subscription?.unsubscribe();
     };
-  }, [onUserChange, isProcessingAuth]);
+  }, [onUserChange]);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
