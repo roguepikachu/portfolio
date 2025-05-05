@@ -9,7 +9,7 @@ export const fallbackBlogPosts: BlogPost[] = [
   {
     id: "understanding-javascript-closures",
     title: "Understanding JavaScript Closures",
-    date: "2025-05-01",
+    date: "2023-05-01", // Updated date format to YYYY-MM-DD
     excerpt: "A deep dive into closures and lexical scope in JavaScript.",
     tags: ["JavaScript", "Functional Programming"],
     pinned: true,
@@ -23,7 +23,7 @@ A closure is the combination of a function bundled together with references to i
   {
     id: "getting-started-with-react-hooks",
     title: "Getting Started with React Hooks",
-    date: "2025-04-20",
+    date: "2023-04-20", // Updated date format
     excerpt: "Learn how to use React Hooks to manage state and side effects in functional components.",
     tags: ["React", "JavaScript", "Web Development"],
     pinned: false,
@@ -37,7 +37,7 @@ React Hooks were introduced in React 16.8 to allow developers to use state and o
   {
     id: "typescript-best-practices",
     title: "TypeScript Best Practices for Large-Scale Applications",
-    date: "2025-03-15",
+    date: "2023-03-15", // Updated date format
     excerpt: "Discover how to structure and maintain large TypeScript codebases with best practices and patterns.",
     tags: ["TypeScript", "Software Architecture", "Best Practices"],
     pinned: false,
@@ -51,7 +51,7 @@ TypeScript has become the language of choice for developing large-scale JavaScri
   {
     id: "tailwind-css-tips",
     title: "10 Tailwind CSS Tips to Supercharge Your Workflow",
-    date: "2025-02-28",
+    date: "2023-02-28", // Updated date format
     excerpt: "Level up your Tailwind CSS skills with these practical tips and tricks for faster development.",
     tags: ["CSS", "Tailwind", "Web Development"],
     pinned: false,
