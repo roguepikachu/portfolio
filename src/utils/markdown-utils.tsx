@@ -28,7 +28,7 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
   const syntaxTheme = isDark ? vscDarkPlus : oneLight;
 
   return (
-    <div className={cn("prose prose-lg dark:prose-invert max-w-none", className)}>
+    <div className={cn("prose prose-lg max-w-none", className)}>
       <ReactMarkdown
         components={{
           code({className, children, ...props}) {
@@ -102,13 +102,13 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
           h1: ({node, ...props}) => <h1 className="text-3xl font-bold mt-8 mb-4 scroll-m-20" {...props} />,
           h2: ({node, ...props}) => <h2 className="text-2xl font-bold mt-8 mb-4 scroll-m-20" {...props} />,
           h3: ({node, ...props}) => <h3 className="text-xl font-bold mt-6 mb-3 scroll-m-20" {...props} />,
-          p: ({node, ...props}) => <p className="my-4" {...props} />,
-          ul: ({node, ...props}) => <ul className="list-disc pl-6 my-4" {...props} />,
-          ol: ({node, ...props}) => <ol className="list-decimal pl-6 my-4" {...props} />,
-          li: ({node, ...props}) => <li className="my-1" {...props} />,
-          blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-muted-foreground pl-4 py-1 my-4 italic" {...props} />,
-          a: ({node, ...props}) => <a className="text-primary underline underline-offset-2 hover:text-primary/80" {...props} />,
-          table: ({node, ...props}) => <div className="overflow-x-auto my-6"><table className="w-full border-collapse" {...props} /></div>,
+          p: ({node, ...props}) => <p className="my-4 text-base" {...props} />,
+          ul: ({node, ...props}) => <ul className="list-disc pl-6 my-4 text-base" {...props} />,
+          ol: ({node, ...props}) => <ol className="list-decimal pl-6 my-4 text-base" {...props} />,
+          li: ({node, ...props}) => <li className="my-1 text-base" {...props} />,
+          blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-muted-foreground pl-4 py-1 my-4 italic text-base" {...props} />,
+          a: ({node, ...props}) => <a className="text-primary underline underline-offset-2 hover:text-primary/80 text-base" {...props} />,
+          table: ({node, ...props}) => <div className="overflow-x-auto my-6"><table className="w-full border-collapse text-base" {...props} /></div>,
           img: ({node, src, alt, ...props}) => <img src={src} alt={alt} className="my-6 rounded-md" {...props} />,
         }}
       >
