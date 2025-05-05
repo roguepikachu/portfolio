@@ -8,7 +8,6 @@ import { cn } from '@/lib/utils';
 import { Copy, CheckCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/theme-provider';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 interface MarkdownRendererProps {
   content: string;
@@ -18,7 +17,6 @@ interface MarkdownRendererProps {
 export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) => {
   const { theme } = useTheme();
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
-  const [imageLoading, setImageLoading] = useState<Record<string, boolean>>({});
 
   const copyToClipboard = (code: string) => {
     navigator.clipboard.writeText(code);
@@ -29,16 +27,8 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
   const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
   const syntaxTheme = isDark ? vscDarkPlus : oneLight;
 
-  const handleImageLoad = (src: string) => {
-    setImageLoading(prev => ({ ...prev, [src]: false }));
-  };
-
-  const handleImageError = (src: string) => {
-    setImageLoading(prev => ({ ...prev, [src]: false }));
-  };
-
   return (
-    <div className={cn("prose prose-lg max-w-none", className)}>
+    <div className={cn("prose prose-lg dark:prose-invert max-w-none", className)}>
       <ReactMarkdown
         components={{
           code({className, children, ...props}) {
@@ -112,41 +102,14 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
           h1: ({node, ...props}) => <h1 className="text-3xl font-bold mt-8 mb-4 scroll-m-20" {...props} />,
           h2: ({node, ...props}) => <h2 className="text-2xl font-bold mt-8 mb-4 scroll-m-20" {...props} />,
           h3: ({node, ...props}) => <h3 className="text-xl font-bold mt-6 mb-3 scroll-m-20" {...props} />,
-          p: ({node, ...props}) => <p className="my-4 text-base" {...props} />,
-          ul: ({node, ...props}) => <ul className="list-disc pl-6 my-4 text-base" {...props} />,
-          ol: ({node, ...props}) => <ol className="list-decimal pl-6 my-4 text-base" {...props} />,
-          li: ({node, ...props}) => <li className="my-1 text-base" {...props} />,
-          blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-muted-foreground pl-4 py-1 my-4 italic text-base" {...props} />,
-          a: ({node, ...props}) => <a className="text-primary underline underline-offset-2 hover:text-primary/80 text-base" {...props} />,
-          table: ({node, ...props}) => <div className="overflow-x-auto my-6"><table className="w-full border-collapse text-base" {...props} /></div>,
-          img: ({node, src, alt, ...props}) => {
-            if (!src) return null;
-            
-            if (src && !imageLoading[src]) {
-              setImageLoading(prev => ({ ...prev, [src]: true }));
-            }
-            
-            return (
-              <div className="my-6 relative">
-                {imageLoading[src] && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <LoadingSpinner size={24} />
-                  </div>
-                )}
-                <img 
-                  src={src} 
-                  alt={alt} 
-                  className={cn(
-                    "rounded-md transition-opacity",
-                    imageLoading[src] ? "opacity-0" : "opacity-100"
-                  )}
-                  onLoad={() => handleImageLoad(src)}
-                  onError={() => handleImageError(src)}
-                  {...props} 
-                />
-              </div>
-            );
-          },
+          p: ({node, ...props}) => <p className="my-4" {...props} />,
+          ul: ({node, ...props}) => <ul className="list-disc pl-6 my-4" {...props} />,
+          ol: ({node, ...props}) => <ol className="list-decimal pl-6 my-4" {...props} />,
+          li: ({node, ...props}) => <li className="my-1" {...props} />,
+          blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-muted-foreground pl-4 py-1 my-4 italic" {...props} />,
+          a: ({node, ...props}) => <a className="text-primary underline underline-offset-2 hover:text-primary/80" {...props} />,
+          table: ({node, ...props}) => <div className="overflow-x-auto my-6"><table className="w-full border-collapse" {...props} /></div>,
+          img: ({node, src, alt, ...props}) => <img src={src} alt={alt} className="my-6 rounded-md" {...props} />,
         }}
       >
         {content}

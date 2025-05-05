@@ -23,18 +23,3 @@ export interface Comment {
   parent_id?: string | null;
   post_id: string;
 }
-
-// Add this new type for markdown file imports
-export interface MarkdownFile {
-  attributes: {
-    id: string;
-    title: string;
-    date: string;
-    excerpt: string;
-    tags: string[];
-    pinned?: boolean;
-    release?: boolean;
-  };
-  html: string;
-  toc: { level: number; content: string }[];
-}
