@@ -1,6 +1,6 @@
 
 import { cn } from "@/lib/utils";
-import { RefreshCw } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 interface LoadingSpinnerProps {
   size?: number;
@@ -14,7 +14,7 @@ export function LoadingSpinner({
   color 
 }: LoadingSpinnerProps) {
   return (
-    <RefreshCw 
+    <Loader2
       className={cn(
         "animate-spin text-primary", 
         className
