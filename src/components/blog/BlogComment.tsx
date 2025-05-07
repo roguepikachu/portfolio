@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ThumbsUp } from 'lucide-react';
@@ -39,44 +38,57 @@ export function BlogComment({
     setIsLiking(true);
     try {
       // Check if user has already liked this comment
-      const { data: existingLike } = await supabase
+      const { data: existingLike, error: likeError } = await supabase
         .from('comment_likes')
         .select('*')
         .eq('comment_id', comment.id)
         .eq('user_id', currentUser.id)
         .single();
       
+      if (likeError && likeError.code !== 'PGRST116') {
+        // PGRST116 means no rows returned, which is fine
+        throw likeError;
+      }
+      
       if (existingLike) {
         // Unlike
-        await supabase
+        const { error: unlikeError } = await supabase
           .from('comment_likes')
           .delete()
           .eq('comment_id', comment.id)
           .eq('user_id', currentUser.id);
+          
+        if (unlikeError) throw unlikeError;
         
         // Update the comment likes count
-        await supabase
+        const { error: updateError } = await supabase
           .from('comments')
           .update({ likes: comment.likes - 1 })
           .eq('id', comment.id);
+          
+        if (updateError) throw updateError;
           
         comment.likes -= 1;
         comment.userHasLiked = false;
       } else {
         // Like
-        await supabase
+        const { error: insertError } = await supabase
           .from('comment_likes')
           .insert({ 
             comment_id: comment.id, 
             user_id: currentUser.id,
             post_id: postId
           });
+          
+        if (insertError) throw insertError;
         
         // Update the comment likes count
-        await supabase
+        const { error: updateError } = await supabase
           .from('comments')
           .update({ likes: comment.likes + 1 })
           .eq('id', comment.id);
+          
+        if (updateError) throw updateError;
           
         comment.likes += 1;
         comment.userHasLiked = true;
