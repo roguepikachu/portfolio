@@ -1,13 +1,12 @@
 
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { publications } from '@/data/publications-data';
+import { publications } from '@/data/publications';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, ExternalLink } from 'lucide-react';
 import { Publication as PublicationType } from '@/types/publication';
 import { MarkdownRenderer } from '@/utils/markdown-utils';
-import { useMarkdownFile } from '@/utils/markdown-loader';
 
 export default function Publication() {
   const { id } = useParams<{ id: string }>();
@@ -32,12 +31,6 @@ export default function Publication() {
     // Scroll to top
     window.scrollTo(0, 0);
   }, [id]);
-
-  const { content: markdownContent, isLoading } = useMarkdownFile(
-    publication?.markdownFile 
-      ? `/src/markdown/publications/${publication.markdownFile}` 
-      : ''
-  );
   
   if (!publication) {
     return (
@@ -113,14 +106,8 @@ export default function Publication() {
           </header>
           
           {/* Publication content */}
-          {isLoading ? (
-            <div className="flex flex-col gap-4 py-8">
-              <div className="loading-placeholder h-6 w-4/5 rounded"></div>
-              <div className="loading-placeholder h-6 w-3/5 rounded"></div>
-              <div className="loading-placeholder h-6 w-4/5 rounded"></div>
-            </div>
-          ) : markdownContent ? (
-            <MarkdownRenderer content={markdownContent} />
+          {publication.content ? (
+            <MarkdownRenderer content={publication.content} />
           ) : (
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className="text-muted-foreground">{publication.summary}</p>
