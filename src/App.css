@@ -78,3 +78,10 @@
     background-position: -200% 0;
   }
 }
+
+/* Fix for project title flickering */
+.project-title {
+  color: inherit !important; /* Inherit color to prevent flickering */
+  transition: color 0.5s ease !important; /* Make color transition smoother */
+  will-change: color; /* Optimize for color changes */
+}

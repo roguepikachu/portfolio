@@ -29,19 +29,19 @@ export function ThemeToggle() {
     // Reset transition class after animation completes to allow normal transitions afterward
     setTimeout(() => {
       document.documentElement.classList.remove('theme-transition');
-    }, 500); // Increased from 300ms to 500ms for smoother transitions
+    }, 800); // Increased from 500ms to 800ms for even smoother transitions
   };
 
   return (
-    <div className="flex items-center gap-2 transition-all duration-300">
-      <Sun className={`h-4 w-4 transition-all duration-300 ${isDark ? 'text-muted-foreground opacity-70' : 'text-amber-500'}`} />
+    <div className="flex items-center gap-2 transition-all duration-500">
+      <Sun className={`h-4 w-4 transition-all duration-500 ${isDark ? 'text-muted-foreground opacity-70' : 'text-amber-500'}`} />
       <Switch
         checked={isDark}
         onCheckedChange={toggleTheme}
         aria-label="Toggle dark mode"
-        className="transition-all duration-300"
+        className="transition-all duration-500"
       />
-      <Moon className={`h-4 w-4 transition-all duration-300 ${isDark ? 'text-primary' : 'text-muted-foreground opacity-70'}`} />
+      <Moon className={`h-4 w-4 transition-all duration-500 ${isDark ? 'text-primary' : 'text-muted-foreground opacity-70'}`} />
     </div>
   );
 }
