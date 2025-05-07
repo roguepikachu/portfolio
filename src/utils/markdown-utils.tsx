@@ -44,12 +44,12 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
             }
             
             return (
-              <div className="relative group my-6">
+              <div className="relative group my-6 transition-all duration-300">
                 <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 rounded-md bg-primary/10 hover:bg-primary/20"
+                    className="h-8 w-8 rounded-md bg-primary/10 hover:bg-primary/20 transition-colors duration-300"
                     onClick={() => copyToClipboard(codeString)}
                   >
                     {copiedCode === codeString ? (
@@ -62,7 +62,7 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
                 </div>
                 {/* Fix language indicator positioning */}
                 <div className="absolute top-0 left-4 z-10 -translate-y-1/2">
-                  <span className="text-xs font-mono px-2 py-1 rounded-sm bg-background border text-primary">
+                  <span className="text-xs font-mono px-2 py-1 rounded-sm bg-background border text-primary transition-colors duration-300">
                     {match[1]}
                   </span>
                 </div>
@@ -70,7 +70,7 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
                   style={syntaxTheme}
                   language={match[1]}
                   PreTag="div"
-                  className="!bg-muted !mt-0 rounded-lg border overflow-hidden"
+                  className="!bg-muted !mt-0 rounded-lg border overflow-hidden transition-colors duration-300"
                   showLineNumbers
                   wrapLines
                   lineProps={() => ({
@@ -78,7 +78,8 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
                       wordBreak: 'break-all',
                       whiteSpace: 'pre-wrap',
                       backgroundColor: 'transparent',
-                      lineHeight: '1.5'
+                      lineHeight: '1.5',
+                      fontSize: 'var(--font-size-sm)' // Consistent font size
                     }
                   })}
                   customStyle={{
@@ -86,10 +87,16 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
                     padding: '2rem 0 1.5rem',
                     borderRadius: '0.5rem',
                     backgroundColor: isDark ? '#1A1F2C' : '#f8f8f8',
+                    transition: 'background-color 0.3s ease',
+                    fontSize: 'var(--font-size-sm)',
+                    lineHeight: 'var(--line-height-normal)'
                   }}
                   codeTagProps={{
                     style: {
                       backgroundColor: 'transparent',
+                      fontSize: 'inherit',
+                      lineHeight: 'inherit',
+                      transition: 'all 0.3s ease'
                     }
                   }}
                   {...props}
@@ -99,17 +106,17 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
               </div>
             );
           },
-          h1: ({node, ...props}) => <h1 className="text-3xl font-bold mt-8 mb-4 scroll-m-20" {...props} />,
-          h2: ({node, ...props}) => <h2 className="text-2xl font-bold mt-8 mb-4 scroll-m-20" {...props} />,
-          h3: ({node, ...props}) => <h3 className="text-xl font-bold mt-6 mb-3 scroll-m-20" {...props} />,
-          p: ({node, ...props}) => <p className="my-4" {...props} />,
-          ul: ({node, ...props}) => <ul className="list-disc pl-6 my-4" {...props} />,
-          ol: ({node, ...props}) => <ol className="list-decimal pl-6 my-4" {...props} />,
-          li: ({node, ...props}) => <li className="my-1" {...props} />,
-          blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-muted-foreground pl-4 py-1 my-4 italic" {...props} />,
-          a: ({node, ...props}) => <a className="text-primary underline underline-offset-2 hover:text-primary/80" {...props} />,
-          table: ({node, ...props}) => <div className="overflow-x-auto my-6"><table className="w-full border-collapse" {...props} /></div>,
-          img: ({node, src, alt, ...props}) => <img src={src} alt={alt} className="my-6 rounded-md" {...props} />,
+          h1: ({node, ...props}) => <h1 className="text-3xl font-bold mt-8 mb-4 scroll-m-20 transition-colors duration-300" {...props} />,
+          h2: ({node, ...props}) => <h2 className="text-2xl font-bold mt-8 mb-4 scroll-m-20 transition-colors duration-300" {...props} />,
+          h3: ({node, ...props}) => <h3 className="text-xl font-bold mt-6 mb-3 scroll-m-20 transition-colors duration-300" {...props} />,
+          p: ({node, ...props}) => <p className="my-4 transition-colors duration-300" {...props} />,
+          ul: ({node, ...props}) => <ul className="list-disc pl-6 my-4 transition-colors duration-300" {...props} />,
+          ol: ({node, ...props}) => <ol className="list-decimal pl-6 my-4 transition-colors duration-300" {...props} />,
+          li: ({node, ...props}) => <li className="my-1 transition-colors duration-300" {...props} />,
+          blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-muted-foreground pl-4 py-1 my-4 italic transition-all duration-300" {...props} />,
+          a: ({node, ...props}) => <a className="text-primary underline underline-offset-2 hover:text-primary/80 transition-colors duration-300" {...props} />,
+          table: ({node, ...props}) => <div className="overflow-x-auto my-6 transition-all duration-300"><table className="w-full border-collapse" {...props} /></div>,
+          img: ({node, src, alt, ...props}) => <img src={src} alt={alt} className="my-6 rounded-md transition-all duration-300" {...props} />,
         }}
       >
         {content}
