@@ -9,4 +9,5 @@ export interface Project {
   image?: string;
   featured?: boolean;
   readme?: string;
+  markdownFile?: string; // New field to reference markdown file
 }

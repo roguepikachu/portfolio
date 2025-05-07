@@ -1,7 +1,7 @@
 
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { blogPosts } from '@/data/blog-posts';
+import { blogPosts } from '@/data/blog-data';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,7 @@ import { BlogPostCard } from '@/components/blog-post-card';
 import { MarkdownRenderer, calculateReadingTime } from '@/utils/markdown-utils';
 import { toast } from 'sonner';
 import { CommentSection } from '@/components/blog/CommentSection';
+import { useMarkdownFile } from '@/utils/markdown-loader';
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>();
@@ -43,6 +44,12 @@ export default function BlogPost() {
     // Scroll to top
     window.scrollTo(0, 0);
   }, [id]);
+
+  const { content: markdownContent, isLoading } = useMarkdownFile(
+    post?.markdownFile 
+      ? `/src/markdown/blog/${post.markdownFile}` 
+      : ''
+  );
   
   const copyToClipboard = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -86,7 +93,7 @@ export default function BlogPost() {
     );
   }
   
-  const readingTime = post.content ? calculateReadingTime(post.content) : 0;
+  const readingTime = markdownContent ? calculateReadingTime(markdownContent) : 0;
   const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -151,8 +158,14 @@ export default function BlogPost() {
           </header>
           
           {/* Post content */}
-          {post.content ? (
-            <MarkdownRenderer content={post.content} />
+          {isLoading ? (
+            <div className="flex flex-col gap-4 py-8">
+              <div className="loading-placeholder h-6 w-4/5 rounded"></div>
+              <div className="loading-placeholder h-6 w-3/5 rounded"></div>
+              <div className="loading-placeholder h-6 w-4/5 rounded"></div>
+            </div>
+          ) : markdownContent ? (
+            <MarkdownRenderer content={markdownContent} />
           ) : (
             <p className="text-muted-foreground">No content available for this post.</p>
           )}

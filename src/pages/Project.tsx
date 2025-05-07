@@ -7,8 +7,9 @@ import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
 import { MarkdownRenderer } from '@/utils/markdown-utils';
 
 // Using the type but importing from Projects page for now
-// In a real app, this would come from a dedicated data file
 import { Project as ProjectType } from '@/types/project';
+import { projects } from '@/data/projects';
+import { useMarkdownFile } from '@/utils/markdown-loader';
 
 export default function Project() {
   const { id } = useParams<{ id: string }>();
@@ -16,29 +17,29 @@ export default function Project() {
   const [relatedProjects, setRelatedProjects] = useState<ProjectType[]>([]);
   
   useEffect(() => {
-    // Importing projects from the Projects page
-    // In a real app, we would use an API or a dedicated data file
-    import('../pages/Projects').then(module => {
-      const projects: ProjectType[] = module.projects;
-      
-      if (!id) return;
-      
-      // Find current project
-      const currentProject = projects.find(p => String(p.id) === id);
-      if (!currentProject) return;
-      
-      setProject(currentProject);
-      
-      // Find related projects based on tags
-      const related = projects
-        .filter(p => String(p.id) !== id && p.tags.some(tag => currentProject.tags.includes(tag)))
-        .slice(0, 2);
-      setRelatedProjects(related);
-      
-      // Scroll to top
-      window.scrollTo(0, 0);
-    });
+    if (!id) return;
+    
+    // Find current project
+    const currentProject = projects.find(p => String(p.id) === id);
+    if (!currentProject) return;
+    
+    setProject(currentProject);
+    
+    // Find related projects based on tags
+    const related = projects
+      .filter(p => String(p.id) !== id && p.tags.some(tag => currentProject.tags.includes(tag)))
+      .slice(0, 2);
+    setRelatedProjects(related);
+    
+    // Scroll to top
+    window.scrollTo(0, 0);
   }, [id]);
+
+  const { content: markdownContent, isLoading } = useMarkdownFile(
+    project?.markdownFile 
+      ? `/src/markdown/projects/${project.markdownFile}` 
+      : ''
+  );
   
   if (!project) {
     return (
@@ -108,9 +109,15 @@ export default function Project() {
           </header>
           
           {/* Project content */}
-          {project.readme ? (
+          {isLoading ? (
+            <div className="flex justify-center py-8">
+              <div className="loading-placeholder h-6 w-4/5 rounded mb-4"></div>
+              <div className="loading-placeholder h-6 w-3/5 rounded mb-4"></div>
+              <div className="loading-placeholder h-6 w-4/5 rounded"></div>
+            </div>
+          ) : markdownContent ? (
             <div className="prose prose-lg dark:prose-invert max-w-none">
-              <MarkdownRenderer content={project.readme} />
+              <MarkdownRenderer content={markdownContent} />
             </div>
           ) : (
             <div className="prose prose-lg dark:prose-invert max-w-none">

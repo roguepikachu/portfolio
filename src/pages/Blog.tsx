@@ -1,11 +1,11 @@
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BlogPostCard } from "@/components/blog-post-card";
-import { blogPosts } from "@/data/blog-posts";
-import { Search, X, ChevronDown } from "lucide-react";
+import { blogPosts } from "@/data/blog-data";
+import { Search, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -18,7 +18,16 @@ import {
 export default function Blog() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [isTagsOpen, setIsTagsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    // Simulate loading delay for markdown files
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    
+    return () => clearTimeout(timer);
+  }, []);
   
   // Extract unique tags from all blog posts
   const allTags = useMemo(() => {
@@ -168,14 +177,27 @@ export default function Blog() {
         
         {/* Blog posts grid */}
         <div className="mt-12 space-y-10">
-          {sortedPosts.length > 0 ? (
-            <>
-              <div className="grid gap-6 sm:grid-cols-2">
-                {sortedPosts.map(post => (
-                  <BlogPostCard key={post.id} post={post} />
-                ))}
-              </div>
-            </>
+          {isLoading ? (
+            // Skeleton loading state
+            <div className="grid gap-6 sm:grid-cols-2">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="rounded-lg border bg-card p-6">
+                  <div className="loading-placeholder h-6 w-3/4 rounded mb-4"></div>
+                  <div className="loading-placeholder h-4 w-full rounded mb-3"></div>
+                  <div className="loading-placeholder h-4 w-5/6 rounded mb-6"></div>
+                  <div className="flex gap-2">
+                    <div className="loading-placeholder h-5 w-16 rounded"></div>
+                    <div className="loading-placeholder h-5 w-16 rounded"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : sortedPosts.length > 0 ? (
+            <div className="grid gap-6 sm:grid-cols-2">
+              {sortedPosts.map(post => (
+                <BlogPostCard key={post.id} post={post} />
+              ))}
+            </div>
           ) : (
             <div className="py-12 text-center">
               <p className="text-muted-foreground">No posts found matching your criteria.</p>

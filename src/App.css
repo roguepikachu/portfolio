@@ -68,6 +68,7 @@
   background: linear-gradient(90deg, var(--muted) 8%, var(--accent) 18%, var(--muted) 33%);
   background-size: 200% 100%;
   animation: shimmerAnimation 1.5s infinite linear;
+  border-radius: 0.25rem;
 }
 
 @keyframes shimmerAnimation {
