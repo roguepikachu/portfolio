@@ -8,4 +8,5 @@ export interface Publication {
   tags: string[];
   featured?: boolean;
   content?: string;
+  markdownFile?: string; // New field to reference markdown file
 }

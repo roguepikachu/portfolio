@@ -1,9 +1,9 @@
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { publications } from "@/data/publications";
+import { publications } from "@/data/publications-data";
 import { PublicationCard } from "@/components/publication-card";
 import { Search, X } from "lucide-react";
 import {
@@ -19,6 +19,16 @@ export default function Publications() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    // Simulate loading delay for markdown files
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    
+    return () => clearTimeout(timer);
+  }, []);
   
   // Extract unique tags from all publications
   const allTags = useMemo(() => {
@@ -225,7 +235,22 @@ export default function Publications() {
         
         {/* Publications grid */}
         <div className="mt-12">
-          {sortedPublications.length > 0 ? (
+          {isLoading ? (
+            // Skeleton loading state
+            <div className="grid gap-6 sm:grid-cols-2">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="rounded-lg border bg-card p-6">
+                  <div className="loading-placeholder h-6 w-3/4 rounded mb-4"></div>
+                  <div className="loading-placeholder h-4 w-full rounded mb-3"></div>
+                  <div className="loading-placeholder h-4 w-5/6 rounded mb-6"></div>
+                  <div className="flex gap-2">
+                    <div className="loading-placeholder h-5 w-16 rounded"></div>
+                    <div className="loading-placeholder h-5 w-16 rounded"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : sortedPublications.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2">
               {sortedPublications.map(publication => (
                 <PublicationCard key={publication.id} publication={publication} showFullSummary />

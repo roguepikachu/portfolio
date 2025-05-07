@@ -8,6 +8,7 @@ export interface BlogPost {
   content?: string;
   pinned?: boolean;
   release?: boolean;
+  markdownFile?: string; // New field to reference markdown file
 }
 
 export interface Comment {
