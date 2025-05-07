@@ -3,7 +3,6 @@ import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase client
 // Get the URL and anon key from the environment variables
-// If they're not set, we use default values (for development only)
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
@@ -14,8 +13,8 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 // Create the Supabase client
 export const supabase = createClient(
-  supabaseUrl || 'https://your-supabase-project-url.supabase.co',
-  supabaseAnonKey || 'your-supabase-anon-key'
+  `https://${supabaseUrl}`,
+  supabaseAnonKey
 );
 
 // Set up persistent storage for auth session
