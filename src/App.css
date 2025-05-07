@@ -1,3 +1,4 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -35,8 +36,45 @@
 
 .card {
   padding: 2em;
+  transition: all 0.3s ease;
 }
 
 .read-the-docs {
   color: #888;
+  transition: color 0.3s ease;
+}
+
+/* Add content loading animations */
+.content-loading-enter {
+  opacity: 0;
+}
+
+.content-loading-enter-active {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.content-loading-exit {
+  opacity: 1;
+}
+
+.content-loading-exit-active {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Animated placeholder loaders */
+.loading-placeholder {
+  background: linear-gradient(90deg, var(--muted) 8%, var(--accent) 18%, var(--muted) 33%);
+  background-size: 200% 100%;
+  animation: shimmerAnimation 1.5s infinite linear;
+}
+
+@keyframes shimmerAnimation {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }

@@ -1,5 +1,5 @@
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
 type Theme = "dark" | "light" | "system";
 
@@ -34,6 +34,19 @@ export function ThemeProvider({
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
+    
+    const applyTheme = (newTheme: string) => {
+      // Add transition class before changing theme to enable smooth transitions
+      root.classList.add("theme-transition");
+      
+      // Apply theme
+      root.classList.add(newTheme);
+      
+      // Remove transition class after theme change is complete
+      setTimeout(() => {
+        root.classList.remove("theme-transition");
+      }, 300);
+    };
 
     if (theme === "system") {
       const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
@@ -41,11 +54,11 @@ export function ThemeProvider({
         ? "dark"
         : "light";
 
-      root.classList.add(systemTheme);
+      applyTheme(systemTheme);
       return;
     }
 
-    root.classList.add(theme);
+    applyTheme(theme);
   }, [theme]);
 
   const value = {

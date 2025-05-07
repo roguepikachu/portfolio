@@ -118,6 +118,19 @@ export default {
 						transform: 'scale(1)',
 						opacity: '1'
 					}
+				},
+				'shimmer': {
+					'100%': {
+						transform: 'translateX(100%)'
+					}
+				},
+				'pulse': {
+					'0%, 100%': {
+						opacity: '1'
+					},
+					'50%': {
+						opacity: '0.5'
+					}
 				}
 			},
 			animation: {
@@ -127,6 +140,21 @@ export default {
 				'fade-out': 'fade-out 0.3s ease-out',
 				'scale-in': 'scale-in 0.2s ease-out',
 				'enter': 'fade-in 0.3s ease-out, scale-in 0.2s ease-out',
+				'shimmer': 'shimmer 1.5s infinite',
+				'pulse': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+			},
+			transitionProperty: {
+				'height': 'height',
+				'spacing': 'margin, padding',
+				'theme': 'color, background-color, border-color, text-decoration-color, fill, stroke'
+			},
+			transitionDuration: {
+				'250': '250ms',
+				'300': '300ms',
+				'400': '400ms'
+			},
+			transitionTimingFunction: {
+				'bounce': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
 			}
 		}
 	},
