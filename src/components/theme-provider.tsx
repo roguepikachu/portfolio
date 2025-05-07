@@ -30,6 +30,11 @@ export function ThemeProvider({
   const [theme, setTheme] = useState<Theme>(
     () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
   );
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -41,11 +46,6 @@ export function ThemeProvider({
       
       // Apply theme
       root.classList.add(newTheme);
-      
-      // Remove transition class after theme change is complete
-      setTimeout(() => {
-        root.classList.remove("theme-transition");
-      }, 300);
     };
 
     if (theme === "system") {
@@ -59,6 +59,8 @@ export function ThemeProvider({
     }
 
     applyTheme(theme);
+    
+    // No need to remove transition class as we want the transitions to be smooth at all times
   }, [theme]);
 
   const value = {
@@ -68,6 +70,11 @@ export function ThemeProvider({
       setTheme(theme);
     },
   };
+
+  // Return null during server-side rendering or before mounting
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <ThemeProviderContext.Provider {...props} value={value}>

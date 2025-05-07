@@ -124,7 +124,7 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.5s ease, color 0.5s ease; /* Increased from 0.3s to 0.5s */
   }
   
   /* Use consistent font sizes in both modes */
@@ -182,24 +182,30 @@
   .page-enter-active {
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Increased from 0.3s to 0.5s */
   }
   
   /* Theme transition class */
   .theme-transition {
-    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: color 0.5s ease, background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease !important; /* Increased from 0.3s to 0.5s and added !important */
   }
   
   /* Smooth transitions for all interactive elements */
   a, button, input, textarea, select {
-    transition: all 0.2s ease;
+    transition: all 0.3s ease !important; /* Added !important to override any inline styles */
+  }
+  
+  /* Apply transitions to all elements that might change with theme */
+  div, section, article, aside, nav, main, header, footer, span, p, h1, h2, h3, h4, h5, h6, 
+  li, ul, ol, table, tr, td, th {
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease !important;
   }
   
   /* Code blocks consistent styling */
   pre, code {
     font-size: var(--font-size-sm) !important;
     line-height: var(--line-height-normal) !important;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease !important; /* Increased from 0.3s to 0.5s */
   }
 }
 
@@ -233,7 +239,7 @@
 .page-transition-enter-active {
   opacity: 1;
   transform: scale(1);
-  transition: opacity 300ms, transform 300ms;
+  transition: opacity 500ms, transform 500ms; /* Increased from 300ms to 500ms */
 }
 
 .page-transition-exit {
@@ -244,7 +250,7 @@
 .page-transition-exit-active {
   opacity: 0;
   transform: scale(0.98);
-  transition: opacity 300ms, transform 300ms;
+  transition: opacity 500ms, transform 500ms; /* Increased from 300ms to 500ms */
 }
 
 /* Create animation for content loading */
@@ -270,7 +276,7 @@
 }
 
 .fade-in-up {
-  animation: fadeInUp 0.5s ease forwards;
+  animation: fadeInUp 0.8s ease forwards; /* Increased from 0.5s to 0.8s */
 }
 
 .stagger-item:nth-child(1) { animation-delay: 0.1s; }
@@ -282,5 +288,41 @@
 /* Improve code block styling in markdown */
 .prose pre {
   @apply rounded-lg !important;
-  transition: background-color 0.3s ease !important;
+  transition: background-color 0.5s ease !important; /* Increased from 0.3s to 0.5s */
+}
+
+/* Add smooth transitions for content with theme changes */
+.prose, .prose *, article, article * {
+  transition: background-color 0.5s ease, color 0.5s ease !important;
+}
+
+/* Add loading animation for images and media */
+img, video, iframe {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Skeleton loader for content that's loading */
+.skeleton-loader {
+  background: linear-gradient(90deg, 
+    var(--muted) 25%, 
+    var(--accent) 50%, 
+    var(--muted) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading-shimmer 1.5s infinite linear;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
