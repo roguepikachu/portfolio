@@ -1,4 +1,3 @@
-
 import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase client
@@ -12,10 +11,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 // Create the Supabase client
-export const supabase = createClient(
-  `https://${supabaseUrl}`,
-  supabaseAnonKey
-);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Set up persistent storage for auth session
 supabase.auth.onAuthStateChange((event, session) => {
