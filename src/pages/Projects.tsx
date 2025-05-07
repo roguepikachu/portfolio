@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -182,7 +183,9 @@ export default function Projects() {
                   </div>
                 )}
                 <Link to={`/projects/${project.id}`}>
-                  <h2 className="text-xl font-bold hover:text-primary transition-colors">{project.title}</h2>
+                  <h2 className="project-title text-xl font-bold hover:text-primary transition-colors">
+                    {project.title}
+                  </h2>
                 </Link>
                 <p className="mt-2 text-muted-foreground text-sm flex-grow">
                   {project.description}

@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
 type Theme = "dark" | "light" | "system";
@@ -38,29 +37,43 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove("light", "dark");
     
+    // Function to apply the theme with transitions
     const applyTheme = (newTheme: string) => {
-      // Add transition class before changing theme to enable smooth transitions
+      // Ensure theme transition class is applied before changes
       root.classList.add("theme-transition");
       
-      // Apply theme
+      // Remove existing theme classes
+      root.classList.remove("light", "dark");
+      
+      // Apply the new theme class
       root.classList.add(newTheme);
+      
+      // Keep theme-transition class active longer to cover all elements' transitions
+      setTimeout(() => {
+        root.classList.remove("theme-transition");
+      }, 800); // Increased from 500ms to 800ms for smoother transitions
     };
 
+    // Determine which theme to apply
     if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
-
       applyTheme(systemTheme);
-      return;
+      
+      // Add listener for system theme changes
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const handleChange = () => {
+        const newSystemTheme = mediaQuery.matches ? "dark" : "light";
+        applyTheme(newSystemTheme);
+      };
+      
+      mediaQuery.addEventListener("change", handleChange);
+      return () => mediaQuery.removeEventListener("change", handleChange);
+    } else {
+      applyTheme(theme);
     }
-
-    applyTheme(theme);
-    
-    // No need to remove transition class as we want the transitions to be smooth at all times
   }, [theme]);
 
   const value = {

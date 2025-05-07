@@ -76,7 +76,7 @@ export default function Project() {
               )}
             </div>
             
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+            <h1 className="project-title text-3xl font-bold tracking-tight sm:text-4xl mb-4">
               {project.title}
             </h1>
             
@@ -125,7 +125,7 @@ export default function Project() {
         {/* Related projects */}
         {relatedProjects.length > 0 && (
           <div className="mt-16">
-            <h2 className="text-2xl font-bold mb-8">Related Projects</h2>
+            <h2 className="project-title text-2xl font-bold mb-8">Related Projects</h2>
             <div className="grid gap-6 sm:grid-cols-2">
               {relatedProjects.map(proj => (
                 <Link 
@@ -133,7 +133,7 @@ export default function Project() {
                   key={proj.id}
                   className="block group rounded-lg border bg-card p-6 shadow-sm transition-colors hover:bg-muted"
                 >
-                  <h3 className="font-medium group-hover:text-primary transition-colors">{proj.title}</h3>
+                  <h3 className="project-title font-medium group-hover:text-primary transition-colors">{proj.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{proj.description}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {proj.tags.slice(0, 2).map(tag => (
