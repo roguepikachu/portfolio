@@ -30,7 +30,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
         const url = import.meta.env.VITE_SUPABASE_URL;
         const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
         
-        if (!url || !key || url === "your-supabase-project-url.supabase.co" || key === "your-supabase-anon-key") {
+        if (!url || !key || url === "https://your-supabase-project-url.supabase.co" || key === "your-supabase-anon-key") {
           console.log("Supabase not configured properly");
           setIsSupabaseConfigured(false);
           setIsLoading(false);
@@ -64,7 +64,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
     fetchData();
     
     // Listen for auth changes if Supabase is configured
-    let authSubscription: { unsubscribe?: () => void } = {};
+    let authUnsubscribe: (() => void) | undefined;
     
     if (isSupabaseConfigured) {
       const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -75,15 +75,15 @@ export function CommentSection({ postId }: CommentSectionProps) {
       });
       
       // Store the unsubscribe function
-      if (data?.subscription) {
-        authSubscription.unsubscribe = () => data.subscription.unsubscribe();
+      if (data?.subscription?.unsubscribe) {
+        authUnsubscribe = data.subscription.unsubscribe;
       }
     }
     
     return () => {
       // Cleanup subscription when component unmounts
-      if (authSubscription.unsubscribe) {
-        authSubscription.unsubscribe();
+      if (authUnsubscribe) {
+        authUnsubscribe();
       }
     };
   }, [postId]);
@@ -127,7 +127,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
           .eq('post_id', postId);
             
         if (likes) {
-          userLikes = likes.reduce((acc: Record<string, boolean>, like) => {
+          userLikes = likes.reduce((acc: Record<string, boolean>, like: { comment_id: string }) => {
             acc[like.comment_id] = true;
             return acc;
           }, {});
@@ -143,25 +143,23 @@ export function CommentSection({ postId }: CommentSectionProps) {
             .eq('parent_id', comment.id)
             .order('created_at', { ascending: true });
               
-          const repliesWithLikes = replies?.map(reply => ({
+          const repliesWithLikes = replies?.map((reply: any) => ({
             ...reply,
-            userHasLiked: userLikes[reply.id] || false,
+            userHasLiked: userLikes[reply.id as string] || false,
             replies: [],
-            // Ensure date is available for formatting in component
             date: reply.created_at || reply.date || new Date().toISOString()
           })) || [];
             
           return {
             ...comment,
-            userHasLiked: userLikes[comment.id] || false,
+            userHasLiked: userLikes[comment.id as string] || false,
             replies: repliesWithLikes,
-            // Ensure date is available for formatting in component
             date: comment.created_at || comment.date || new Date().toISOString()
           };
         })
       );
       
-      setComments(commentsWithReplies);
+      setComments(commentsWithReplies as Comment[]);
     } catch (error) {
       console.error('Error fetching comments:', error);
       toast.error('Failed to load comments');
