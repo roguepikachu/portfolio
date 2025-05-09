@@ -1,5 +1,5 @@
 
--- Create comments table
+-- Create comments table without foreign key constraint to posts
 CREATE TABLE IF NOT EXISTS comments (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   post_id TEXT NOT NULL,
@@ -8,8 +8,7 @@ CREATE TABLE IF NOT EXISTS comments (
   content TEXT NOT NULL,
   likes INTEGER DEFAULT 0,
   parent_id UUID REFERENCES comments(id),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('UTC', NOW()),
-  UNIQUE(post_id, user_id, content)
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('UTC', NOW())
 );
 
 -- Create comment_likes table to track which users have liked which comments
