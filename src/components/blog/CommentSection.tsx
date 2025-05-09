@@ -64,18 +64,27 @@ export function CommentSection({ postId }: CommentSectionProps) {
     fetchData();
     
     // Listen for auth changes if Supabase is configured
-    let authListener: { subscription?: { unsubscribe: () => void } } = {};
+    let authSubscription: { unsubscribe?: () => void } = {};
+    
     if (isSupabaseConfigured) {
-      authListener = supabase.auth.onAuthStateChange(async (event, session) => {
+      const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
         setCurrentUser(session?.user || null);
         if (event === 'SIGNED_IN') {
           fetchComments(); // Reload comments to get user likes
         }
       });
+      
+      // Store the unsubscribe function
+      if (data?.subscription) {
+        authSubscription.unsubscribe = () => data.subscription.unsubscribe();
+      }
     }
     
     return () => {
-      authListener.subscription?.unsubscribe?.();
+      // Cleanup subscription when component unmounts
+      if (authSubscription.unsubscribe) {
+        authSubscription.unsubscribe();
+      }
     };
   }, [postId]);
   
