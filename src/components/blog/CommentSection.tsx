@@ -147,14 +147,14 @@ export function CommentSection({ postId }: CommentSectionProps) {
             ...reply,
             userHasLiked: userLikes[reply.id as string] || false,
             replies: [],
-            date: reply.created_at || reply.date || new Date().toISOString()
+            date: reply.created_at ? String(reply.created_at) : String(new Date().toISOString())
           })) || [];
             
           return {
             ...comment,
             userHasLiked: userLikes[comment.id as string] || false,
             replies: repliesWithLikes,
-            date: comment.created_at || comment.date || new Date().toISOString()
+            date: comment.created_at ? String(comment.created_at) : String(new Date().toISOString())
           };
         })
       );
@@ -188,7 +188,10 @@ export function CommentSection({ postId }: CommentSectionProps) {
         })
         .select();
         
-      if (error) throw error;
+      if (error) {
+        console.error('Error details:', error);
+        throw error;
+      }
       
       if (!data || data.length === 0) {
         throw new Error('No data returned after comment insertion');
@@ -199,7 +202,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
         ...data[0],
         userHasLiked: false,
         replies: [],
-        date: data[0].created_at || new Date().toISOString()
+        date: data[0].created_at ? String(data[0].created_at) : String(new Date().toISOString())
       };
       
       setComments(prev => [newCommentObj, ...prev]);
@@ -232,7 +235,10 @@ export function CommentSection({ postId }: CommentSectionProps) {
         })
         .select();
         
-      if (error) throw error;
+      if (error) {
+        console.error('Reply error details:', error);
+        throw error;
+      }
       
       if (!data || data.length === 0) {
         throw new Error('No data returned after reply insertion');
@@ -243,7 +249,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
         ...data[0],
         userHasLiked: false,
         replies: [],
-        date: data[0].created_at || new Date().toISOString()
+        date: data[0].created_at ? String(data[0].created_at) : String(new Date().toISOString())
       };
       
       setComments(prev => prev.map(comment => {

@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS comments (
   content TEXT NOT NULL,
   likes INTEGER DEFAULT 0,
   parent_id UUID REFERENCES comments(id),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('UTC', NOW())
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('UTC', NOW()),
+  UNIQUE(post_id, user_id, content)
 );
 
 -- Create comment_likes table to track which users have liked which comments
