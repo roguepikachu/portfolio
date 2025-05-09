@@ -127,7 +127,11 @@ async function initDatabase() {
       // SQL to create both tables and security policies
       const { error: sqlError } = await supabase.rpc('exec_sql', {
         sql_query: `
-          -- Create comments table
+          -- Drop existing tables if they have foreign key constraints
+          DROP TABLE IF EXISTS comment_likes CASCADE;
+          DROP TABLE IF EXISTS comments CASCADE;
+          
+          -- Create comments table without foreign key constraint to posts
           CREATE TABLE IF NOT EXISTS comments (
             id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
             post_id TEXT NOT NULL,
@@ -136,10 +140,11 @@ async function initDatabase() {
             content TEXT NOT NULL,
             likes INTEGER DEFAULT 0,
             parent_id UUID REFERENCES comments(id),
-            created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('UTC', NOW())
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('UTC', NOW()),
+            UNIQUE(post_id, user_id, content)
           );
           
-          -- Create comment_likes table to track which users have liked which comments
+          -- Create comment_likes table
           CREATE TABLE IF NOT EXISTS comment_likes (
             id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
             comment_id UUID REFERENCES comments(id) ON DELETE CASCADE,

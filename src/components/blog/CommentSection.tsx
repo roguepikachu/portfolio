@@ -197,9 +197,14 @@ export function CommentSection({ postId }: CommentSectionProps) {
         throw new Error('No data returned after comment insertion');
       }
       
-      // Add new comment to state
+      // Add new comment to state with proper type casting
       const newCommentObj: Comment = {
-        ...data[0],
+        id: data[0].id,
+        author: data[0].author,
+        user_id: data[0].user_id,
+        content: data[0].content,
+        likes: data[0].likes,
+        post_id: data[0].post_id,
         userHasLiked: false,
         replies: [],
         date: data[0].created_at ? String(data[0].created_at) : String(new Date().toISOString())
@@ -244,9 +249,15 @@ export function CommentSection({ postId }: CommentSectionProps) {
         throw new Error('No data returned after reply insertion');
       }
       
-      // Add reply to state
+      // Add reply to state with proper type casting
       const newReply: Comment = {
-        ...data[0],
+        id: data[0].id,
+        author: data[0].author,
+        user_id: data[0].user_id,
+        content: data[0].content,
+        likes: data[0].likes,
+        post_id: data[0].post_id,
+        parent_id: data[0].parent_id,
         userHasLiked: false,
         replies: [],
         date: data[0].created_at ? String(data[0].created_at) : String(new Date().toISOString())
