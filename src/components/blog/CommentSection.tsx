@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { MessageCircle } from 'lucide-react';
@@ -13,6 +12,18 @@ import { User } from '@supabase/supabase-js';
 
 interface CommentSectionProps {
   postId: string;
+}
+
+// Define interfaces for the data returned from Supabase
+interface CommentData {
+  id: string;
+  author: string;
+  user_id: string;
+  content: string;
+  likes: number;
+  post_id: string;
+  parent_id?: string | null;
+  created_at?: string;
 }
 
 export function CommentSection({ postId }: CommentSectionProps) {
@@ -136,23 +147,34 @@ export function CommentSection({ postId }: CommentSectionProps) {
       
       // Get replies for each comment
       const commentsWithReplies = await Promise.all(
-        mainComments.map(async (comment) => {
+        mainComments.map(async (comment: CommentData) => {
           const { data: replies } = await supabase
             .from('comments')
             .select('*')
             .eq('parent_id', comment.id)
             .order('created_at', { ascending: true });
               
-          const repliesWithLikes = replies?.map((reply: any) => ({
-            ...reply,
-            userHasLiked: userLikes[reply.id as string] || false,
+          const repliesWithLikes = replies?.map((reply: CommentData) => ({
+            id: String(reply.id),
+            author: String(reply.author),
+            user_id: String(reply.user_id),
+            content: String(reply.content),
+            likes: Number(reply.likes),
+            post_id: String(reply.post_id),
+            parent_id: reply.parent_id ? String(reply.parent_id) : null,
+            userHasLiked: userLikes[reply.id] || false,
             replies: [],
             date: reply.created_at ? String(reply.created_at) : String(new Date().toISOString())
           })) || [];
             
           return {
-            ...comment,
-            userHasLiked: userLikes[comment.id as string] || false,
+            id: String(comment.id),
+            author: String(comment.author),
+            user_id: String(comment.user_id),
+            content: String(comment.content),
+            likes: Number(comment.likes),
+            post_id: String(comment.post_id),
+            userHasLiked: userLikes[comment.id] || false,
             replies: repliesWithLikes,
             date: comment.created_at ? String(comment.created_at) : String(new Date().toISOString())
           };
@@ -199,12 +221,12 @@ export function CommentSection({ postId }: CommentSectionProps) {
       
       // Add new comment to state with proper type casting
       const newCommentObj: Comment = {
-        id: data[0].id,
-        author: data[0].author,
-        user_id: data[0].user_id,
-        content: data[0].content,
-        likes: data[0].likes,
-        post_id: data[0].post_id,
+        id: String(data[0].id),
+        author: String(data[0].author),
+        user_id: String(data[0].user_id),
+        content: String(data[0].content),
+        likes: Number(data[0].likes),
+        post_id: String(data[0].post_id),
         userHasLiked: false,
         replies: [],
         date: data[0].created_at ? String(data[0].created_at) : String(new Date().toISOString())
@@ -251,13 +273,13 @@ export function CommentSection({ postId }: CommentSectionProps) {
       
       // Add reply to state with proper type casting
       const newReply: Comment = {
-        id: data[0].id,
-        author: data[0].author,
-        user_id: data[0].user_id,
-        content: data[0].content,
-        likes: data[0].likes,
-        post_id: data[0].post_id,
-        parent_id: data[0].parent_id,
+        id: String(data[0].id),
+        author: String(data[0].author),
+        user_id: String(data[0].user_id),
+        content: String(data[0].content),
+        likes: Number(data[0].likes),
+        post_id: String(data[0].post_id),
+        parent_id: data[0].parent_id ? String(data[0].parent_id) : undefined,
         userHasLiked: false,
         replies: [],
         date: data[0].created_at ? String(data[0].created_at) : String(new Date().toISOString())
