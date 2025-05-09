@@ -147,14 +147,14 @@ export function CommentSection({ postId }: CommentSectionProps) {
       
       // Get replies for each comment
       const commentsWithReplies = await Promise.all(
-        mainComments.map(async (comment: CommentData) => {
+        (mainComments as unknown as CommentData[]).map(async (comment: CommentData) => {
           const { data: replies } = await supabase
             .from('comments')
             .select('*')
             .eq('parent_id', comment.id)
             .order('created_at', { ascending: true });
               
-          const repliesWithLikes = replies?.map((reply: CommentData) => ({
+          const repliesWithLikes = (replies as unknown as CommentData[])?.map((reply: CommentData) => ({
             id: String(reply.id),
             author: String(reply.author),
             user_id: String(reply.user_id),
