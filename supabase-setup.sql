@@ -64,9 +64,3 @@ CREATE POLICY "Authenticated users can insert likes"
 CREATE POLICY "Users can delete own likes"
   ON comment_likes FOR DELETE
   USING (auth.uid() = user_id);
-
--- Sample data for testing (optional)
-INSERT INTO comments (post_id, user_id, author, content, likes)
-VALUES
-  ('getting-started-with-react', '00000000-0000-0000-0000-000000000000', 'Demo User', 'Great introduction to React! I especially liked the hooks section.', 3),
-  ('building-a-responsive-website', '00000000-0000-0000-0000-000000000000', 'Demo User', 'Responsive design is so important these days. Thanks for the tips!', 1);
