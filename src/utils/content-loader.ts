@@ -1,4 +1,3 @@
-
 interface FrontMatter {
   [key: string]: any;
 }
@@ -24,22 +23,41 @@ export async function loadMarkdownFile(path: string): Promise<ContentItem | null
 }
 
 export function parseMarkdown(content: string): ContentItem {
-  const frontMatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
+  // More robust regex that handles different line endings and spacing
+  const frontMatterRegex = /^---\s*\r?\n([\s\S]*?)\r?\n---\s*\r?\n([\s\S]*)$/;
   const match = content.match(frontMatterRegex);
   
   if (!match) {
+    // Try alternative format without trailing newlines
+    const altRegex = /^---\s*\r?\n([\s\S]*?)\r?\n---\s*([\s\S]*)$/;
+    const altMatch = content.match(altRegex);
+    
+    if (!altMatch) {
+      console.log('No front matter found, treating entire content as markdown');
+      return {
+        frontMatter: {},
+        content: content.trim()
+      };
+    }
+    
     return {
-      frontMatter: {},
-      content: content
+      frontMatter: parseFrontMatter(altMatch[1]),
+      content: altMatch[2].trim()
     };
   }
   
   const frontMatterText = match[1];
   const markdownContent = match[2];
   
-  // Parse YAML-like front matter
+  return {
+    frontMatter: parseFrontMatter(frontMatterText),
+    content: markdownContent.trim()
+  };
+}
+
+function parseFrontMatter(frontMatterText: string): FrontMatter {
   const frontMatter: FrontMatter = {};
-  const lines = frontMatterText.split('\n').filter(line => line.trim());
+  const lines = frontMatterText.split(/\r?\n/).filter(line => line.trim());
   
   for (const line of lines) {
     const colonIndex = line.indexOf(':');
@@ -73,10 +91,7 @@ export function parseMarkdown(content: string): ContentItem {
     }
   }
   
-  return {
-    frontMatter,
-    content: markdownContent.trim()
-  };
+  return frontMatter;
 }
 
 export async function loadBlogPosts() {
