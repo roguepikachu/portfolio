@@ -1,4 +1,3 @@
-
 ---
 id: 1
 title: Personal Portfolio

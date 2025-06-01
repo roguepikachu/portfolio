@@ -1,4 +1,3 @@
-
 ---
 id: understanding-javascript-closures
 title: Understanding JavaScript Closures

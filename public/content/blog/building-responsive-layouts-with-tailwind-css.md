@@ -1,4 +1,3 @@
-
 ---
 id: building-responsive-layouts-with-tailwind-css
 title: Building Responsive Layouts with Tailwind CSS
