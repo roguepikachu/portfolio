@@ -39,30 +39,43 @@ export function parseMarkdown(content: string): ContentItem {
   
   // Parse YAML-like front matter
   const frontMatter: FrontMatter = {};
-  frontMatterText.split('\n').forEach(line => {
-    const [key, ...valueParts] = line.split(':');
-    if (key && valueParts.length) {
-      const value = valueParts.join(':').trim();
-      
-      // Handle arrays
-      if (value.startsWith('[') && value.endsWith(']')) {
-        const arrayContent = value.slice(1, -1);
-        frontMatter[key.trim()] = arrayContent.split(',').map(item => item.trim().replace(/['"]/g, ''));
-      }
-      // Handle booleans
-      else if (value === 'true' || value === 'false') {
-        frontMatter[key.trim()] = value === 'true';
-      }
-      // Handle strings
-      else {
-        frontMatter[key.trim()] = value.replace(/['"]/g, '');
+  const lines = frontMatterText.split('\n').filter(line => line.trim());
+  
+  for (const line of lines) {
+    const colonIndex = line.indexOf(':');
+    if (colonIndex === -1) continue;
+    
+    const key = line.substring(0, colonIndex).trim();
+    const value = line.substring(colonIndex + 1).trim();
+    
+    if (!key || !value) continue;
+    
+    // Handle arrays
+    if (value.startsWith('[') && value.endsWith(']')) {
+      const arrayContent = value.slice(1, -1);
+      if (arrayContent.trim()) {
+        frontMatter[key] = arrayContent.split(',').map(item => item.trim().replace(/['"]/g, ''));
+      } else {
+        frontMatter[key] = [];
       }
     }
-  });
+    // Handle booleans
+    else if (value === 'true' || value === 'false') {
+      frontMatter[key] = value === 'true';
+    }
+    // Handle numbers
+    else if (!isNaN(Number(value)) && value !== '') {
+      frontMatter[key] = Number(value);
+    }
+    // Handle strings
+    else {
+      frontMatter[key] = value.replace(/^['"]|['"]$/g, '');
+    }
+  }
   
   return {
     frontMatter,
-    content: markdownContent
+    content: markdownContent.trim()
   };
 }
 
