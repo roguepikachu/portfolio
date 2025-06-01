@@ -1,4 +1,3 @@
-
 ---
 id: getting-started-with-react-hooks
 title: Getting Started with React Hooks

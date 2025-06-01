@@ -1,4 +1,3 @@
-
 ---
 id: 6
 title: Recipe Finder
@@ -6,7 +5,7 @@ description: An application to search for recipes based on ingredients you have.
 tags: [JavaScript, API, CSS]
 githubUrl: https://github.com/
 demoUrl: https://example.com
-featured: false
+featured: true
 ---
 
 # Recipe Finder
