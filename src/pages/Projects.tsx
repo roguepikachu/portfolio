@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { 
@@ -9,118 +9,34 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
-import { Github, Search, ExternalLink, FileText } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import ReactMarkdown from "react-markdown";
+import { Github, Search, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Project } from "@/types/project";
-
-// Sample project data with README content
-export const projects: Project[] = [
-  {
-    id: 1,
-    title: "Personal Portfolio",
-    description: "A modern developer portfolio built with React, TypeScript, and Tailwind CSS.",
-    tags: ["React", "TypeScript", "Tailwind"],
-    githubUrl: "https://github.com/",
-    demoUrl: "https://example.com",
-    featured: true,
-    readme: `# Personal Portfolio
-
-A modern developer portfolio built with React, TypeScript, and Tailwind CSS.
-
-## Features
-
-- Responsive design for all device sizes
-- Dark and light mode
-- Project showcase
-- Contact form
-- Blog integration
-
-## Installation
-
-\`\`\`bash
-npm install
-npm start
-\`\`\`
-
-## Technologies Used
-
-- React
-- TypeScript
-- Tailwind CSS
-- Vite
-`
-  },
-  {
-    id: 2,
-    title: "Blog Platform",
-    description: "A full-featured blog platform with markdown support and comment system.",
-    tags: ["Next.js", "React", "MDX"],
-    githubUrl: "https://github.com/",
-    featured: true,
-    readme: `# Blog Platform
-
-A full-featured blog platform with markdown support and comment system.
-
-## Features
-
-- Markdown content editing
-- Comment system with threaded replies
-- Tags and categories
-- SEO optimized
-- Image uploads
-
-## Tech Stack
-
-- Next.js
-- React
-- MDX
-- MongoDB
-`
-  },
-  {
-    id: 3,
-    title: "E-Commerce Dashboard",
-    description: "An admin dashboard for managing e-commerce products and orders.",
-    tags: ["React", "Node.js", "MongoDB"],
-    githubUrl: "https://github.com/",
-    demoUrl: "https://example.com",
-  },
-  {
-    id: 4,
-    title: "Weather App",
-    description: "A simple weather application that shows current conditions and forecasts.",
-    tags: ["JavaScript", "React", "API"],
-    githubUrl: "https://github.com/",
-    demoUrl: "https://example.com",
-  },
-  {
-    id: 5,
-    title: "Task Manager",
-    description: "A productivity tool for managing tasks and projects with drag-and-drop functionality.",
-    tags: ["React", "Redux", "Firebase"],
-    githubUrl: "https://github.com/",
-  },
-  {
-    id: 6,
-    title: "Recipe Finder",
-    description: "An application to search for recipes based on ingredients you have.",
-    tags: ["JavaScript", "API", "CSS"],
-    githubUrl: "https://github.com/",
-    demoUrl: "https://example.com",
-  },
-];
-
-// Get unique tags from projects
-const allTags = Array.from(new Set(projects.flatMap(project => project.tags)));
+import { loadProjects } from "@/utils/content-loader";
 
 export default function Projects() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState<string>("all");
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [readmeOpen, setReadmeOpen] = useState(false);
+  
+  useEffect(() => {
+    const loadProjectsData = async () => {
+      try {
+        const projectsData = await loadProjects();
+        setProjects(projectsData);
+      } catch (error) {
+        console.error('Error loading projects:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadProjectsData();
+  }, []);
+  
+  // Get unique tags from projects
+  const allTags = Array.from(new Set(projects.flatMap(project => project.tags)));
   
   // Filter projects based on search query and selected tag
   const filteredProjects = projects.filter(project => {
@@ -131,6 +47,18 @@ export default function Projects() {
     
     return matchesSearch && matchesTag;
   });
+
+  if (loading) {
+    return (
+      <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center">
+            <p className="text-lg">Loading projects...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
@@ -234,30 +162,6 @@ export default function Projects() {
               Clear filters
             </Button>
           </div>
-        )}
-        
-        {/* README Dialog */}
-        {selectedProject && (
-          <Dialog open={readmeOpen} onOpenChange={setReadmeOpen}>
-            <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>{selectedProject.title} - README</DialogTitle>
-                <DialogDescription>
-                  Project documentation and setup instructions
-                </DialogDescription>
-              </DialogHeader>
-              <div className="prose dark:prose-invert max-w-none mt-4">
-                <ReactMarkdown>
-                  {selectedProject.readme || "No README available for this project."}
-                </ReactMarkdown>
-              </div>
-              <div className="flex justify-end mt-4">
-                <Button variant="outline" onClick={() => setReadmeOpen(false)}>
-                  Close
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
         )}
       </div>
     </div>

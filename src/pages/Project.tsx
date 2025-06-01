@@ -6,40 +6,58 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
 import { MarkdownRenderer } from '@/utils/markdown-utils';
 import { VotingButtons } from '@/components/VotingButtons';
-
-// Using the type but importing from Projects page for now
-// In a real app, this would come from a dedicated data file
+import { loadProjects } from '@/utils/content-loader';
 import { Project as ProjectType } from '@/types/project';
 
 export default function Project() {
   const { id } = useParams<{ id: string }>();
   const [project, setProject] = useState<ProjectType | null>(null);
   const [relatedProjects, setRelatedProjects] = useState<ProjectType[]>([]);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    // Importing projects from the Projects page
-    // In a real app, we would use an API or a dedicated data file
-    import('../pages/Projects').then(module => {
-      const projects: ProjectType[] = module.projects;
-      
+    const loadProjectData = async () => {
       if (!id) return;
       
-      // Find current project
-      const currentProject = projects.find(p => String(p.id) === id);
-      if (!currentProject) return;
-      
-      setProject(currentProject);
-      
-      // Find related projects based on tags
-      const related = projects
-        .filter(p => String(p.id) !== id && p.tags.some(tag => currentProject.tags.includes(tag)))
-        .slice(0, 2);
-      setRelatedProjects(related);
-      
-      // Scroll to top
-      window.scrollTo(0, 0);
-    });
+      try {
+        const projects = await loadProjects();
+        
+        // Find current project
+        const currentProject = projects.find(p => String(p.id) === id);
+        if (!currentProject) {
+          setLoading(false);
+          return;
+        }
+        
+        setProject(currentProject);
+        
+        // Find related projects based on tags
+        const related = projects
+          .filter(p => String(p.id) !== id && p.tags.some(tag => currentProject.tags.includes(tag)))
+          .slice(0, 2);
+        setRelatedProjects(related);
+        
+        // Scroll to top
+        window.scrollTo(0, 0);
+      } catch (error) {
+        console.error('Error loading project:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadProjectData();
   }, [id]);
+  
+  if (loading) {
+    return (
+      <div className="container py-16 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-xl">Loading project...</p>
+        </div>
+      </div>
+    );
+  }
   
   if (!project) {
     return (

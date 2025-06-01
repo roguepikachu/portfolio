@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { blogPosts } from '@/data/blog-posts';
+import { loadBlogPosts } from '@/utils/content-loader';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
@@ -19,29 +19,45 @@ export default function BlogPost() {
   const [prevPost, setPrevPost] = useState<BlogPostType | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPostType[]>([]);
   const [linkCopied, setLinkCopied] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) return;
+    const loadPostData = async () => {
+      if (!id) return;
+      
+      try {
+        const blogPosts = await loadBlogPosts();
+        
+        // Find current post
+        const currentPostIndex = blogPosts.findIndex(p => p.id === id);
+        if (currentPostIndex === -1) {
+          setLoading(false);
+          return;
+        }
+        
+        const currentPost = blogPosts[currentPostIndex];
+        setPost(currentPost);
+        
+        // Find next and previous posts
+        setPrevPost(currentPostIndex > 0 ? blogPosts[currentPostIndex - 1] : null);
+        setNextPost(currentPostIndex < blogPosts.length - 1 ? blogPosts[currentPostIndex + 1] : null);
+        
+        // Find related posts based on tags
+        const related = blogPosts
+          .filter(p => p.id !== id && p.tags.some(tag => currentPost.tags.includes(tag)))
+          .slice(0, 2);
+        setRelatedPosts(related);
+        
+        // Scroll to top
+        window.scrollTo(0, 0);
+      } catch (error) {
+        console.error('Error loading blog post:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
     
-    // Find current post
-    const currentPostIndex = blogPosts.findIndex(p => p.id === id);
-    if (currentPostIndex === -1) return;
-    
-    const currentPost = blogPosts[currentPostIndex];
-    setPost(currentPost);
-    
-    // Find next and previous posts
-    setPrevPost(currentPostIndex > 0 ? blogPosts[currentPostIndex - 1] : null);
-    setNextPost(currentPostIndex < blogPosts.length - 1 ? blogPosts[currentPostIndex + 1] : null);
-    
-    // Find related posts based on tags
-    const related = blogPosts
-      .filter(p => p.id !== id && p.tags.some(tag => currentPost.tags.includes(tag)))
-      .slice(0, 2);
-    setRelatedPosts(related);
-    
-    // Scroll to top
-    window.scrollTo(0, 0);
+    loadPostData();
   }, [id]);
   
   const copyToClipboard = () => {
@@ -72,6 +88,16 @@ export default function BlogPost() {
     
     window.open(shareUrl, '_blank', 'width=600,height=400');
   };
+  
+  if (loading) {
+    return (
+      <div className="container py-16 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-xl">Loading post...</p>
+        </div>
+      </div>
+    );
+  }
   
   if (!post) {
     return (

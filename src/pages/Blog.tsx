@@ -1,11 +1,11 @@
-
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BlogPostCard } from "@/components/blog-post-card";
-import { blogPosts } from "@/data/blog-posts";
-import { Search, X, ChevronDown } from "lucide-react";
+import { loadBlogPosts } from "@/utils/content-loader";
+import { BlogPost } from "@/types/blog";
+import { Search, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -16,9 +16,25 @@ import {
 } from "@/components/ui/select";
 
 export default function Blog() {
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [isTagsOpen, setIsTagsOpen] = useState(false);
+  
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const posts = await loadBlogPosts();
+        setBlogPosts(posts);
+      } catch (error) {
+        console.error('Error loading blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadPosts();
+  }, []);
   
   // Extract unique tags from all blog posts
   const allTags = useMemo(() => {
@@ -27,7 +43,7 @@ export default function Blog() {
       post.tags.forEach(tag => tags.add(tag));
     });
     return Array.from(tags).sort();
-  }, []);
+  }, [blogPosts]);
   
   // Filter and sort posts based on search query, selected tags, and pinned status
   const filteredPosts = useMemo(() => {
@@ -44,7 +60,7 @@ export default function Blog() {
       
       return matchesSearch && matchesTags;
     });
-  }, [searchQuery, selectedTags]);
+  }, [searchQuery, selectedTags, blogPosts]);
   
   // Sort posts: pinned first, then by date (newest first)
   const sortedPosts = useMemo(() => {
@@ -78,6 +94,18 @@ export default function Blog() {
     setSearchQuery("");
     setSelectedTags([]);
   };
+
+  if (loading) {
+    return (
+      <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
+        <div className="mx-auto max-w-4xl">
+          <div className="text-center">
+            <p className="text-lg">Loading blog posts...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
