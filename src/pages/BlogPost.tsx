@@ -1,4 +1,3 @@
-
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { blogPosts } from '@/data/blog-posts';
@@ -11,6 +10,7 @@ import { BlogPostCard } from '@/components/blog-post-card';
 import { MarkdownRenderer, calculateReadingTime } from '@/utils/markdown-utils';
 import { toast } from 'sonner';
 import { CommentSection } from '@/components/blog/CommentSection';
+import { VotingButtons } from '@/components/VotingButtons';
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>();
@@ -147,6 +147,11 @@ export default function BlogPost() {
                   </Badge>
                 </Link>
               ))}
+            </div>
+
+            {/* Voting buttons */}
+            <div className="mt-6">
+              <VotingButtons itemId={post.id} itemType="blog" />
             </div>
           </header>
           

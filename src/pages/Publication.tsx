@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, ExternalLink } from 'lucide-react';
 import { Publication as PublicationType } from '@/types/publication';
 import { MarkdownRenderer } from '@/utils/markdown-utils';
+import { VotingButtons } from '@/components/VotingButtons';
 
 export default function Publication() {
   const { id } = useParams<{ id: string }>();
@@ -102,6 +103,11 @@ export default function Publication() {
                   View Full Publication
                 </a>
               </Button>
+            </div>
+
+            {/* Voting buttons */}
+            <div className="mt-6">
+              <VotingButtons itemId={publication.id} itemType="publication" />
             </div>
           </header>
           
