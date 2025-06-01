@@ -1,4 +1,3 @@
-
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
@@ -14,29 +13,27 @@ export default function Project() {
   const [project, setProject] = useState<ProjectType | null>(null);
   const [relatedProjects, setRelatedProjects] = useState<ProjectType[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     const loadProjectData = async () => {
       if (!id) return;
-      
+
       try {
         const projects = await loadProjects();
-        
+
         // Find current project
-        const currentProject = projects.find(p => String(p.id) === id);
+        const currentProject = projects.find(p => p.id === id);
         if (!currentProject) {
           setLoading(false);
           return;
         }
-        
+
         setProject(currentProject);
-        
+
         // Find related projects based on tags
-        const related = projects
-          .filter(p => String(p.id) !== id && p.tags.some(tag => currentProject.tags.includes(tag)))
-          .slice(0, 2);
+        const related = projects.filter(p => p.id !== id && p.tags.some(tag => currentProject.tags.includes(tag))).slice(0, 2);
         setRelatedProjects(related);
-        
+
         // Scroll to top
         window.scrollTo(0, 0);
       } catch (error) {
@@ -45,10 +42,10 @@ export default function Project() {
         setLoading(false);
       }
     };
-    
+
     loadProjectData();
   }, [id]);
-  
+
   if (loading) {
     return (
       <div className="container py-16 flex items-center justify-center">
@@ -58,7 +55,7 @@ export default function Project() {
       </div>
     );
   }
-  
+
   if (!project) {
     return (
       <div className="container py-16 flex items-center justify-center">
@@ -76,14 +73,14 @@ export default function Project() {
     <div className="container py-12 md:py-16">
       <div className="mx-auto max-w-3xl">
         {/* Back to projects link */}
-        <Link 
-          to="/projects" 
+        <Link
+          to="/projects"
           className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to all projects
         </Link>
-        
+
         {/* Project header */}
         <article>
           <header className="mb-10">
@@ -94,11 +91,9 @@ export default function Project() {
                 </Badge>
               )}
             </div>
-            
-            <h1 className="project-title text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-              {project.title}
-            </h1>
-            
+
+            <h1 className="project-title text-3xl font-bold tracking-tight sm:text-4xl mb-4">{project.title}</h1>
+
             <div className="mt-4 flex flex-wrap gap-2">
               {project.tags.map(tag => (
                 <Badge key={tag} variant="secondary" className="hover:bg-secondary/80">
@@ -106,7 +101,7 @@ export default function Project() {
                 </Badge>
               ))}
             </div>
-            
+
             <div className="mt-6 flex flex-wrap gap-3">
               <Button asChild>
                 <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
@@ -114,7 +109,7 @@ export default function Project() {
                   View on GitHub
                 </a>
               </Button>
-              
+
               {project.demoUrl && (
                 <Button asChild variant="outline">
                   <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
@@ -130,7 +125,7 @@ export default function Project() {
               <VotingButtons itemId={String(project.id)} itemType="project" />
             </div>
           </header>
-          
+
           {/* Project content */}
           {project.readme ? (
             <div className="prose prose-lg dark:prose-invert max-w-none">
@@ -139,21 +134,19 @@ export default function Project() {
           ) : (
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className="text-muted-foreground">{project.description}</p>
-              <p className="mt-4">
-                For more details about this project, check out the GitHub repository.
-              </p>
+              <p className="mt-4">For more details about this project, check out the GitHub repository.</p>
             </div>
           )}
         </article>
-        
+
         {/* Related projects */}
         {relatedProjects.length > 0 && (
           <div className="mt-16">
             <h2 className="project-title text-2xl font-bold mb-8">Related Projects</h2>
             <div className="grid gap-6 sm:grid-cols-2">
               {relatedProjects.map(proj => (
-                <Link 
-                  to={`/projects/${proj.id}`} 
+                <Link
+                  to={`/projects/${proj.id}`}
                   key={proj.id}
                   className="block group rounded-lg border bg-card p-6 shadow-sm transition-colors hover:bg-muted"
                 >
@@ -161,7 +154,9 @@ export default function Project() {
                   <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{proj.description}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {proj.tags.slice(0, 2).map(tag => (
-                      <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+                      <Badge key={tag} variant="secondary" className="text-xs">
+                        {tag}
+                      </Badge>
                     ))}
                     {proj.tags.length > 2 && <span className="text-xs text-muted-foreground">+{proj.tags.length - 2}</span>}
                   </div>
