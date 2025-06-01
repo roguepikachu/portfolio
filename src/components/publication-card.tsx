@@ -1,10 +1,9 @@
-
-import { Publication } from "@/types/publication";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Publication } from '@/types/publication';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface PublicationCardProps {
   publication: Publication;
@@ -28,20 +27,20 @@ export function PublicationCard({ publication, showFullSummary = false }: Public
           </Link>
         </CardTitle>
         <div className="text-sm text-muted-foreground">
-          {new Date(publication.date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
+          {new Date(publication.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
           })}
         </div>
       </CardHeader>
       <CardContent className="flex-grow">
-        <p className={showFullSummary ? "" : "line-clamp-3"} title={publication.summary}>
+        <p className={showFullSummary ? '' : 'line-clamp-3'} title={publication.summary}>
           {publication.summary}
         </p>
       </CardContent>
       <CardFooter className="flex flex-col items-stretch gap-4 pt-4">
         <div className="flex flex-wrap gap-2">
-          {publication.tags.map((tag) => (
+          {publication.tags.map(tag => (
             <Badge key={tag} variant="secondary" className="hover:bg-secondary/80">
               {tag}
             </Badge>
@@ -49,9 +48,7 @@ export function PublicationCard({ publication, showFullSummary = false }: Public
         </div>
         <div className="flex items-center justify-between gap-2">
           <Button size="sm" variant="outline" asChild>
-            <Link to={`/publications/${publication.id}`}>
-              Read More
-            </Link>
+            <Link to={`/publications/${publication.id}`}>Read More</Link>
           </Button>
           <Button size="sm" asChild>
             <a href={publication.link} target="_blank" rel="noopener noreferrer">

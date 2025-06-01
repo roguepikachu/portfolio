@@ -3,22 +3,29 @@ import { Button } from '@/components/ui/button';
 import { Github, Linkedin, ArrowRight } from 'lucide-react';
 import { ContactModal } from '@/components/contact-modal';
 import { Link } from 'react-router-dom';
-import { publications } from '@/data/publications';
+import { loadBlogPosts, loadProjects, loadPublications } from '@/utils/content-loader';
 import { PublicationCard } from '@/components/publication-card';
-import { sectionConfig } from '@/config/sectionConfig';
-import { loadBlogPosts, loadProjects } from '@/utils/content-loader';
 
 export default function Home() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [publications, setPublications] = useState([]);
 
   useEffect(() => {
     loadBlogPosts().then(setPosts);
     loadProjects().then(setProjects);
+    loadPublications().then(setPublications);
   }, []);
 
-  const featuredPublications = publications.filter(publication => publication.featured).slice(0, 2);
+  const featuredPublications = publications.filter((publication: any) => publication.featured).slice(0, 2);
+
+  // Add sectionConfig definition
+  const sectionConfig = {
+    blog: true,
+    publications: true,
+    projects: true,
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
