@@ -1,25 +1,18 @@
-
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { 
-  Select,
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from "@/components/ui/select";
-import { Github, Search, ExternalLink } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Project } from "@/types/project";
-import { loadProjects } from "@/utils/content-loader";
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Github, Search, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Project } from '@/types/project';
+import { loadProjects } from '@/utils/content-loader';
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTag, setSelectedTag] = useState<string>("all");
-  
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTag, setSelectedTag] = useState<string>('all');
+
   useEffect(() => {
     const loadProjectsData = async () => {
       try {
@@ -31,20 +24,21 @@ export default function Projects() {
         setLoading(false);
       }
     };
-    
+
     loadProjectsData();
   }, []);
-  
+
   // Get unique tags from projects
   const allTags = Array.from(new Set(projects.flatMap(project => project.tags)));
-  
+
   // Filter projects based on search query and selected tag
   const filteredProjects = projects.filter(project => {
-    const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         project.description.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesTag = selectedTag === "all" || project.tags.includes(selectedTag);
-    
+    const matchesSearch =
+      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesTag = selectedTag === 'all' || project.tags.includes(selectedTag);
+
     return matchesSearch && matchesTag;
   });
 
@@ -69,7 +63,7 @@ export default function Projects() {
             A collection of my personal and professional projects.
           </p>
         </div>
-        
+
         {/* Filters */}
         <div className="mt-8 flex flex-col gap-4 sm:flex-row">
           <div className="relative flex-1">
@@ -79,7 +73,7 @@ export default function Projects() {
               placeholder="Search projects..."
               className="pl-8"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
             />
           </div>
           <Select value={selectedTag} onValueChange={setSelectedTag}>
@@ -88,20 +82,22 @@ export default function Projects() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Tags</SelectItem>
-              {allTags.map((tag) => (
-                <SelectItem key={tag} value={tag}>{tag}</SelectItem>
+              {allTags.map(tag => (
+                <SelectItem key={tag} value={tag}>
+                  {tag}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
-        
+
         {/* Project Grid */}
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredProjects.map((project) => (
-            <div 
+          {filteredProjects.map(project => (
+            <div
               key={project.id}
               className={`group overflow-hidden rounded-lg border bg-card transition-all hover:shadow-md ${
-                project.featured ? "ring-2 ring-primary/20" : ""
+                project.featured ? 'ring-2 ring-primary/20' : ''
               }`}
             >
               <div className="p-6 flex flex-col h-full">
@@ -111,19 +107,12 @@ export default function Projects() {
                   </div>
                 )}
                 <Link to={`/projects/${project.id}`}>
-                  <h2 className="project-title text-xl font-bold hover:text-primary transition-colors">
-                    {project.title}
-                  </h2>
+                  <h2 className="project-title text-xl font-bold hover:text-primary transition-colors">{project.title}</h2>
                 </Link>
-                <p className="mt-2 text-muted-foreground text-sm flex-grow">
-                  {project.description}
-                </p>
+                <p className="mt-2 text-muted-foreground text-sm flex-grow">{project.description}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <div 
-                      key={tag} 
-                      className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold"
-                    >
+                  {project.tags.map(tag => (
+                    <div key={tag} className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
                       {tag}
                     </div>
                   ))}
@@ -148,15 +137,15 @@ export default function Projects() {
             </div>
           ))}
         </div>
-        
+
         {filteredProjects.length === 0 && (
           <div className="mt-16 text-center">
             <p className="text-muted-foreground">No projects found matching your criteria.</p>
-            <Button 
-              variant="link" 
+            <Button
+              variant="link"
               onClick={() => {
-                setSearchQuery("");
-                setSelectedTag("all");
+                setSearchQuery('');
+                setSelectedTag('all');
               }}
             >
               Clear filters

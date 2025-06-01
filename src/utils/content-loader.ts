@@ -131,7 +131,7 @@ export async function loadProjects() {
     const contentItem = await loadMarkdownFile(`/content/projects/${slug}.md`);
     if (contentItem) {
       projects.push({
-        id: contentItem.frontMatter.id || slug,
+        id: slug,
         title: contentItem.frontMatter.title || 'Untitled',
         description: contentItem.frontMatter.description || '',
         tags: contentItem.frontMatter.tags || [],
