@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
 import { MarkdownRenderer } from '@/utils/markdown-utils';
+import { VotingButtons } from '@/components/VotingButtons';
 
 // Using the type but importing from Projects page for now
 // In a real app, this would come from a dedicated data file
@@ -104,6 +105,11 @@ export default function Project() {
                   </a>
                 </Button>
               )}
+            </div>
+
+            {/* Voting buttons */}
+            <div className="mt-6">
+              <VotingButtons itemId={String(project.id)} itemType="project" />
             </div>
           </header>
           
