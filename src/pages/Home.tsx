@@ -28,7 +28,7 @@ export default function Home() {
                   Developer, Designer, Writer
                 </h1>
                 <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Hi, I'm [Your Name]. I build accessible, responsive web applications and write about web development, design, and tech.
+                  Hi, I'm Ayush Kumar. I build accessible, responsive web applications and write about web development, design, and tech.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -53,7 +53,7 @@ export default function Home() {
               <div className="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] rounded-full overflow-hidden border-8 border-background shadow-xl">
                 {/* Replace with your profile image */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary flex items-center justify-center text-6xl font-bold text-primary">
-                  DS
+                  AK
                 </div>
               </div>
             </div>

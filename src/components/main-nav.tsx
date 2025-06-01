@@ -41,7 +41,7 @@ export function MainNav() {
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-6 md:gap-10">
             <Link to="/" className="flex items-center space-x-2">
-              <span className="text-xl font-bold tracking-tight">DevScribe</span>
+              <span className="text-xl font-bold tracking-tight">Ayush Kumar</span>
             </Link>
             <nav className="hidden md:flex md:gap-6">
               {navItems.map((item) => (
@@ -80,7 +80,7 @@ export function MainNav() {
                 <div className="flex flex-col gap-6 pt-6">
                   <div className="flex items-center justify-between">
                     <Link to="/" className="flex items-center space-x-2" onClick={() => setMobileMenuOpen(false)}>
-                      <span className="text-xl font-bold">DevScribe</span>
+                      <span className="text-xl font-bold">Ayush Kumar</span>
                     </Link>
                     <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
                       <X className="h-5 w-5" />

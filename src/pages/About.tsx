@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -56,12 +57,12 @@ export default function About() {
             <div className="h-full w-full flex items-center justify-center bg-muted">
               {/* Replace with your image */}
               <div className="flex items-center justify-center h-full w-full bg-gradient-to-br from-primary/20 to-secondary text-6xl font-bold text-primary">
-                DS
+                AK
               </div>
             </div>
           </div>
           <div className="flex flex-col justify-center">
-            <h2 className="text-2xl font-bold">Hi, I'm [Your Name]</h2>
+            <h2 className="text-2xl font-bold">Hi, I'm Ayush Kumar</h2>
             <p className="mt-4 text-muted-foreground">
               I'm a passionate web developer with over 5 years of experience building modern web applications. 
               I specialize in React.js, TypeScript, and Node.js, with a focus on creating intuitive and 

@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
 type Theme = "dark" | "light" | "system";
@@ -38,7 +39,7 @@ export function ThemeProvider({
   useEffect(() => {
     const root = window.document.documentElement;
     
-    // Function to apply the theme with transitions
+    // Function to apply the theme with synchronized transitions
     const applyTheme = (newTheme: string) => {
       // Ensure theme transition class is applied before changes
       root.classList.add("theme-transition");
@@ -52,7 +53,7 @@ export function ThemeProvider({
       // Keep theme-transition class active longer to cover all elements' transitions
       setTimeout(() => {
         root.classList.remove("theme-transition");
-      }, 800); // Increased from 500ms to 800ms for smoother transitions
+      }, 800); // Synchronized with CSS transition duration
     };
 
     // Determine which theme to apply
