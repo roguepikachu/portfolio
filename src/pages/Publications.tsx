@@ -1,25 +1,32 @@
-
-import { useState, useMemo } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { publications } from "@/data/publications";
-import { PublicationCard } from "@/components/publication-card";
-import { Search, X } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useState, useMemo, useEffect } from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { loadPublications } from '@/utils/content-loader';
+import { PublicationCard } from '@/components/publication-card';
+import { Search, X } from 'lucide-react';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function Publications() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [publications, setPublications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
-  
+
+  // Fetch publications on component mount
+  useEffect(() => {
+    const fetchPubs = async () => {
+      try {
+        const pubs = await loadPublications();
+        setPublications(pubs);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPubs();
+  }, []);
+
   // Extract unique tags from all publications
   const allTags = useMemo(() => {
     const tags = new Set<string>();
@@ -27,8 +34,8 @@ export default function Publications() {
       pub.tags.forEach(tag => tags.add(tag));
     });
     return Array.from(tags).sort();
-  }, []);
-  
+  }, [publications]);
+
   // Extract unique years from all publications
   const allYears = useMemo(() => {
     const years = new Set<string>();
@@ -37,36 +44,34 @@ export default function Publications() {
       years.add(year);
     });
     return Array.from(years).sort((a, b) => b.localeCompare(a)); // Sort descending
-  }, []);
-  
+  }, [publications]);
+
   // Filter publications based on search query, selected tags, and selected year
   const filteredPublications = useMemo(() => {
     return publications.filter(pub => {
       // Search filter
-      const matchesSearch = !searchQuery || 
-        pub.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        pub.summary.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      const matchesSearch =
+        !searchQuery ||
+        pub.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        pub.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
         pub.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-      
+
       // Tag filter
-      const matchesTags = selectedTags.length === 0 || 
-        selectedTags.every(tag => pub.tags.includes(tag));
-      
+      const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => pub.tags.includes(tag));
+
       // Year filter
       const pubYear = new Date(pub.date).getFullYear().toString();
       const matchesYear = !selectedYear || pubYear === selectedYear;
-      
+
       return matchesSearch && matchesTags && matchesYear;
     });
-  }, [searchQuery, selectedTags, selectedYear]);
-  
+  }, [searchQuery, selectedTags, selectedYear, publications]);
+
   // Sort publications by date (newest first)
   const sortedPublications = useMemo(() => {
-    return [...filteredPublications].sort((a, b) => 
-      new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
+    return [...filteredPublications].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }, [filteredPublications]);
-  
+
   // Toggle tag selection
   const toggleTag = (tag: string) => {
     if (selectedTags.includes(tag)) {
@@ -75,10 +80,10 @@ export default function Publications() {
       setSelectedTags([...selectedTags, tag]);
     }
   };
-  
+
   // Handle tag selection from dropdown
   const handleTagSelect = (value: string) => {
-    if (value === "all") {
+    if (value === 'all') {
       setSelectedTags([]);
     } else {
       toggleTag(value);
@@ -87,19 +92,31 @@ export default function Publications() {
 
   // Handle year selection
   const handleYearSelect = (value: string) => {
-    if (value === "all") {
+    if (value === 'all') {
       setSelectedYear(null);
     } else {
       setSelectedYear(value);
     }
   };
-  
+
   // Clear all filters
   const clearFilters = () => {
-    setSearchQuery("");
+    setSearchQuery('');
     setSelectedTags([]);
     setSelectedYear(null);
   };
+
+  if (loading) {
+    return (
+      <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center">
+            <p className="text-lg">Loading publications...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
@@ -110,7 +127,7 @@ export default function Publications() {
             Academic papers, articles, and research publications
           </p>
         </div>
-        
+
         {/* Search and filters */}
         <div className="mt-8 space-y-6">
           <div className="relative">
@@ -120,21 +137,21 @@ export default function Publications() {
               placeholder="Search publications..."
               className="pl-10"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
             />
             {searchQuery && (
               <Button
                 variant="ghost"
                 size="icon"
                 className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2"
-                onClick={() => setSearchQuery("")}
+                onClick={() => setSearchQuery('')}
               >
                 <X className="h-4 w-4" />
                 <span className="sr-only">Clear search</span>
               </Button>
             )}
           </div>
-          
+
           <div className="grid gap-6 md:grid-cols-2">
             {/* Tags filter */}
             <div>
@@ -151,7 +168,7 @@ export default function Publications() {
                   </Button>
                 )}
               </div>
-              
+
               {/* Tags dropdown */}
               <div className="mt-2">
                 <Select onValueChange={handleTagSelect}>
@@ -163,24 +180,19 @@ export default function Publications() {
                       <SelectItem value="all">All Tags</SelectItem>
                       {allTags.map(tag => (
                         <SelectItem key={tag} value={tag}>
-                          {tag} {selectedTags.includes(tag) && "✓"}
+                          {tag} {selectedTags.includes(tag) && '✓'}
                         </SelectItem>
                       ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
               </div>
-              
+
               {/* Selected tags */}
               {selectedTags.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-2">
                   {selectedTags.map(tag => (
-                    <Badge
-                      key={tag}
-                      variant="default"
-                      className="cursor-pointer"
-                      onClick={() => toggleTag(tag)}
-                    >
+                    <Badge key={tag} variant="default" className="cursor-pointer" onClick={() => toggleTag(tag)}>
                       {tag}
                       <X className="ml-1 h-3 w-3" />
                     </Badge>
@@ -188,7 +200,7 @@ export default function Publications() {
                 </div>
               )}
             </div>
-            
+
             {/* Years filter */}
             <div>
               <div className="flex items-center justify-between">
@@ -204,17 +216,19 @@ export default function Publications() {
                   </Button>
                 )}
               </div>
-              
+
               {/* Year dropdown */}
               <div className="mt-2">
-                <Select onValueChange={handleYearSelect} value={selectedYear || "all"}>
+                <Select onValueChange={handleYearSelect} value={selectedYear || 'all'}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a year" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Years</SelectItem>
                     {allYears.map(year => (
-                      <SelectItem key={year} value={year}>{year}</SelectItem>
+                      <SelectItem key={year} value={year}>
+                        {year}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -222,7 +236,7 @@ export default function Publications() {
             </div>
           </div>
         </div>
-        
+
         {/* Publications grid */}
         <div className="mt-12">
           {sortedPublications.length > 0 ? (
@@ -234,11 +248,7 @@ export default function Publications() {
           ) : (
             <div className="py-12 text-center">
               <p className="text-muted-foreground">No publications found matching your criteria.</p>
-              <Button 
-                variant="link" 
-                onClick={clearFilters}
-                className="mt-2"
-              >
+              <Button variant="link" onClick={clearFilters} className="mt-2">
                 Clear all filters
               </Button>
             </div>
