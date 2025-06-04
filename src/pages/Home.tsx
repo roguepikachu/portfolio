@@ -99,7 +99,7 @@ export default function Home() {
                     </div>
                     <div className="p-6">
                       <time className="text-xs text-muted-foreground">{new Date(post.date).toDateString()}</time>
-                      <h3 className="mt-2 text-xl font-bold">{post.title}</h3>
+                      <h3 className="mt-2 text-xl font-bold hover:text-primary transition-colors">{post.title}</h3>
                       <p className="mt-2 text-sm text-muted-foreground">{post.excerpt}</p>
                       <div className="mt-4 flex flex-wrap gap-2">
                         {post.tags?.map(tag => (
