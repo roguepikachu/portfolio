@@ -39,41 +39,28 @@ export function ThemeProvider({
   useEffect(() => {
     const root = window.document.documentElement;
     
-    // Function to apply the theme with synchronized transitions
-    const applyTheme = (newTheme: string) => {
-      // Ensure theme transition class is applied before changes
-      root.classList.add("theme-transition");
-      
-      // Remove existing theme classes
-      root.classList.remove("light", "dark");
-      
-      // Apply the new theme class
-      root.classList.add(newTheme);
-      
-      // Keep theme-transition class active longer to cover all elements' transitions
-      setTimeout(() => {
-        root.classList.remove("theme-transition");
-      }, 800); // Synchronized with CSS transition duration
-    };
-
+    // Remove existing theme classes
+    root.classList.remove("light", "dark");
+    
     // Determine which theme to apply
     if (theme === "system") {
       const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
-      applyTheme(systemTheme);
+      root.classList.add(systemTheme);
       
       // Add listener for system theme changes
       const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
       const handleChange = () => {
         const newSystemTheme = mediaQuery.matches ? "dark" : "light";
-        applyTheme(newSystemTheme);
+        root.classList.remove("light", "dark");
+        root.classList.add(newSystemTheme);
       };
       
       mediaQuery.addEventListener("change", handleChange);
       return () => mediaQuery.removeEventListener("change", handleChange);
     } else {
-      applyTheme(theme);
+      root.classList.add(theme);
     }
   }, [theme]);
 

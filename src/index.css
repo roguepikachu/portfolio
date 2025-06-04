@@ -45,21 +45,6 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    
-    /* Font size variables - consistent across both modes */
-    --font-size-xs: 0.75rem;
-    --font-size-sm: 0.875rem;
-    --font-size-base: 1rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.25rem;
-    --font-size-2xl: 1.5rem;
-    --font-size-3xl: 1.875rem;
-    --font-size-4xl: 2.25rem;
-    --font-size-5xl: 3rem;
-    --font-size-6xl: 3.75rem;
-    --line-height-tight: 1.25;
-    --line-height-normal: 1.5;
-    --line-height-relaxed: 1.75;
   }
 
   .dark {
@@ -99,21 +84,6 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    
-    /* Font size variables - same as light mode for consistency */
-    --font-size-xs: 0.75rem;
-    --font-size-sm: 0.875rem;
-    --font-size-base: 1rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.25rem;
-    --font-size-2xl: 1.5rem;
-    --font-size-3xl: 1.875rem;
-    --font-size-4xl: 2.25rem;
-    --font-size-5xl: 3rem;
-    --font-size-6xl: 3.75rem;
-    --line-height-tight: 1.25;
-    --line-height-normal: 1.5;
-    --line-height-relaxed: 1.75;
   }
 }
 
@@ -124,115 +94,28 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    transition: background-color 0.8s ease, color 0.8s ease !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   
-  /* Use consistent font sizes in both modes */
-  h1 {
-    font-size: var(--font-size-4xl);
-    line-height: var(--line-height-tight);
-    transition: color 0.8s ease !important;
+  /* Targeted transitions for main content areas only */
+  .prose, article, main, section {
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   
-  h2 {
-    font-size: var(--font-size-3xl);
-    line-height: var(--line-height-tight);
-    transition: color 0.8s ease !important;
+  /* Interactive elements with smooth transitions */
+  button, a, input, textarea, select {
+    transition: all 0.2s ease;
   }
   
-  h3 {
-    font-size: var(--font-size-2xl);
-    line-height: var(--line-height-tight);
-    transition: color 0.8s ease !important;
-  }
-  
-  h4 {
-    font-size: var(--font-size-xl);
-    line-height: var(--line-height-tight);
-    transition: color 0.8s ease !important;
-  }
-  
-  p {
-    font-size: var(--font-size-base);
-    line-height: var(--line-height-normal);
-    transition: color 0.8s ease !important;
-  }
-  
-  .text-xs {
-    font-size: var(--font-size-xs);
-  }
-  
-  .text-sm {
-    font-size: var(--font-size-sm);
-  }
-  
-  .text-base {
-    font-size: var(--font-size-base);
-  }
-  
-  .text-lg {
-    font-size: var(--font-size-lg);
-  }
-  
-  .text-xl {
-    font-size: var(--font-size-xl);
-  }
-  
-  /* Page transition animations */
-  .page-enter {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  
-  .page-enter-active {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.8s ease, transform 0.8s ease !important;
-  }
-  
-  /* Theme transition class with synchronized timing */
-  .theme-transition {
-    transition: color 0.8s ease, background-color 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease !important;
-  }
-  
-  /* Smooth transitions for all interactive elements */
-  a, button, input, textarea, select {
-    transition: all 0.8s ease !important;
-  }
-  
-  /* Apply synchronized transitions to all elements that might change with theme */
-  div, section, article, aside, nav, main, header, footer, span, p, h1, h2, h3, h4, h5, h6, 
-  li, ul, ol, table, tr, td, th, svg, path {
-    transition: background-color 0.8s ease, color 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease, fill 0.8s ease, stroke 0.8s ease !important;
-  }
-  
-  /* Code blocks consistent styling with proper transitions */
-  pre, code {
-    font-size: var(--font-size-sm) !important;
-    line-height: var(--line-height-normal) !important;
-    transition: all 0.8s ease !important;
-  }
-  
-  /* Special handling for line numbers in syntax highlighting */
-  .linenumber {
-    transition: color 0.8s ease !important;
-    font-style: normal !important;
+  /* Card and component transitions */
+  [class*="card"], [class*="border"], [data-radix-popper-content-wrapper] {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 }
 
 @layer utilities {
   .animated-underline {
-    @apply relative after:absolute after:bg-primary after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:transition-all after:duration-500 hover:after:w-full;
-  }
-  
-  /* Loading state utilities */
-  .loading-skeleton {
-    @apply animate-pulse bg-muted rounded;
-    transition: background-color 0.8s ease !important;
-  }
-  
-  .shimmer {
-    @apply relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_1.5s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent;
+    @apply relative after:absolute after:bg-primary after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:transition-all after:duration-300 hover:after:w-full;
   }
 }
 
@@ -242,101 +125,52 @@
   overflow-x: hidden;
 }
 
-/* Add smooth page transitions */
-.page-transition-enter {
-  opacity: 0;
-  transform: scale(0.98);
+/* Radix UI Portal positioning fixes */
+[data-radix-popper-content-wrapper] {
+  z-index: 50 !important;
 }
 
-.page-transition-enter-active {
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 800ms, transform 800ms !important;
+[data-radix-select-content] {
+  position: relative !important;
+  transform: none !important;
+  z-index: 50;
 }
 
-.page-transition-exit {
-  opacity: 1;
-  transform: scale(1);
+/* Dialog positioning */
+[data-radix-dialog-overlay] {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 50 !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-.page-transition-exit-active {
-  opacity: 0;
-  transform: scale(0.98);
-  transition: opacity 800ms, transform 800ms !important;
+[data-radix-dialog-content] {
+  position: relative !important;
+  z-index: 51 !important;
+  margin: auto !important;
 }
 
-/* Create animation for content loading */
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+/* Code block language badge styling */
+.react-syntax-highlighter-line-number {
+  color: hsl(var(--muted-foreground)) !important;
+  padding-right: 1em !important;
 }
 
-/* Custom animations for content loading */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in-up {
-  animation: fadeInUp 0.8s ease forwards;
-}
-
-.stagger-item:nth-child(1) { animation-delay: 0.1s; }
-.stagger-item:nth-child(2) { animation-delay: 0.2s; }
-.stagger-item:nth-child(3) { animation-delay: 0.3s; }
-.stagger-item:nth-child(4) { animation-delay: 0.4s; }
-.stagger-item:nth-child(5) { animation-delay: 0.5s; }
-
-/* Improve code block styling in markdown */
-.prose pre {
-  @apply rounded-lg !important;
-  transition: background-color 0.8s ease !important;
-}
-
-/* Add smooth transitions for content with theme changes */
-.prose, .prose *, article, article * {
-  transition: background-color 0.8s ease, color 0.8s ease !important;
-}
-
-/* Add loading animation for images and media */
-img, video, iframe {
-  opacity: 0;
-  animation: fadeIn 0.8s ease-in-out forwards;
-  transition: all 0.8s ease !important;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Skeleton loader for content that's loading */
-.skeleton-loader {
-  background: linear-gradient(90deg, 
-    var(--muted) 25%, 
-    var(--accent) 50%, 
-    var(--muted) 75%
-  );
-  background-size: 200% 100%;
-  animation: loading-shimmer 1.5s infinite linear;
-  transition: background-color 0.8s ease !important;
-}
-
-@keyframes loading-shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
+pre[class*="language-"]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  z-index: 1;
 }

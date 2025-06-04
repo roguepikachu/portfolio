@@ -19,29 +19,19 @@ export function ThemeToggle() {
   const toggleTheme = () => {
     // Toggle between light and dark mode
     const newTheme = isDark ? "light" : "dark";
-    
-    // Apply smooth transition for entire document
-    document.documentElement.classList.add('theme-transition');
-    
     setTheme(newTheme);
     setIsDark(!isDark);
-    
-    // Reset transition class after animation completes to allow normal transitions afterward
-    setTimeout(() => {
-      document.documentElement.classList.remove('theme-transition');
-    }, 800); // Synchronized with CSS and theme provider
   };
 
   return (
-    <div className="flex items-center gap-2 transition-all duration-800">
-      <Sun className={`h-4 w-4 transition-all duration-800 ${isDark ? 'text-muted-foreground opacity-70' : 'text-amber-500'}`} />
+    <div className="flex items-center gap-2">
+      <Sun className={`h-4 w-4 transition-colors duration-200 ${isDark ? 'text-muted-foreground/70' : 'text-amber-500'}`} />
       <Switch
         checked={isDark}
         onCheckedChange={toggleTheme}
         aria-label="Toggle dark mode"
-        className="transition-all duration-800"
       />
-      <Moon className={`h-4 w-4 transition-all duration-800 ${isDark ? 'text-primary' : 'text-muted-foreground opacity-70'}`} />
+      <Moon className={`h-4 w-4 transition-colors duration-200 ${isDark ? 'text-primary' : 'text-muted-foreground/70'}`} />
     </div>
   );
 }
