@@ -95,11 +95,6 @@
   body {
     @apply bg-background text-foreground antialiased;
   }
-  
-  /* Interactive elements with smooth transitions */
-  button, a, input, textarea, select {
-    transition: all 0.2s ease;
-  }
 }
 
 @layer utilities {

@@ -93,13 +93,13 @@ export default function Home() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {posts.slice(0, 3).map(post => (
                 <Link key={post.id} to={`/blog/${post.id}`} className="group">
-                  <article className="space-y-3 overflow-hidden rounded-lg border bg-card transition-colors hover:bg-accent/50">
+                  <article className="space-y-3 overflow-hidden rounded-lg border bg-card hover:bg-accent/50">
                     <div className="aspect-video overflow-hidden rounded-t-lg">
                       <div className="h-full w-full bg-muted" />
                     </div>
                     <div className="p-6">
                       <time className="text-xs text-muted-foreground">{new Date(post.date).toDateString()}</time>
-                      <h3 className="mt-2 text-xl font-bold hover:text-primary transition-colors">{post.title}</h3>
+                      <h3 className="mt-2 text-xl font-bold hover:text-primary">{post.title}</h3>
                       <p className="mt-2 text-sm text-muted-foreground">{post.excerpt}</p>
                       <div className="mt-4 flex flex-wrap gap-2">
                         {post.tags?.map(tag => (
@@ -162,11 +162,11 @@ export default function Home() {
                 .filter(p => p.featured)
                 .slice(0, 3)
                 .map(project => (
-                  <div key={project.id} className="group rounded-lg border bg-card shadow-sm transition-all hover:shadow-md">
+                  <div key={project.id} className="group rounded-lg border bg-card shadow-sm hover:shadow-md">
                     <div className="p-6 flex flex-col h-full">
                       {/* Make the project title a clickable Link */}
                       <Link to={`/projects/${project.id}`}>
-                        <h3 className="text-xl font-bold mb-2 hover:text-primary transition-colors">{project.title}</h3>
+                        <h3 className="text-xl font-bold mb-2 hover:text-primary">{project.title}</h3>
                       </Link>
                       <p className="text-muted-foreground text-sm flex-grow">{project.description}</p>
                       <div className="flex items-center gap-3 mt-4 pt-4 border-t">

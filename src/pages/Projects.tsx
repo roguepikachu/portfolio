@@ -96,7 +96,7 @@ export default function Projects() {
           {filteredProjects.map(project => (
             <div
               key={project.id}
-              className={`group overflow-hidden rounded-lg border bg-card transition-all hover:shadow-md ${
+              className={`group overflow-hidden rounded-lg border bg-card hover:shadow-md ${
                 project.featured ? 'ring-2 ring-primary/20' : ''
               }`}
             >
@@ -107,7 +107,7 @@ export default function Projects() {
                   </div>
                 )}
                 <Link to={`/projects/${project.id}`}>
-                  <h2 className="project-title text-xl font-bold hover:text-primary transition-colors">{project.title}</h2>
+                  <h2 className="project-title text-xl font-bold hover:text-primary">{project.title}</h2>
                 </Link>
                 <p className="mt-2 text-muted-foreground text-sm flex-grow">{project.description}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
