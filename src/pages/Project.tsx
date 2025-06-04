@@ -75,7 +75,7 @@ export default function Project() {
         {/* Back to projects link */}
         <Link
           to="/projects"
-          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-8"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to all projects
@@ -148,9 +148,9 @@ export default function Project() {
                 <Link
                   to={`/projects/${proj.id}`}
                   key={proj.id}
-                  className="block group rounded-lg border bg-card p-6 shadow-sm transition-colors hover:bg-muted"
+                  className="block group rounded-lg border bg-card p-6 shadow-sm hover:bg-muted"
                 >
-                  <h3 className="project-title font-medium group-hover:text-primary transition-colors">{proj.title}</h3>
+                  <h3 className="project-title font-medium group-hover:text-primary">{proj.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{proj.description}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {proj.tags.slice(0, 2).map(tag => (
