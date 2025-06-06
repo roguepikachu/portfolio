@@ -18,7 +18,7 @@ export function BlogPostCard({ post, className = '' }: BlogPostCardProps) {
 
   return (
     <article
-      className={`group overflow-hidden rounded-lg border bg-card transition-colors hover:bg-accent/50 ${className} ${
+      className={`group overflow-hidden rounded-lg border bg-card transition-colors hover:bg-accent/50 h-full flex flex-col ${className} ${
         post.pinned ? 'ring-2 ring-primary/20' : ''
       }`}
     >
@@ -27,12 +27,12 @@ export function BlogPostCard({ post, className = '' }: BlogPostCardProps) {
           <img
             src={post.image}
             alt={post.title}
-            className="w-full h-full object-cover object-center rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
         </div>
       )}
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-grow">
         <div className="flex flex-wrap items-center gap-2 mb-3">
           {post.pinned && (
             <Badge variant="outline" className="bg-primary/10 hover:bg-primary/20 text-primary border-primary/10">
@@ -50,13 +50,13 @@ export function BlogPostCard({ post, className = '' }: BlogPostCardProps) {
           </div>
         </div>
 
-        <h3 className="text-xl font-bold hover:text-primary transition-colors">
+        <h3 className="text-xl font-bold hover:text-primary transition-colors line-clamp-2">
           <Link to={`/blog/${post.id}`} className="block">
             {post.title}
           </Link>
         </h3>
 
-        <p className="mt-2 text-muted-foreground">{post.excerpt}</p>
+        <p className="mt-2 text-muted-foreground line-clamp-3 flex-grow">{post.excerpt}</p>
 
         <div className="mt-4 flex flex-wrap gap-2">
           {post.tags.map(tag => (
