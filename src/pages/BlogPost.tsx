@@ -13,6 +13,8 @@ import { CommentSection } from '@/components/blog/CommentSection';
 import { VotingButtons } from '@/components/VotingButtons';
 import { LoadingDots } from '../components/ui/LoadingDots';
 import { delay } from '../utils/delay';
+import { supabase } from "@/lib/supabase";
+import { User } from "@supabase/supabase-js";
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>();
@@ -22,6 +24,7 @@ export default function BlogPost() {
   const [relatedPosts, setRelatedPosts] = useState<BlogPostType[]>([]);
   const [linkCopied, setLinkCopied] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
     const loadPostData = async () => {
@@ -54,7 +57,15 @@ export default function BlogPost() {
       }
     };
     
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setCurrentUser(session?.user ?? null);
+    });
+
     loadPostData();
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [id]);
   
   const copyToClipboard = () => {
@@ -263,7 +274,7 @@ export default function BlogPost() {
           </div>
 
           {/* Comments section */}
-          {id && <CommentSection postId={id} />}
+          {id && <CommentSection postId={id} currentUser={currentUser} />}
           
         </article>
         
