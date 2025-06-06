@@ -186,7 +186,7 @@ export function MainNav() {
             <Link to="/" className="flex items-center space-x-2">
               <span className="text-xl font-bold tracking-tight">Ayush Kumar</span>
             </Link>
-            <nav className="hidden md:flex md:gap-6">
+            <nav className="hidden md:flex md:gap-6 items-center">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
@@ -204,7 +204,7 @@ export function MainNav() {
             </nav>
           </div>
           <div className="flex items-center gap-2 w-full max-w-xl mx-4">
-            <div className="relative w-full">
+            <div className="relative w-full hidden md:block">
               {location.pathname === "/" && (
                 <>
                   <span className="absolute left-5 top-1/2 -translate-y-1/2 text-primary">
@@ -328,8 +328,12 @@ export function MainNav() {
               )}
             </div>
             <div className="flex items-center gap-2">
-              <ThemeToggle />
-              <AuthButton currentUser={currentUser} onUserChange={setCurrentUser} />
+              <div className="hidden md:block">
+                <ThemeToggle />
+              </div>
+              <div className="hidden md:block">
+                <AuthButton currentUser={currentUser} onUserChange={setCurrentUser} />
+              </div>
               {!hideContactButton && (
                 <div className="hidden md:block">
                   <Button onClick={() => setContactModalOpen(true)}>
@@ -351,11 +355,135 @@ export function MainNav() {
                     <Link to="/" className="flex items-center space-x-2" onClick={() => setMobileMenuOpen(false)}>
                       <span className="text-xl font-bold">Ayush Kumar</span>
                     </Link>
-                    <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
-                      <X className="h-5 w-5" />
-                      <span className="sr-only">Close menu</span>
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <ThemeToggle />
+                      <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
+                        <X className="h-5 w-5" />
+                        <span className="sr-only">Close menu</span>
+                      </Button>
+                    </div>
                   </div>
+                  {location.pathname === "/" && (
+                    <div className="relative w-full">
+                      <span className="absolute left-5 top-1/2 -translate-y-1/2 text-primary">
+                        <Search className="h-5 w-5" />
+                      </span>
+                      <input
+                        ref={searchRef}
+                        type="text"
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                        placeholder="Search blog posts, projects, publications..."
+                        className="w-full pl-12 pr-4 py-2 rounded-full border border-border bg-background text-base font-medium focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all shadow placeholder:text-muted-foreground"
+                        onFocus={() => searchQuery && setShowDropdown(true)}
+                      />
+                      {showDropdown && (
+                        <div
+                          ref={dropdownRef}
+                          className="absolute left-0 right-0 mt-2 z-50 rounded-2xl bg-background/95 shadow-2xl border border-border overflow-hidden"
+                        >
+                          <div className="max-h-96 overflow-y-auto">
+                            {filteredPosts.length === 0 && filteredProjects.length === 0 && filteredPublications.length === 0 ? (
+                              <div className="p-6 text-center text-muted-foreground">No results found.</div>
+                            ) : (
+                              <>
+                                {filteredPosts.length > 0 && (
+                                  <div>
+                                    <div className="px-6 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase">Blog Posts</div>
+                                    {filteredPosts.map((post: any) => {
+                                      let snippet = null;
+                                      if (searchQuery && post.content && post.content.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                        snippet = getSnippet(post.content, searchQuery);
+                                      } else if (searchQuery && post.excerpt && post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                        snippet = getSnippet(post.excerpt, searchQuery);
+                                      }
+                                      return (
+                                        <button
+                                          key={post.id}
+                                          className="w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors"
+                                          onClick={() => {
+                                            setShowDropdown(false);
+                                            setSearchQuery('');
+                                            navigate(`/blog/${post.id}`);
+                                          }}
+                                        >
+                                          <div>
+                                            <span className="font-medium">{post.title}</span>
+                                            <span className="ml-2 text-xs text-muted-foreground">Blog Post</span>
+                                            {snippet}
+                                          </div>
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                                {filteredProjects.length > 0 && (
+                                  <div>
+                                    <div className="px-6 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase">Projects</div>
+                                    {filteredProjects.map((project: any) => {
+                                      let snippet = null;
+                                      if (searchQuery && project.content && project.content.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                        snippet = getSnippet(project.content, searchQuery);
+                                      } else if (searchQuery && project.description && project.description.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                        snippet = getSnippet(project.description, searchQuery);
+                                      }
+                                      return (
+                                        <button
+                                          key={project.id}
+                                          className="w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors"
+                                          onClick={() => {
+                                            setShowDropdown(false);
+                                            setSearchQuery('');
+                                            navigate(`/projects/${project.id}`);
+                                          }}
+                                        >
+                                          <div>
+                                            <span className="font-medium">{project.title}</span>
+                                            <span className="ml-2 text-xs text-muted-foreground">Project</span>
+                                            {snippet}
+                                          </div>
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                                {filteredPublications.length > 0 && (
+                                  <div>
+                                    <div className="px-6 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase">Publications</div>
+                                    {filteredPublications.map((pub: any) => {
+                                      let snippet = null;
+                                      if (searchQuery && pub.content && pub.content.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                        snippet = getSnippet(pub.content, searchQuery);
+                                      } else if (searchQuery && pub.summary && pub.summary.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                        snippet = getSnippet(pub.summary, searchQuery);
+                                      }
+                                      return (
+                                        <button
+                                          key={pub.id}
+                                          className="w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors"
+                                          onClick={() => {
+                                            setShowDropdown(false);
+                                            setSearchQuery('');
+                                            navigate(`/publications/${pub.id}`);
+                                          }}
+                                        >
+                                          <div>
+                                            <span className="font-medium">{pub.title}</span>
+                                            <span className="ml-2 text-xs text-muted-foreground">Publication</span>
+                                            {snippet}
+                                          </div>
+                                        </button>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <div className="flex flex-col gap-4">
                     {navItems.map((item) => (
                       <Link
@@ -381,6 +509,9 @@ export function MainNav() {
                         Contact
                       </Button>
                     )}
+                  </div>
+                  <div className="mt-auto border-t pt-4">
+                    <AuthButton currentUser={currentUser} onUserChange={setCurrentUser} />
                   </div>
                 </div>
               </SheetContent>

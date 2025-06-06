@@ -81,7 +81,7 @@ export default function Home() {
                   Hi, I'm Ayush Kumar. I build accessible, responsive web applications and write about web development, design, and tech.
                 </p>
               </div>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Button asChild className="inline-flex items-center">
                   <a href="https://github.com/" target="_blank" rel="noopener noreferrer">
                     <Github className="mr-2 h-4 w-4" />
