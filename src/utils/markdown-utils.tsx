@@ -64,7 +64,7 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
 
                 {/* Language badge */}
                 <div className="absolute top-0 left-6 z-20 -translate-y-1/2">
-                  <span className="text-xs font-mono font-semibold px-3 py-1.5 rounded-full bg-background border border-border shadow-md text-foreground uppercase tracking-wide">
+                  <span className="text-xs font-mono font-semibold px-3 py-1.5 rounded-full bg-blue-500 text-white border border-blue-600 shadow-md uppercase tracking-wide">
                     {match[1]}
                   </span>
                 </div>
