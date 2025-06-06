@@ -122,7 +122,7 @@ export default function Publication() {
               <Button asChild>
                 <a href={publication.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
                   <ExternalLink className="mr-2 h-4 w-4" />
-                  View Full Publication
+                  View Publication
                 </a>
               </Button>
             </div>
