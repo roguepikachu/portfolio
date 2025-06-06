@@ -117,8 +117,9 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
     return (
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <User className="h-5 w-5" />
+          <Button variant="ghost" size="sm" className="gap-2">
+            <User className="h-4 w-4" />
+            <span>Sign In</span>
           </Button>
         </DialogTrigger>
         <DialogContent>
