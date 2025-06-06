@@ -4,7 +4,7 @@ import { loadBlogPosts } from '@/utils/content-loader';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ArrowRight, Calendar, Clock, Copy, Check, Facebook, Twitter } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, Clock, Copy, Check, Facebook, Twitter, FileText, Loader2 } from 'lucide-react';
 import { BlogPost as BlogPostType } from '@/types/blog';
 import { BlogPostCard } from '@/components/blog-post-card';
 import { MarkdownRenderer, calculateReadingTime } from '@/utils/markdown-utils';
@@ -68,7 +68,6 @@ export default function BlogPost() {
   };
   
   const shareOnSocialMedia = (platform: 'facebook' | 'twitter' | 'linkedin') => {
-    // This is a simplified version - in a real app, you'd use proper share APIs
     const url = encodeURIComponent(window.location.href);
     const title = encodeURIComponent(post?.title || 'Blog post');
     
@@ -92,8 +91,20 @@ export default function BlogPost() {
   if (loading) {
     return (
       <div className="container py-16 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-xl">Loading post...</p>
+        <div className="flex flex-col items-center space-y-6">
+          <div className="relative">
+            <FileText className="h-16 w-16 text-primary animate-pulse" />
+            <Loader2 className="absolute -top-2 -right-2 h-6 w-6 animate-spin text-muted-foreground" />
+          </div>
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-semibold">Reading between the lines...</h2>
+            <p className="text-muted-foreground">Loading your article with care</p>
+          </div>
+          <div className="flex space-x-2">
+            <div className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+            <div className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+            <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+          </div>
         </div>
       </div>
     );
