@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X, Search as SearchIcon } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { ContactModal } from "./contact-modal";
 import { sectionConfig } from "@/config/sectionConfig";
 import {
@@ -16,7 +16,6 @@ import {
   CommandItem,
   CommandSeparator
 } from '@/components/ui/command';
-import { useEffect } from 'react';
 import { loadBlogPosts, loadProjects, loadPublications } from '@/utils/content-loader';
 
 // Base navigation items
@@ -53,16 +52,57 @@ function getSnippet(text: string, query: string) {
   );
 }
 
+// Custom styles for a beautiful, floating, minimal search experience
+// - Modal background is transparent
+// - Search bar is long, centered, pill-shaped, with soft shadow
+// - Dropdown is a floating, rounded, minimal card below the bar
+// - All colors are theme-aware
+
+// Custom minimal search bar for empty state
+function MinimalSearchBar({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="flex justify-center items-center min-h-[200px]">
+      <div className="relative w-full max-w-2xl mx-auto">
+        <span className="absolute left-6 top-1/2 -translate-y-1/2 text-primary">
+          <Search className="h-6 w-6" />
+        </span>
+        <input
+          type="text"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          placeholder="Search blog posts, projects, publications..."
+          className="w-full pl-14 pr-4 py-5 rounded-full border-none bg-background/90 text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all shadow-xl placeholder:text-muted-foreground"
+          autoFocus
+          style={{ boxShadow: '0 6px 32px 0 rgb(0 0 0 / 0.10)' }}
+        />
+      </div>
+    </div>
+  );
+}
+
+// Custom CommandList wrapper for beautiful dropdown
+function PrettyCommandList({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex justify-center w-full">
+      <div className="w-full max-w-2xl mt-2 rounded-2xl bg-background/95 shadow-2xl border border-border overflow-hidden">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export function MainNav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any>({ posts: [], projects: [], publications: [] });
   const [loading, setLoading] = useState(false);
-  
+  const [showDropdown, setShowDropdown] = useState(false);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const isActiveRoute = (path: string) => {
     return location.pathname === path;
   };
@@ -70,9 +110,8 @@ export function MainNav() {
   // Check if we're on the Home or About page to hide the contact button
   const hideContactButton = location.pathname === "/" || location.pathname === "/about";
 
-  // Load all content for search
+  // Load all content for search (on mount)
   useEffect(() => {
-    if (!searchOpen) return;
     setLoading(true);
     Promise.all([
       loadBlogPosts(),
@@ -82,7 +121,7 @@ export function MainNav() {
       setSearchResults({ posts, projects, publications });
       setLoading(false);
     });
-  }, [searchOpen]);
+  }, []);
 
   // Filtered results
   const filteredPosts = searchQuery
@@ -110,6 +149,31 @@ export function MainNav() {
       )
     : [];
 
+  // Dropdown open/close logic
+  useEffect(() => {
+    if (searchQuery.trim() !== '') {
+      setShowDropdown(true);
+    } else {
+      setShowDropdown(false);
+    }
+  }, [searchQuery]);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node) &&
+        searchRef.current &&
+        !searchRef.current.contains(e.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-40 border-b bg-background/80 backdrop-blur">
@@ -135,10 +199,126 @@ export function MainNav() {
               ))}
             </nav>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={() => setSearchOpen(true)} aria-label="Search site">
-              <SearchIcon className="h-5 w-5" />
-            </Button>
+          <div className="flex items-center gap-2 w-full max-w-xl mx-4">
+            <div className="relative w-full">
+              <span className="absolute left-5 top-1/2 -translate-y-1/2 text-primary">
+                <Search className="h-5 w-5" />
+              </span>
+              <input
+                ref={searchRef}
+                type="text"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Search blog posts, projects, publications..."
+                className="w-full pl-12 pr-4 py-2 rounded-full border border-border bg-background text-base font-medium focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all shadow placeholder:text-muted-foreground"
+                onFocus={() => searchQuery && setShowDropdown(true)}
+              />
+              {showDropdown && (
+                <div
+                  ref={dropdownRef}
+                  className="absolute left-0 right-0 mt-2 z-50 rounded-2xl bg-background/95 shadow-2xl border border-border overflow-hidden"
+                >
+                  <div className="max-h-96 overflow-y-auto">
+                    {filteredPosts.length === 0 && filteredProjects.length === 0 && filteredPublications.length === 0 ? (
+                      <div className="p-6 text-center text-muted-foreground">No results found.</div>
+                    ) : (
+                      <>
+                        {filteredPosts.length > 0 && (
+                          <div>
+                            <div className="px-6 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase">Blog Posts</div>
+                            {filteredPosts.map((post: any) => {
+                              let snippet = null;
+                              if (searchQuery && post.content && post.content.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                snippet = getSnippet(post.content, searchQuery);
+                              } else if (searchQuery && post.excerpt && post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                snippet = getSnippet(post.excerpt, searchQuery);
+                              }
+                              return (
+                                <button
+                                  key={post.id}
+                                  className="w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors"
+                                  onClick={() => {
+                                    setShowDropdown(false);
+                                    setSearchQuery('');
+                                    navigate(`/blog/${post.id}`);
+                                  }}
+                                >
+                                  <div>
+                                    <span className="font-medium">{post.title}</span>
+                                    <span className="ml-2 text-xs text-muted-foreground">Blog</span>
+                                    {snippet}
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                        {filteredProjects.length > 0 && (
+                          <div>
+                            <div className="px-6 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase">Projects</div>
+                            {filteredProjects.map((project: any) => {
+                              let snippet = null;
+                              if (searchQuery && project.readme && project.readme.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                snippet = getSnippet(project.readme, searchQuery);
+                              } else if (searchQuery && project.description && project.description.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                snippet = getSnippet(project.description, searchQuery);
+                              }
+                              return (
+                                <button
+                                  key={project.id}
+                                  className="w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors"
+                                  onClick={() => {
+                                    setShowDropdown(false);
+                                    setSearchQuery('');
+                                    navigate(`/projects/${project.id}`);
+                                  }}
+                                >
+                                  <div>
+                                    <span className="font-medium">{project.title}</span>
+                                    <span className="ml-2 text-xs text-muted-foreground">Project</span>
+                                    {snippet}
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                        {filteredPublications.length > 0 && (
+                          <div>
+                            <div className="px-6 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase">Publications</div>
+                            {filteredPublications.map((pub: any) => {
+                              let snippet = null;
+                              if (searchQuery && pub.content && pub.content.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                snippet = getSnippet(pub.content, searchQuery);
+                              } else if (searchQuery && pub.summary && pub.summary.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                snippet = getSnippet(pub.summary, searchQuery);
+                              }
+                              return (
+                                <button
+                                  key={pub.id}
+                                  className="w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors"
+                                  onClick={() => {
+                                    setShowDropdown(false);
+                                    setSearchQuery('');
+                                    navigate(`/publications/${pub.id}`);
+                                  }}
+                                >
+                                  <div>
+                                    <span className="font-medium">{pub.title}</span>
+                                    <span className="ml-2 text-xs text-muted-foreground">Publication</span>
+                                    {snippet}
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
             {!hideContactButton && (
               <div className="hidden md:block">
                 <Button onClick={() => setContactModalOpen(true)}>
@@ -197,94 +377,6 @@ export function MainNav() {
           </div>
         </div>
       </header>
-      <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
-        <CommandInput
-          placeholder="Search blog posts, projects, publications..."
-          value={searchQuery}
-          onValueChange={setSearchQuery}
-          autoFocus
-        />
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Blog Posts">
-            {filteredPosts.map((post: any) => {
-              let snippet = null;
-              if (searchQuery && post.content && post.content.toLowerCase().includes(searchQuery.toLowerCase())) {
-                snippet = getSnippet(post.content, searchQuery);
-              } else if (searchQuery && post.excerpt && post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())) {
-                snippet = getSnippet(post.excerpt, searchQuery);
-              }
-              return (
-                <CommandItem
-                  key={post.id}
-                  onSelect={() => {
-                    setSearchOpen(false);
-                    navigate(`/blog/${post.id}`);
-                  }}
-                >
-                  <div>
-                    <span className="font-medium">{post.title}</span>
-                    <span className="ml-2 text-xs text-muted-foreground">Blog</span>
-                    {snippet}
-                  </div>
-                </CommandItem>
-              );
-            })}
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Projects">
-            {filteredProjects.map((project: any) => {
-              let snippet = null;
-              if (searchQuery && project.readme && project.readme.toLowerCase().includes(searchQuery.toLowerCase())) {
-                snippet = getSnippet(project.readme, searchQuery);
-              } else if (searchQuery && project.description && project.description.toLowerCase().includes(searchQuery.toLowerCase())) {
-                snippet = getSnippet(project.description, searchQuery);
-              }
-              return (
-                <CommandItem
-                  key={project.id}
-                  onSelect={() => {
-                    setSearchOpen(false);
-                    navigate(`/projects/${project.id}`);
-                  }}
-                >
-                  <div>
-                    <span className="font-medium">{project.title}</span>
-                    <span className="ml-2 text-xs text-muted-foreground">Project</span>
-                    {snippet}
-                  </div>
-                </CommandItem>
-              );
-            })}
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Publications">
-            {filteredPublications.map((pub: any) => {
-              let snippet = null;
-              if (searchQuery && pub.content && pub.content.toLowerCase().includes(searchQuery.toLowerCase())) {
-                snippet = getSnippet(pub.content, searchQuery);
-              } else if (searchQuery && pub.summary && pub.summary.toLowerCase().includes(searchQuery.toLowerCase())) {
-                snippet = getSnippet(pub.summary, searchQuery);
-              }
-              return (
-                <CommandItem
-                  key={pub.id}
-                  onSelect={() => {
-                    setSearchOpen(false);
-                    navigate(`/publications/${pub.id}`);
-                  }}
-                >
-                  <div>
-                    <span className="font-medium">{pub.title}</span>
-                    <span className="ml-2 text-xs text-muted-foreground">Publication</span>
-                    {snippet}
-                  </div>
-                </CommandItem>
-              );
-            })}
-          </CommandGroup>
-        </CommandList>
-      </CommandDialog>
       <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
     </>
   );
