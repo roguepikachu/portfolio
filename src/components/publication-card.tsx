@@ -46,10 +46,7 @@ export function PublicationCard({ publication, showFullSummary = false }: Public
             </Badge>
           ))}
         </div>
-        <div className="flex items-center justify-between gap-2">
-          <Button size="sm" variant="outline" asChild>
-            <Link to={`/publications/${publication.id}`}>Read More</Link>
-          </Button>
+        <div className="flex items-center gap-2">
           <Button size="sm" asChild>
             <a href={publication.link} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="mr-2 h-4 w-4" />
