@@ -204,7 +204,7 @@ export function MainNav() {
             </nav>
           </div>
           <div className="flex items-center gap-2">
-            <div className="relative w-[450px] hidden md:block">
+            <div className="relative w-[450px] hidden xl:block">
               {location.pathname === "/" && (
                 <>
                   <span className="absolute left-5 top-1/2 -translate-y-1/2 text-primary">
@@ -337,8 +337,8 @@ export function MainNav() {
               )}
             </div>
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild className="md:hidden">
-                <Button variant="ghost" size="icon" className="md:hidden">
+              <SheetTrigger asChild className="xl:hidden">
+                <Button variant="ghost" size="icon" className="xl:hidden">
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
@@ -380,91 +380,64 @@ export function MainNav() {
                                 {filteredPosts.length > 0 && (
                                   <div>
                                     <div className="px-6 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase">Blog Posts</div>
-                                    {filteredPosts.map((post: any) => {
-                                      let snippet = null;
-                                      if (searchQuery && post.content && post.content.toLowerCase().includes(searchQuery.toLowerCase())) {
-                                        snippet = getSnippet(post.content, searchQuery);
-                                      } else if (searchQuery && post.excerpt && post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())) {
-                                        snippet = getSnippet(post.excerpt, searchQuery);
-                                      }
-                                      return (
-                                        <button
-                                          key={post.id}
-                                          className="w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors"
-                                          onClick={() => {
-                                            setShowDropdown(false);
-                                            setSearchQuery('');
-                                            navigate(`/blog/${post.id}`);
-                                          }}
-                                        >
-                                          <div>
-                                            <span className="font-medium">{post.title}</span>
-                                            <span className="ml-2 text-xs text-muted-foreground">Blog Post</span>
-                                            {snippet}
-                                          </div>
-                                        </button>
-                                      );
-                                    })}
+                                    {filteredPosts.map((post: any) => (
+                                      <button
+                                        key={post.id}
+                                        className="w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors"
+                                        onClick={() => {
+                                          setShowDropdown(false);
+                                          setSearchQuery('');
+                                          navigate(`/blog/${post.id}`);
+                                        }}
+                                      >
+                                        <div>
+                                          <span className="font-medium">{post.title}</span>
+                                          <span className="ml-2 text-xs text-muted-foreground">Blog Post</span>
+                                        </div>
+                                      </button>
+                                    ))}
                                   </div>
                                 )}
                                 {filteredProjects.length > 0 && (
                                   <div>
                                     <div className="px-6 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase">Projects</div>
-                                    {filteredProjects.map((project: any) => {
-                                      let snippet = null;
-                                      if (searchQuery && project.content && project.content.toLowerCase().includes(searchQuery.toLowerCase())) {
-                                        snippet = getSnippet(project.content, searchQuery);
-                                      } else if (searchQuery && project.description && project.description.toLowerCase().includes(searchQuery.toLowerCase())) {
-                                        snippet = getSnippet(project.description, searchQuery);
-                                      }
-                                      return (
-                                        <button
-                                          key={project.id}
-                                          className="w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors"
-                                          onClick={() => {
-                                            setShowDropdown(false);
-                                            setSearchQuery('');
-                                            navigate(`/projects/${project.id}`);
-                                          }}
-                                        >
-                                          <div>
-                                            <span className="font-medium">{project.title}</span>
-                                            <span className="ml-2 text-xs text-muted-foreground">Project</span>
-                                            {snippet}
-                                          </div>
-                                        </button>
-                                      );
-                                    })}
+                                    {filteredProjects.map((project: any) => (
+                                      <button
+                                        key={project.id}
+                                        className="w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors"
+                                        onClick={() => {
+                                          setShowDropdown(false);
+                                          setSearchQuery('');
+                                          navigate(`/projects/${project.id}`);
+                                        }}
+                                      >
+                                        <div>
+                                          <span className="font-medium">{project.title}</span>
+                                          <span className="ml-2 text-xs text-muted-foreground">Project</span>
+                                        </div>
+                                      </button>
+                                    ))}
                                   </div>
                                 )}
                                 {filteredPublications.length > 0 && (
                                   <div>
                                     <div className="px-6 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase">Publications</div>
-                                    {filteredPublications.map((pub: any) => {
-                                      let snippet = null;
-                                      if (searchQuery && pub.content && pub.content.toLowerCase().includes(searchQuery.toLowerCase())) {
-                                        snippet = getSnippet(pub.content, searchQuery);
-                                      } else if (searchQuery && pub.summary && pub.summary.toLowerCase().includes(searchQuery.toLowerCase())) {
-                                        snippet = getSnippet(pub.summary, searchQuery);
-                                      }
-                                      return (
-                                        <button
-                                          key={pub.id}
-                                          className="w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors"
-                                          onClick={() => {
-                                            setShowDropdown(false);
-                                            setSearchQuery('');
-                                            navigate(`/publications/${pub.id}`);
-                                          }}
-                                        >
-                                          <div>
-                                            <span className="font-medium">{pub.title}</span>
-                                            <span className="ml-2 text-xs text-muted-foreground">Publication</span>
-                                            {snippet}
-                                          </div>
-                                        </button>
-                                      );
-                                    })}
+                                    {filteredPublications.map((pub: any) => (
+                                      <button
+                                        key={pub.id}
+                                        className="w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors"
+                                        onClick={() => {
+                                          setShowDropdown(false);
+                                          setSearchQuery('');
+                                          navigate(`/publications/${pub.id}`);
+                                        }}
+                                      >
+                                        <div>
+                                          <span className="font-medium">{pub.title}</span>
+                                          <span className="ml-2 text-xs text-muted-foreground">Publication</span>
+                                        </div>
+                                      </button>
+                                    ))}
                                   </div>
                                 )}
                               </>
