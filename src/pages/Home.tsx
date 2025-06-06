@@ -1,6 +1,7 @@
+
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Github, Linkedin, ArrowRight } from 'lucide-react';
+import { Github, Linkedin, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
 import { ContactModal } from '@/components/contact-modal';
 import { Link } from 'react-router-dom';
 import { loadBlogPosts, loadProjects, loadPublications } from '@/utils/content-loader';
@@ -11,11 +12,27 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const [projects, setProjects] = useState([]);
   const [publications, setPublications] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadBlogPosts().then(setPosts);
-    loadProjects().then(setProjects);
-    loadPublications().then(setPublications);
+    const loadData = async () => {
+      try {
+        const [blogPosts, projectsData, publicationsData] = await Promise.all([
+          loadBlogPosts(),
+          loadProjects(),
+          loadPublications()
+        ]);
+        setPosts(blogPosts);
+        setProjects(projectsData);
+        setPublications(publicationsData);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
 
   const featuredPublications = publications.filter((publication: any) => publication.featured).slice(0, 2);
@@ -26,6 +43,30 @@ export default function Home() {
     publications: true,
     projects: true,
   };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-screen items-center justify-center">
+        <div className="text-center space-y-6">
+          <div className="relative">
+            <Sparkles className="h-20 w-20 text-primary animate-pulse mx-auto" />
+            <Loader2 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-8 w-8 animate-spin text-accent" />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-3xl font-bold">Crafting digital experiences...</h2>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              Loading the portfolio with passion, creativity, and a touch of magic
+            </p>
+          </div>
+          <div className="flex justify-center space-x-2">
+            <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+            <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+            <div className="w-3 h-3 bg-gradient-to-r from-pink-500 to-red-500 rounded-full animate-bounce"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen">

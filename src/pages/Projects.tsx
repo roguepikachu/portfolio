@@ -1,8 +1,9 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Github, Search, ExternalLink } from 'lucide-react';
+import { Github, Search, ExternalLink, Folder, Code2, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Project } from '@/types/project';
 import { loadProjects } from '@/utils/content-loader';
@@ -31,7 +32,6 @@ export default function Projects() {
   // Get unique tags from projects
   const allTags = Array.from(new Set(projects.flatMap(project => project.tags)));
 
-  // Filter projects based on search query and selected tag
   const filteredProjects = projects.filter(project => {
     const matchesSearch =
       project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -46,8 +46,22 @@ export default function Projects() {
     return (
       <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
         <div className="mx-auto max-w-5xl">
-          <div className="text-center">
-            <p className="text-lg">Loading projects...</p>
+          <div className="flex flex-col items-center justify-center space-y-6">
+            <div className="relative">
+              <Folder className="h-16 w-16 text-primary animate-pulse" />
+              <Code2 className="absolute -bottom-2 -right-2 h-8 w-8 text-muted-foreground animate-bounce" />
+              <Loader2 className="absolute -top-2 -left-2 h-6 w-6 animate-spin text-accent" />
+            </div>
+            <div className="text-center space-y-2">
+              <h2 className="text-2xl font-semibold">Building something awesome...</h2>
+              <p className="text-muted-foreground">Compiling the latest projects and innovations</p>
+            </div>
+            <div className="flex space-x-1">
+              <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse [animation-delay:0s]"></div>
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse [animation-delay:0.2s]"></div>
+              <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse [animation-delay:0.4s]"></div>
+              <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse [animation-delay:0.6s]"></div>
+            </div>
           </div>
         </div>
       </div>
