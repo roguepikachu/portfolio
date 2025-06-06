@@ -1,4 +1,3 @@
-
 import { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -6,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { BlogPostCard } from "@/components/blog-post-card";
 import { loadBlogPosts } from "@/utils/content-loader";
 import { BlogPost } from "@/types/blog";
-import { Search, X, BookOpen, Loader2 } from "lucide-react";
+import { Search, X, BookOpen } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -15,6 +14,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { LoadingDots } from '../components/ui/LoadingDots';
+import { delay } from '../utils/delay';
 
 export default function Blog() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
@@ -27,6 +28,7 @@ export default function Blog() {
       try {
         const posts = await loadBlogPosts();
         setBlogPosts(posts);
+        await delay(); // Use default delay
       } catch (error) {
         console.error('Error loading blog posts:', error);
       } finally {
@@ -96,17 +98,12 @@ export default function Blog() {
           <div className="flex flex-col items-center justify-center space-y-6">
             <div className="relative">
               <BookOpen className="h-16 w-16 text-primary animate-pulse" />
-              <Loader2 className="absolute -top-2 -right-2 h-6 w-6 animate-spin text-muted-foreground" />
             </div>
             <div className="text-center space-y-2">
               <h2 className="text-2xl font-semibold">Loading amazing content...</h2>
               <p className="text-muted-foreground">Just a moment while we fetch the latest blog posts</p>
             </div>
-            <div className="flex space-x-2">
-              <div className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-              <div className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-              <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
-            </div>
+            <LoadingDots size="md" />
           </div>
         </div>
       </div>

@@ -7,6 +7,8 @@ import { MarkdownRenderer } from '@/utils/markdown-utils';
 import { VotingButtons } from '@/components/VotingButtons';
 import { loadProjects } from '@/utils/content-loader';
 import { Project as ProjectType } from '@/types/project';
+import { LoadingDots } from '../components/ui/LoadingDots';
+import { delay } from '../utils/delay';
 
 export default function Project() {
   const { id } = useParams<{ id: string }>();
@@ -36,6 +38,8 @@ export default function Project() {
 
         // Scroll to top
         window.scrollTo(0, 0);
+        
+        await delay(); // Use default delay
       } catch (error) {
         console.error('Error loading project:', error);
       } finally {
@@ -49,8 +53,9 @@ export default function Project() {
   if (loading) {
     return (
       <div className="container py-16 flex items-center justify-center">
-        <div className="text-center">
+        <div className="text-center space-y-4">
           <p className="text-xl">Loading project...</p>
+          <LoadingDots size="sm" />
         </div>
       </div>
     );

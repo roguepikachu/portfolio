@@ -11,6 +11,8 @@ import { MarkdownRenderer, calculateReadingTime } from '@/utils/markdown-utils';
 import { toast } from 'sonner';
 import { CommentSection } from '@/components/blog/CommentSection';
 import { VotingButtons } from '@/components/VotingButtons';
+import { LoadingDots } from '../components/ui/LoadingDots';
+import { delay } from '../utils/delay';
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>();
@@ -24,32 +26,27 @@ export default function BlogPost() {
   useEffect(() => {
     const loadPostData = async () => {
       if (!id) return;
-      
       try {
-        const blogPosts = await loadBlogPosts();
-        
-        // Find current post
-        const currentPostIndex = blogPosts.findIndex(p => p.id === id);
-        if (currentPostIndex === -1) {
+        const posts = await loadBlogPosts();
+        const currentPost = posts.find(p => p.id === id);
+        if (!currentPost) {
           setLoading(false);
           return;
         }
-        
-        const currentPost = blogPosts[currentPostIndex];
         setPost(currentPost);
         
-        // Find next and previous posts
-        setPrevPost(currentPostIndex > 0 ? blogPosts[currentPostIndex - 1] : null);
-        setNextPost(currentPostIndex < blogPosts.length - 1 ? blogPosts[currentPostIndex + 1] : null);
-        
         // Find related posts based on tags
-        const related = blogPosts
+        const related = posts
           .filter(p => p.id !== id && p.tags.some(tag => currentPost.tags.includes(tag)))
           .slice(0, 2);
         setRelatedPosts(related);
         
-        // Scroll to top
-        window.scrollTo(0, 0);
+        // Find previous and next posts
+        const currentIndex = posts.findIndex(p => p.id === id);
+        setPrevPost(currentIndex > 0 ? posts[currentIndex - 1] : null);
+        setNextPost(currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null);
+        
+        await delay(); // Use default delay
       } catch (error) {
         console.error('Error loading blog post:', error);
       } finally {
@@ -94,17 +91,12 @@ export default function BlogPost() {
         <div className="flex flex-col items-center space-y-6">
           <div className="relative">
             <FileText className="h-16 w-16 text-primary animate-pulse" />
-            <Loader2 className="absolute -top-2 -right-2 h-6 w-6 animate-spin text-muted-foreground" />
           </div>
           <div className="text-center space-y-2">
             <h2 className="text-2xl font-semibold">Reading between the lines...</h2>
             <p className="text-muted-foreground">Loading your article with care</p>
           </div>
-          <div className="flex space-x-2">
-            <div className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-            <div className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-            <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
-          </div>
+          <LoadingDots size="sm" />
         </div>
       </div>
     );

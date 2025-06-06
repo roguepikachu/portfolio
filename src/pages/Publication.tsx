@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { loadPublications } from '@/utils/content-loader';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ScrollText, Calendar, ExternalLink } from 'lucide-react';
 import { Publication as PublicationType } from '@/types/publication';
 import { MarkdownRenderer } from '@/utils/markdown-utils';
 import { VotingButtons } from '@/components/VotingButtons';
+import { LoadingDots } from '../components/ui/LoadingDots';
+import { delay } from '../utils/delay';
 
 export default function Publication() {
   const { id } = useParams<{ id: string }>();
@@ -30,6 +32,7 @@ export default function Publication() {
           .slice(0, 2);
         setRelatedPublications(related);
         window.scrollTo(0, 0);
+        await delay();
       } finally {
         setLoading(false);
       }
@@ -40,8 +43,15 @@ export default function Publication() {
   if (loading) {
     return (
       <div className="container py-16 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-xl">Loading publication...</p>
+        <div className="flex flex-col items-center space-y-6">
+          <div className="relative">
+            <ScrollText className="h-16 w-16 text-primary animate-pulse" />
+          </div>
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-semibold">Reading research...</h2>
+            <p className="text-muted-foreground">Loading publication details</p>
+          </div>
+          <LoadingDots size="md" />
         </div>
       </div>
     );
