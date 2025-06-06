@@ -8,6 +8,8 @@ import { ScrollText, Search, X } from 'lucide-react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { LoadingDots } from '../components/ui/LoadingDots';
 import { delay } from '../utils/delay';
+import { Link } from 'react-router-dom';
+import { FileText, ExternalLink } from 'lucide-react';
 
 export default function Publications() {
   const [publications, setPublications] = useState([]);
@@ -52,25 +54,18 @@ export default function Publications() {
   }, [publications]);
 
   // Filter publications based on search query, selected tags, and selected year
-  const filteredPublications = useMemo(() => {
-    return publications.filter(pub => {
-      // Search filter
-      const matchesSearch =
-        !searchQuery ||
-        pub.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        pub.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        pub.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredPublications = publications.filter(publication => {
+    const matchesSearch =
+      !searchQuery ||
+      publication.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      publication.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (publication.content && publication.content.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      publication.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 
-      // Tag filter
-      const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => pub.tags.includes(tag));
+    const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => publication.tags.includes(tag));
 
-      // Year filter
-      const pubYear = new Date(pub.date).getFullYear().toString();
-      const matchesYear = !selectedYear || pubYear === selectedYear;
-
-      return matchesSearch && matchesTags && matchesYear;
-    });
-  }, [searchQuery, selectedTags, selectedYear, publications]);
+    return matchesSearch && matchesTags;
+  });
 
   // Sort publications by date (newest first)
   const sortedPublications = useMemo(() => {
@@ -110,6 +105,42 @@ export default function Publications() {
     setSelectedTags([]);
     setSelectedYear(null);
   };
+
+  // Helper to strip markdown formatting
+  function stripMarkdown(text: string) {
+    if (!text) return '';
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '$1') // Bold
+      .replace(/\*(.*?)\*/g, '$1')     // Italic
+      .replace(/`(.*?)`/g, '$1')       // Code
+      .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Links
+      .replace(/#{1,6}\s/g, '')        // Headers
+      .replace(/>\s(.*)/g, '$1')       // Blockquotes
+      .replace(/\n/g, ' ')             // Newlines
+      .replace(/\s+/g, ' ')            // Multiple spaces
+      .trim();
+  }
+
+  // Helper to get a snippet with highlighted match
+  function getSnippet(text: string, query: string) {
+    if (!text || !query) return null;
+    const plainText = stripMarkdown(text);
+    const lower = plainText.toLowerCase();
+    const idx = lower.indexOf(query.toLowerCase());
+    if (idx === -1) return null;
+    const start = Math.max(0, idx - 30);
+    const end = Math.min(plainText.length, idx + query.length + 30);
+    const before = plainText.slice(start, idx);
+    const match = plainText.slice(idx, idx + query.length);
+    const after = plainText.slice(idx + query.length, end);
+    return (
+      <span className="block text-xs mt-1 text-muted-foreground">
+        ...{before}
+        <mark className="px-1 rounded bg-primary/20 text-primary dark:bg-primary/40 dark:text-primary font-semibold">{match}</mark>
+        {after}...
+      </span>
+    );
+  }
 
   if (loading) {
     return (
@@ -253,9 +284,63 @@ export default function Publications() {
         <div className="mt-12">
           {sortedPublications.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2">
-              {sortedPublications.map(publication => (
-                <PublicationCard key={publication.id} publication={publication} showFullSummary />
-              ))}
+              {sortedPublications.map(publication => {
+                let snippet = null;
+                if (searchQuery) {
+                  if (publication.content && publication.content.toLowerCase().includes(searchQuery.toLowerCase())) {
+                    snippet = getSnippet(publication.content, searchQuery);
+                  } else if (publication.summary.toLowerCase().includes(searchQuery.toLowerCase())) {
+                    snippet = getSnippet(publication.summary, searchQuery);
+                  }
+                }
+                return (
+                  <div
+                    key={publication.id}
+                    className={`group overflow-hidden rounded-lg border bg-card hover:shadow-md ${
+                      publication.featured ? 'ring-2 ring-primary/20' : ''
+                    }`}
+                  >
+                    <div className="p-6 flex flex-col h-full">
+                      {/* Featured label (or placeholder) above the title for alignment */}
+                      {publication.featured ? (
+                        <div className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-4 self-start" style={{ minHeight: '24px' }}>
+                          Featured
+                        </div>
+                      ) : (
+                        <div className="mb-4" style={{ minHeight: '24px' }}></div>
+                      )}
+                      <Link to={`/publications/${publication.id}`}>
+                        <h2 className="publication-title text-xl font-bold hover:text-primary">{publication.title}</h2>
+                      </Link>
+                      <p className="mt-2 text-muted-foreground text-sm flex-grow">{publication.summary}</p>
+                      {snippet}
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {publication.tags.map(tag => (
+                          <div key={tag} className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
+                            {tag}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-6 pt-4 border-t flex items-center gap-3">
+                        <Button size="sm" asChild>
+                          <a href={publication.link} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="mr-2 h-4 w-4" />
+                            View Publication
+                          </a>
+                        </Button>
+                        {publication.doiUrl && (
+                          <Button size="sm" variant="outline" asChild>
+                            <a href={publication.doiUrl} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink className="mr-1 h-3 w-3" />
+                              DOI
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <div className="py-12 text-center">
