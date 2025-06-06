@@ -24,7 +24,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter basename="/ayush-portfolio">
+        <BrowserRouter basename="/portfolio">
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
