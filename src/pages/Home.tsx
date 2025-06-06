@@ -27,7 +27,6 @@ export default function Home() {
         setPosts(postsData);
         setProjects(projectsData);
         setPublications(publicationsData);
-        setFeaturedPublications(publicationsData.filter(p => p.featured).slice(0, 2));
         await delay(); // Use default delay
       } catch (error) {
         console.error('Error loading data:', error);
@@ -186,11 +185,22 @@ export default function Home() {
                 .map(project => (
                   <div key={project.id} className="group rounded-lg border bg-card shadow-sm hover:shadow-md">
                     <div className="p-6 flex flex-col h-full">
+                      {/* Featured label */}
+                      <div className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-4 self-start">
+                        Featured
+                      </div>
                       {/* Make the project title a clickable Link */}
                       <Link to={`/projects/${project.id}`}>
                         <h3 className="text-xl font-bold mb-2 hover:text-primary">{project.title}</h3>
                       </Link>
                       <p className="text-muted-foreground text-sm flex-grow">{project.description}</p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {project.tags.map(tag => (
+                          <div key={tag} className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
+                            {tag}
+                          </div>
+                        ))}
+                      </div>
                       <div className="flex items-center gap-3 mt-4 pt-4 border-t">
                         <Button size="sm" variant="outline" asChild>
                           <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -198,11 +208,13 @@ export default function Home() {
                             Code
                           </a>
                         </Button>
-                        <Button size="sm" asChild>
-                          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                            Live Demo
-                          </a>
-                        </Button>
+                        {project.demoUrl && (
+                          <Button size="sm" asChild>
+                            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                              Live Demo
+                            </a>
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>
