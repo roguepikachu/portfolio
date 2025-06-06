@@ -9,9 +9,10 @@ interface ContentItem {
 
 export async function loadMarkdownFile(path: string): Promise<ContentItem | null> {
   try {
-    const response = await fetch(path);
+    const fullPath = `/content${path}`;
+    const response = await fetch(fullPath);
     if (!response.ok) {
-      throw new Error(`Failed to load ${path}`);
+      throw new Error(`Failed to load ${fullPath}`);
     }
 
     const text = await response.text();
