@@ -205,7 +205,7 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
             {currentUser.user_metadata?.full_name?.charAt(0) || currentUser.email?.charAt(0) || 'U'}
           </div>
           <span className="hidden md:inline-block">
-            {currentUser.user_metadata?.full_name || currentUser.user_metadata?.name || currentUser.email?.split('@')[0] || 'User'}
+            {currentUser.user_metadata?.full_name?.split(' ')[0] || currentUser.user_metadata?.name?.split(' ')[0] || currentUser.email?.split('@')[0] || 'User'}
           </span>
         </Button>
       </DropdownMenuTrigger>
