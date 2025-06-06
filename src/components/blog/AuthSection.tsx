@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Mail } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
@@ -97,12 +98,12 @@ export function AuthSection({ currentUser, onUserChange }: AuthSectionProps) {
         <h3 className="text-lg font-medium mb-4">Sign in to comment</h3>
         <form onSubmit={handleEmailAuth}>
           <div className="flex flex-col sm:flex-row gap-3">
-            <input
+            <Input
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="Your email"
-              className="flex-1 px-3 py-2 border rounded-md"
+              className="flex-1"
               required
             />
             <Button type="submit" variant="outline" className="flex items-center gap-2" disabled={isAuthenticating || !email.trim()}>
