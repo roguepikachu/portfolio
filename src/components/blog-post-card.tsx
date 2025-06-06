@@ -46,7 +46,7 @@ export function BlogPostCard({ post, className = '' }: BlogPostCardProps) {
           </Link>
         </h3>
 
-        <p className="mt-2 line-clamp-2 text-muted-foreground">{post.excerpt}</p>
+        <p className="mt-2 text-muted-foreground">{post.excerpt}</p>
 
         <div className="mt-4 flex flex-wrap gap-2">
           {post.tags.map(tag => (
