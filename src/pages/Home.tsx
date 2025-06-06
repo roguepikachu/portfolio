@@ -7,6 +7,7 @@ import { loadBlogPosts, loadProjects, loadPublications } from '@/utils/content-l
 import { PublicationCard } from '@/components/publication-card';
 import { LoadingDots } from '../components/ui/LoadingDots';
 import { delay } from '../utils/delay';
+import { BlogPostCard } from '@/components/blog-post-card';
 
 export default function Home() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -131,25 +132,7 @@ export default function Home() {
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {posts.slice(0, 3).map(post => (
-                <Link key={post.id} to={`/blog/${post.id}`} className="group">
-                  <article className="space-y-3 overflow-hidden rounded-lg border bg-card hover:bg-accent/50">
-                    <div className="aspect-video overflow-hidden rounded-t-lg">
-                      <div className="h-full w-full bg-muted" />
-                    </div>
-                    <div className="p-6">
-                      <time className="text-xs text-muted-foreground">{new Date(post.date).toDateString()}</time>
-                      <h3 className="mt-2 text-xl font-bold hover:text-primary">{post.title}</h3>
-                      <p className="mt-2 text-sm text-muted-foreground">{post.excerpt}</p>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {post.tags?.map(tag => (
-                          <span key={tag} className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </article>
-                </Link>
+                <BlogPostCard key={post.id} post={post} />
               ))}
             </div>
           </div>

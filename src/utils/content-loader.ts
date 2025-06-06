@@ -104,7 +104,13 @@ export async function loadBlogPosts() {
 
   const posts = [];
 
-  for (const slug of blogSlugs) {
+  const sampleImages = [
+    'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80',
+    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+    'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80',
+  ];
+
+  for (const [i, slug] of blogSlugs.entries()) {
     const contentItem = await loadMarkdownFile(`/blog/${slug}.md`);
     if (contentItem) {
       posts.push({
@@ -115,6 +121,7 @@ export async function loadBlogPosts() {
         tags: contentItem.frontMatter.tags || [],
         pinned: contentItem.frontMatter.pinned || false,
         release: contentItem.frontMatter.release || false,
+        image: contentItem.frontMatter.image || sampleImages[i % sampleImages.length],
         content: contentItem.content,
       });
     }

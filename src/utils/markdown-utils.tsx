@@ -1,9 +1,7 @@
-
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vscDarkPlus, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { cn } from '@/lib/utils';
 import { Copy, CheckCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -13,6 +11,10 @@ interface MarkdownRendererProps {
   content: string;
   className?: string;
 }
+
+// Clone and override comment style for both themes
+const customVscDarkPlus = { ...vscDarkPlus, comment: { ...vscDarkPlus.comment, fontStyle: 'italic' } };
+const customOneLight = { ...oneLight, comment: { ...oneLight.comment, fontStyle: 'italic' } };
 
 export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) => {
   const { theme } = useTheme();
@@ -25,7 +27,7 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
   };
 
   const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  const syntaxTheme = isDark ? vscDarkPlus : oneLight;
+  const syntaxTheme = isDark ? customVscDarkPlus : customOneLight;
 
   return (
     <div className={cn("prose prose-lg dark:prose-invert max-w-none", className)}>
@@ -106,7 +108,10 @@ export const MarkdownRenderer = ({ content, className }: MarkdownRendererProps) 
                       backgroundColor: 'transparent',
                       fontSize: '0.875rem',
                       lineHeight: '1.7',
-                      fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+                      fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+                      '& .comment': {
+                        fontStyle: 'italic'
+                      }
                     }}
                     codeTagProps={{
                       style: {
