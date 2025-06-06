@@ -15,6 +15,7 @@ import Publications from "./pages/Publications";
 import Publication from "./pages/Publication";
 import NotFound from "./pages/NotFound";
 import { sectionConfig } from "./config/sectionConfig";
+import AuthCallback from "@/pages/AuthCallback";
 
 const queryClient = new QueryClient();
 
@@ -74,6 +75,8 @@ const App = () => (
                   <Route path="/publications/:id" element={<Navigate to="/" replace />} />
                 </>
               )}
+              
+              <Route path="/auth/callback" element={<AuthCallback />} />
               
               <Route path="*" element={<NotFound />} />
             </Routes>
