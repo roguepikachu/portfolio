@@ -64,8 +64,6 @@ export default function Blog() {
   
   const sortedPosts = useMemo(() => {
     return [...filteredPosts].sort((a, b) => {
-      if (a.pinned && !b.pinned) return -1;
-      if (!a.pinned && b.pinned) return 1;
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
   }, [filteredPosts]);
@@ -90,42 +88,6 @@ export default function Blog() {
     setSearchQuery("");
     setSelectedTags([]);
   };
-
-  // Helper to strip markdown formatting
-  function stripMarkdown(text: string) {
-    if (!text) return '';
-    return text
-      .replace(/\*\*(.*?)\*\*/g, '$1') // Bold
-      .replace(/\*(.*?)\*/g, '$1')     // Italic
-      .replace(/`(.*?)`/g, '$1')       // Code
-      .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Links
-      .replace(/#{1,6}\s/g, '')        // Headers
-      .replace(/>\s(.*)/g, '$1')       // Blockquotes
-      .replace(/\n/g, ' ')             // Newlines
-      .replace(/\s+/g, ' ')            // Multiple spaces
-      .trim();
-  }
-
-  // Helper to get a snippet with highlighted match
-  function getSnippet(text: string, query: string) {
-    if (!text || !query) return null;
-    const plainText = stripMarkdown(text);
-    const lower = plainText.toLowerCase();
-    const idx = lower.indexOf(query.toLowerCase());
-    if (idx === -1) return null;
-    const start = Math.max(0, idx - 30);
-    const end = Math.min(plainText.length, idx + query.length + 30);
-    const before = plainText.slice(start, idx);
-    const match = plainText.slice(idx, idx + query.length);
-    const after = plainText.slice(idx + query.length, end);
-    return (
-      <span className="block text-xs mt-1 text-muted-foreground">
-        ...{before}
-        <mark className="px-1 rounded bg-primary/20 text-primary dark:bg-primary/40 dark:text-primary font-semibold">{match}</mark>
-        {after}...
-      </span>
-    );
-  }
 
   if (loading) {
     return (
@@ -234,63 +196,15 @@ export default function Blog() {
         </div>
         
         {/* Blog posts grid */}
-        <div className="mt-12 space-y-10">
+        <div className="mt-12">
           {sortedPosts.length > 0 ? (
-            <>
-              <div className="grid gap-6 sm:grid-cols-2">
-                {sortedPosts.map(post => {
-                  let snippet = null;
-                  if (searchQuery) {
-                    if (post.content && post.content.toLowerCase().includes(searchQuery.toLowerCase())) {
-                      snippet = getSnippet(post.content, searchQuery);
-                    } else if (post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())) {
-                      snippet = getSnippet(post.excerpt, searchQuery);
-                    }
-                  }
-                  return (
-                    <div
-                      key={post.id}
-                      className={`group overflow-hidden rounded-lg border bg-card hover:shadow-md ${
-                        post.pinned ? 'ring-2 ring-primary/20' : ''
-                      }`}
-                    >
-                      <div className="p-6 flex flex-col h-full">
-                        {/* Pinned label (or placeholder) above the title for alignment */}
-                        {post.pinned ? (
-                          <div className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-4 self-start" style={{ minHeight: '24px' }}>
-                            Pinned
-                          </div>
-                        ) : (
-                          <div className="mb-4" style={{ minHeight: '24px' }}></div>
-                        )}
-                        <Link to={`/blog/${post.id}`}>
-                          <h2 className="blog-title text-xl font-bold hover:text-primary">{post.title}</h2>
-                        </Link>
-                        <p className="mt-2 text-muted-foreground text-sm flex-grow">{post.excerpt}</p>
-                        {snippet}
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {post.tags.map(tag => (
-                            <div key={tag} className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
-                              {tag}
-                            </div>
-                          ))}
-                        </div>
-                        <div className="mt-6 pt-4 border-t flex items-center justify-between">
-                          <div className="text-sm text-muted-foreground">
-                            {new Date(post.date).toLocaleDateString()}
-                          </div>
-                          <Button size="sm" variant="ghost" asChild>
-                            <Link to={`/blog/${post.id}`}>
-                              Read More
-                            </Link>
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </>
+            <div className="grid gap-6 sm:grid-cols-2">
+              {sortedPosts.map(post => (
+                <div key={post.id} className="h-full">
+                  <BlogPostCard post={post} className="h-full" />
+                </div>
+              ))}
+            </div>
           ) : (
             <div className="py-12 text-center">
               <p className="text-muted-foreground">No posts found matching your criteria.</p>
