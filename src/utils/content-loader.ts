@@ -9,7 +9,7 @@ interface ContentItem {
 
 export async function loadMarkdownFile(path: string): Promise<ContentItem | null> {
   try {
-    const fullPath = `/content${path}`;
+    const fullPath = `/portfolio/content${path}`;
     const response = await fetch(fullPath);
     if (!response.ok) {
       throw new Error(`Failed to load ${fullPath}`);
@@ -105,7 +105,7 @@ export async function loadBlogPosts() {
   const posts = [];
 
   for (const slug of blogSlugs) {
-    const contentItem = await loadMarkdownFile(`/content/blog/${slug}.md`);
+    const contentItem = await loadMarkdownFile(`/blog/${slug}.md`);
     if (contentItem) {
       posts.push({
         id: contentItem.frontMatter.id || slug,
@@ -129,7 +129,7 @@ export async function loadProjects() {
   const projects = [];
 
   for (const slug of projectSlugs) {
-    const contentItem = await loadMarkdownFile(`/content/projects/${slug}.md`);
+    const contentItem = await loadMarkdownFile(`/projects/${slug}.md`);
     if (contentItem) {
       projects.push({
         id: slug,
@@ -159,7 +159,7 @@ export async function loadPublications() {
   const publications = [];
 
   for (const slug of publicationSlugs) {
-    const contentItem = await loadMarkdownFile(`/content/publications/${slug}.md`);
+    const contentItem = await loadMarkdownFile(`/publications/${slug}.md`);
     if (contentItem) {
       publications.push({
         id: contentItem.frontMatter.id || slug,
