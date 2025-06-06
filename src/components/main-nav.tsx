@@ -328,6 +328,7 @@ export function MainNav() {
               )}
             </div>
             <div className="flex items-center gap-2">
+              <ThemeToggle />
               <AuthButton currentUser={currentUser} onUserChange={setCurrentUser} />
               {!hideContactButton && (
                 <div className="hidden md:block">
@@ -336,7 +337,6 @@ export function MainNav() {
                   </Button>
                 </div>
               )}
-              <ThemeToggle />
             </div>
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild className="md:hidden">
