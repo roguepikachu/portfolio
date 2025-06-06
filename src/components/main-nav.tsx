@@ -181,12 +181,12 @@ export function MainNav() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-40 border-b bg-background/80 backdrop-blur">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-6 md:gap-10">
+        <div className="container flex h-16 items-center justify-between px-4">
+          <div className="flex items-center gap-4 md:gap-6">
             <Link to="/" className="flex items-center space-x-2">
               <span className="text-xl font-bold tracking-tight">Ayush Kumar</span>
             </Link>
-            <nav className="hidden md:flex md:gap-6 items-center">
+            <nav className="hidden md:flex md:gap-4 items-center">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
@@ -203,8 +203,8 @@ export function MainNav() {
               ))}
             </nav>
           </div>
-          <div className="flex items-center gap-2 w-full max-w-xl mx-4">
-            <div className="relative w-full hidden md:block">
+          <div className="flex items-center gap-2">
+            <div className="relative w-[450px] hidden md:block">
               {location.pathname === "/" && (
                 <>
                   <span className="absolute left-5 top-1/2 -translate-y-1/2 text-primary">
@@ -327,19 +327,13 @@ export function MainNav() {
                 </>
               )}
             </div>
-            <div className="flex items-center gap-2">
-              <div className="hidden md:block">
-                <ThemeToggle />
-              </div>
-              <div className="hidden md:block">
-                <AuthButton currentUser={currentUser} onUserChange={setCurrentUser} />
-              </div>
+            <div className="hidden md:flex items-center gap-2">
+              <ThemeToggle />
+              <AuthButton currentUser={currentUser} onUserChange={setCurrentUser} />
               {!hideContactButton && (
-                <div className="hidden md:block">
-                  <Button onClick={() => setContactModalOpen(true)}>
-                    Contact
-                  </Button>
-                </div>
+                <Button onClick={() => setContactModalOpen(true)}>
+                  Contact
+                </Button>
               )}
             </div>
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -357,10 +351,6 @@ export function MainNav() {
                     </Link>
                     <div className="flex items-center gap-2">
                       <ThemeToggle />
-                      <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
-                        <X className="h-5 w-5" />
-                        <span className="sr-only">Close menu</span>
-                      </Button>
                     </div>
                   </div>
                   {location.pathname === "/" && (
