@@ -22,6 +22,16 @@ export function BlogPostCard({ post, className = '' }: BlogPostCardProps) {
         post.pinned ? 'ring-2 ring-primary/20' : ''
       }`}
     >
+      {post.image && (
+        <div className="aspect-[2/1] w-full overflow-hidden bg-muted">
+          <img
+            src={post.image}
+            alt={post.title}
+            className="w-full h-full object-cover object-center rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          />
+        </div>
+      )}
       <div className="p-6">
         <div className="flex flex-wrap items-center gap-2 mb-3">
           {post.pinned && (
