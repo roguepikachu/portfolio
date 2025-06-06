@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { loadPublications } from '@/utils/content-loader';
 import { PublicationCard } from '@/components/publication-card';
-import { Search, X } from 'lucide-react';
+import { ScrollText, Search, X } from 'lucide-react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { LoadingDots } from '../components/ui/LoadingDots';
+import { delay } from '../utils/delay';
 
 export default function Publications() {
   const [publications, setPublications] = useState([]);
@@ -18,8 +20,11 @@ export default function Publications() {
   useEffect(() => {
     const fetchPubs = async () => {
       try {
-        const pubs = await loadPublications();
-        setPublications(pubs);
+        const publications = await loadPublications();
+        setPublications(publications);
+        await delay(); // Use default delay
+      } catch (error) {
+        console.error('Error loading publications:', error);
       } finally {
         setLoading(false);
       }
@@ -110,8 +115,15 @@ export default function Publications() {
     return (
       <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
         <div className="mx-auto max-w-5xl">
-          <div className="text-center">
-            <p className="text-lg">Loading publications...</p>
+          <div className="flex flex-col items-center justify-center space-y-6">
+            <div className="relative">
+              <ScrollText className="h-16 w-16 text-primary animate-pulse" />
+            </div>
+            <div className="text-center space-y-2">
+              <h2 className="text-2xl font-semibold">Curating knowledge...</h2>
+              <p className="text-muted-foreground">Gathering the latest publications and research</p>
+            </div>
+            <LoadingDots size="md" />
           </div>
         </div>
       </div>
