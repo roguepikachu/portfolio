@@ -7,6 +7,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X, Search } from "lucide-react";
 import { ContactModal } from "./contact-modal";
 import { sectionConfig } from "@/config/sectionConfig";
+import { AuthButton } from "./auth/AuthButton";
+import { supabase } from "@/lib/supabase";
+import { User } from "@supabase/supabase-js";
 import {
   CommandDialog,
   CommandInput,
@@ -94,6 +97,7 @@ function PrettyCommandList({ children }: { children: React.ReactNode }) {
 export function MainNav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
@@ -247,7 +251,7 @@ export function MainNav() {
                                     >
                                       <div>
                                         <span className="font-medium">{post.title}</span>
-                                        <span className="ml-2 text-xs text-muted-foreground">Blog</span>
+                                        <span className="ml-2 text-xs text-muted-foreground">Blog Post</span>
                                         {snippet}
                                       </div>
                                     </button>
@@ -260,8 +264,8 @@ export function MainNav() {
                                 <div className="px-6 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase">Projects</div>
                                 {filteredProjects.map((project: any) => {
                                   let snippet = null;
-                                  if (searchQuery && project.readme && project.readme.toLowerCase().includes(searchQuery.toLowerCase())) {
-                                    snippet = getSnippet(project.readme, searchQuery);
+                                  if (searchQuery && project.content && project.content.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                    snippet = getSnippet(project.content, searchQuery);
                                   } else if (searchQuery && project.description && project.description.toLowerCase().includes(searchQuery.toLowerCase())) {
                                     snippet = getSnippet(project.description, searchQuery);
                                   }
@@ -323,14 +327,17 @@ export function MainNav() {
                 </>
               )}
             </div>
-            {!hideContactButton && (
-              <div className="hidden md:block">
-                <Button onClick={() => setContactModalOpen(true)}>
-                  Contact
-                </Button>
-              </div>
-            )}
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              <AuthButton currentUser={currentUser} onUserChange={setCurrentUser} />
+              {!hideContactButton && (
+                <div className="hidden md:block">
+                  <Button onClick={() => setContactModalOpen(true)}>
+                    Contact
+                  </Button>
+                </div>
+              )}
+              <ThemeToggle />
+            </div>
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild className="md:hidden">
                 <Button variant="ghost" size="icon" className="md:hidden">

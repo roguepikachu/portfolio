@@ -12,6 +12,7 @@ import { User } from '@supabase/supabase-js';
 
 interface CommentSectionProps {
   postId: string;
+  currentUser: User | null;
 }
 
 // Define interfaces for the data returned from Supabase
@@ -26,279 +27,56 @@ interface CommentData {
   created_at?: string;
 }
 
-export function CommentSection({ postId }: CommentSectionProps) {
+export function CommentSection({ postId, currentUser }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSupabaseConfigured, setIsSupabaseConfigured] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    // Check if Supabase is properly configured
-    const checkSupabaseConfig = async () => {
-      try {
-        const url = import.meta.env.VITE_SUPABASE_URL;
-        const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
-        
-        if (!url || !key || url === "https://your-supabase-project-url.supabase.co" || key === "your-supabase-anon-key") {
-          console.log("Supabase not configured properly");
-          setIsSupabaseConfigured(false);
-          setIsLoading(false);
-          return false;
-        }
-        
-        setIsSupabaseConfigured(true);
-        return true;
-      } catch (error) {
-        console.error("Error checking Supabase config:", error);
-        setIsSupabaseConfigured(false);
-        setIsLoading(false);
-        return false;
-      }
-    };
-    
-    const fetchData = async () => {
-      const isConfigured = await checkSupabaseConfig();
-      if (!isConfigured) return;
-      
-      try {
-        await fetchComments();
-        await checkUser();
-      } catch (error) {
-        console.error("Error initializing comments:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    fetchData();
-    
-    // Listen for auth changes if Supabase is configured
-    let authUnsubscribe: (() => void) | undefined;
-    
-    if (isSupabaseConfigured) {
-      const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
-        setCurrentUser(session?.user || null);
-        if (event === 'SIGNED_IN') {
-          fetchComments(); // Reload comments to get user likes
-        }
-      });
-      
-      // Store the unsubscribe function
-      if (data?.subscription?.unsubscribe) {
-        authUnsubscribe = data.subscription.unsubscribe;
-      }
-    }
-    
-    return () => {
-      // Cleanup subscription when component unmounts
-      if (authUnsubscribe) {
-        authUnsubscribe();
-      }
-    };
+    fetchComments();
   }, [postId]);
-  
-  const checkUser = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      setCurrentUser(user);
-    } catch (error) {
-      console.error('Error fetching user:', error);
-    }
-  };
-  
+
   const fetchComments = async () => {
-    setIsLoading(true);
     try {
-      // Get main comments
-      const { data: mainComments, error: mainError } = await supabase
+      const { data, error } = await supabase
         .from('comments')
         .select('*')
         .eq('post_id', postId)
-        .is('parent_id', null)
         .order('created_at', { ascending: false });
-          
-      if (mainError) throw mainError;
-      
-      if (!mainComments) {
-        setComments([]);
-        return;
-      }
-      
-      // Get user likes if logged in
-      const { data: { user } } = await supabase.auth.getUser();
-      let userLikes: Record<string, boolean> = {};
-      
-      if (user) {
-        const { data: likes } = await supabase
-          .from('comment_likes')
-          .select('comment_id')
-          .eq('user_id', user.id)
-          .eq('post_id', postId);
-            
-        if (likes) {
-          userLikes = likes.reduce((acc: Record<string, boolean>, like: { comment_id: string }) => {
-            acc[like.comment_id] = true;
-            return acc;
-          }, {});
-        }
-      }
-      
-      // Get replies for each comment
-      const commentsWithReplies = await Promise.all(
-        (mainComments as unknown as CommentData[]).map(async (comment: CommentData) => {
-          const { data: replies } = await supabase
-            .from('comments')
-            .select('*')
-            .eq('parent_id', comment.id)
-            .order('created_at', { ascending: true });
-              
-          const repliesWithLikes = (replies as unknown as CommentData[])?.map((reply: CommentData) => ({
-            id: String(reply.id),
-            author: String(reply.author),
-            user_id: String(reply.user_id),
-            content: String(reply.content),
-            likes: Number(reply.likes),
-            post_id: String(reply.post_id),
-            parent_id: reply.parent_id ? String(reply.parent_id) : null,
-            userHasLiked: userLikes[reply.id] || false,
-            replies: [],
-            date: reply.created_at ? String(reply.created_at) : String(new Date().toISOString())
-          })) || [];
-            
-          return {
-            id: String(comment.id),
-            author: String(comment.author),
-            user_id: String(comment.user_id),
-            content: String(comment.content),
-            likes: Number(comment.likes),
-            post_id: String(comment.post_id),
-            userHasLiked: userLikes[comment.id] || false,
-            replies: repliesWithLikes,
-            date: comment.created_at ? String(comment.created_at) : String(new Date().toISOString())
-          };
-        })
-      );
-      
-      setComments(commentsWithReplies as Comment[]);
+
+      if (error) throw error;
+      setComments(data || []);
     } catch (error) {
       console.error('Error fetching comments:', error);
-      toast.error('Failed to load comments');
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
-  
-  const handleCommentSubmit = async (e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newComment.trim() || !currentUser) return;
-    
-    setIsSubmitting(true);
+    if (!currentUser) return;
+
+    setSubmitting(true);
     try {
-      // Insert comment into database
-      const { data, error } = await supabase
-        .from('comments')
-        .insert({
+      const { error } = await supabase.from('comments').insert([
+        {
           post_id: postId,
           user_id: currentUser.id,
           content: newComment,
-          author: currentUser.user_metadata?.full_name || 
-                  currentUser.user_metadata?.name || 
-                  currentUser.email?.split('@')[0] || 'User',
-          likes: 0
-        })
-        .select();
-        
-      if (error) {
-        console.error('Error details:', error);
-        throw error;
-      }
-      
-      if (!data || data.length === 0) {
-        throw new Error('No data returned after comment insertion');
-      }
-      
-      // Add new comment to state with proper type casting
-      const newCommentObj: Comment = {
-        id: String(data[0].id),
-        author: String(data[0].author),
-        user_id: String(data[0].user_id),
-        content: String(data[0].content),
-        likes: Number(data[0].likes),
-        post_id: String(data[0].post_id),
-        userHasLiked: false,
-        replies: [],
-        date: data[0].created_at ? String(data[0].created_at) : String(new Date().toISOString())
-      };
-      
-      setComments(prev => [newCommentObj, ...prev]);
+          parent_id: null,
+        },
+      ]);
+
+      if (error) throw error;
+
       setNewComment('');
-      toast.success('Comment added successfully');
+      fetchComments();
     } catch (error) {
-      console.error('Error adding comment:', error);
-      toast.error('Failed to add comment');
+      console.error('Error submitting comment:', error);
     } finally {
-      setIsSubmitting(false);
-    }
-  };
-  
-  const handleReplySubmit = async (parentId: string, content: string) => {
-    if (!content.trim() || !currentUser) return;
-    
-    try {
-      // Insert reply into database
-      const { data, error } = await supabase
-        .from('comments')
-        .insert({
-          post_id: postId,
-          parent_id: parentId,
-          user_id: currentUser.id,
-          content: content,
-          author: currentUser.user_metadata?.full_name || 
-                  currentUser.user_metadata?.name || 
-                  currentUser.email?.split('@')[0] || 'User',
-          likes: 0
-        })
-        .select();
-        
-      if (error) {
-        console.error('Reply error details:', error);
-        throw error;
-      }
-      
-      if (!data || data.length === 0) {
-        throw new Error('No data returned after reply insertion');
-      }
-      
-      // Add reply to state with proper type casting
-      const newReply: Comment = {
-        id: String(data[0].id),
-        author: String(data[0].author),
-        user_id: String(data[0].user_id),
-        content: String(data[0].content),
-        likes: Number(data[0].likes),
-        post_id: String(data[0].post_id),
-        parent_id: data[0].parent_id ? String(data[0].parent_id) : undefined,
-        userHasLiked: false,
-        replies: [],
-        date: data[0].created_at ? String(data[0].created_at) : String(new Date().toISOString())
-      };
-      
-      setComments(prev => prev.map(comment => {
-        if (comment.id === parentId) {
-          return {
-            ...comment,
-            replies: [...comment.replies, newReply]
-          };
-        }
-        return comment;
-      }));
-      
-      toast.success('Reply added successfully');
-    } catch (error) {
-      console.error('Error adding reply:', error);
-      toast.error('Failed to add reply');
+      setSubmitting(false);
     }
   };
 
@@ -307,61 +85,49 @@ export function CommentSection({ postId }: CommentSectionProps) {
       <Separator className="my-8" />
       <h2 className="text-2xl font-bold flex items-center gap-2">
         <MessageCircle className="h-5 w-5" />
-        Comments ({isLoading ? '...' : comments.length})
+        Comments ({loading ? '...' : comments.length})
       </h2>
       
-      {!isSupabaseConfigured ? (
-        <div className="mt-6 p-6 border rounded-lg bg-muted/50">
-          <h3 className="text-lg font-medium mb-4">Comments not available</h3>
-          <p className="text-muted-foreground">
-            Supabase is not configured properly. Please set your VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY 
-            environment variables to enable comments.
-          </p>
-        </div>
-      ) : (
-        <>
-          {/* Authentication section */}
-          <AuthSection currentUser={currentUser} onUserChange={setCurrentUser} />
-          
-          {/* Add comment form */}
-          {currentUser && (
-            <form onSubmit={handleCommentSubmit} className="mt-4">
-              <div className="space-y-4">
-                <Textarea 
-                  placeholder="Write a comment... Markdown and code blocks are supported."
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  className="min-h-[100px]"
-                />
-                <div className="flex items-center justify-end">
-                  <Button type="submit" disabled={!newComment.trim() || isSubmitting}>
-                    {isSubmitting ? 'Submitting...' : 'Submit Comment'}
-                  </Button>
-                </div>
-              </div>
-            </form>
-          )}
-          
-          {/* Display comments */}
-          <div className="mt-8 space-y-8">
-            {isLoading ? (
-              <p className="text-center text-muted-foreground">Loading comments...</p>
-            ) : comments.length > 0 ? (
-              comments.map((comment) => (
-                <BlogComment
-                  key={comment.id}
-                  comment={comment}
-                  currentUser={currentUser}
-                  postId={postId}
-                  onReplySubmit={handleReplySubmit}
-                />
-              ))
-            ) : (
-              <p className="text-center text-muted-foreground">No comments yet. Be the first to comment!</p>
-            )}
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Comments</h2>
+        {currentUser ? (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Write a comment..."
+              className="min-h-[100px]"
+              required
+            />
+            <Button type="submit" disabled={submitting}>
+              {submitting ? "Posting..." : "Post Comment"}
+            </Button>
+          </form>
+        ) : (
+          <div className="text-center py-4 text-muted-foreground">
+            Please sign in to leave a comment.
           </div>
-        </>
-      )}
+        )}
+      </div>
+      
+      {/* Display comments */}
+      <div className="mt-8 space-y-8">
+        {loading ? (
+          <p className="text-center text-muted-foreground">Loading comments...</p>
+        ) : comments.length > 0 ? (
+          comments.map((comment) => (
+            <BlogComment
+              key={comment.id}
+              comment={comment}
+              currentUser={currentUser}
+              postId={postId}
+              onCommentUpdate={fetchComments}
+            />
+          ))
+        ) : (
+          <p className="text-center text-muted-foreground">No comments yet. Be the first to comment!</p>
+        )}
+      </div>
     </section>
   );
 }
