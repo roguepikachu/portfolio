@@ -115,10 +115,13 @@ export default function Projects() {
               }`}
             >
               <div className="p-6 flex flex-col h-full">
-                {project.featured && (
-                  <div className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-4 self-start">
+                {/* Featured label (or placeholder) above the title for alignment */}
+                {project.featured ? (
+                  <div className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-4 self-start" style={{ minHeight: '24px' }}>
                     Featured
                   </div>
+                ) : (
+                  <div className="mb-4" style={{ minHeight: '24px' }}></div>
                 )}
                 <Link to={`/projects/${project.id}`}>
                   <h2 className="project-title text-xl font-bold hover:text-primary">{project.title}</h2>
