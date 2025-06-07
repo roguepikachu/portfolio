@@ -1,4 +1,5 @@
 
+
 import { useState, useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { MessageCircle } from 'lucide-react';
@@ -47,8 +48,9 @@ export function CommentSection({ postId, currentUser }: CommentSectionProps) {
 
       if (error) throw error;
       
-      // Map Supabase data to Comment interface
-      const mappedComments: Comment[] = (data || []).map((item: CommentData) => ({
+      // Cast the data to CommentData[] and map to Comment interface
+      const rawComments = (data || []) as CommentData[];
+      const mappedComments: Comment[] = rawComments.map((item) => ({
         id: item.id,
         author: item.author || 'Anonymous',
         user_id: item.user_id,
@@ -146,3 +148,4 @@ export function CommentSection({ postId, currentUser }: CommentSectionProps) {
     </section>
   );
 }
+
