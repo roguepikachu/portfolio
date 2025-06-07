@@ -10,6 +10,7 @@ import { sectionConfig } from "@/config/sectionConfig";
 import { AuthButton } from "./auth/AuthButton";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   CommandDialog,
   CommandInput,
@@ -183,7 +184,11 @@ export function MainNav() {
       <header className="fixed top-0 left-0 right-0 z-40 border-b bg-background/80 backdrop-blur">
         <div className="container flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-4 md:gap-6">
-            <Link to="/" className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-3">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src="/placeholder.svg" alt="Ayush Kumar" />
+                <AvatarFallback className="bg-primary text-primary-foreground font-semibold">AK</AvatarFallback>
+              </Avatar>
               <span className="text-xl font-bold tracking-tight">Ayush Kumar</span>
             </Link>
             <nav className="hidden md:flex md:gap-4 items-center">
@@ -346,7 +351,11 @@ export function MainNav() {
               <SheetContent side="right" className="w-full sm:max-w-xs">
                 <div className="flex flex-col gap-6 pt-6">
                   <div className="flex items-center justify-between">
-                    <Link to="/" className="flex items-center space-x-2" onClick={() => setMobileMenuOpen(false)}>
+                    <Link to="/" className="flex items-center space-x-3" onClick={() => setMobileMenuOpen(false)}>
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src="/placeholder.svg" alt="Ayush Kumar" />
+                        <AvatarFallback className="bg-primary text-primary-foreground font-semibold">AK</AvatarFallback>
+                      </Avatar>
                       <span className="text-xl font-bold">Ayush Kumar</span>
                     </Link>
                     <div className="flex items-center gap-2">

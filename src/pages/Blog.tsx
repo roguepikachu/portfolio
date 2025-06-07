@@ -1,3 +1,4 @@
+
 import { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,6 @@ import { Search, X, BookOpen } from "lucide-react";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -118,34 +118,65 @@ export default function Blog() {
           </p>
         </div>
         
-        {/* Search and filters */}
+        {/* Filters */}
         <div className="mt-8 space-y-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search posts..."
-              className="pl-10"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            {searchQuery && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2"
-                onClick={() => setSearchQuery("")}
-              >
-                <X className="h-4 w-4" />
-                <span className="sr-only">Clear search</span>
-              </Button>
-            )}
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="relative flex-1">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search posts..."
+                className="pl-8"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2"
+                  onClick={() => setSearchQuery("")}
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Clear search</span>
+                </Button>
+              )}
+            </div>
+            <div className="w-full sm:w-[180px]">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-medium sm:hidden">Filter by tag</h3>
+                {selectedTags.length > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-xs hover:bg-transparent hover:underline sm:hidden"
+                    onClick={() => setSelectedTags([])}
+                  >
+                    Clear ({selectedTags.length})
+                  </Button>
+                )}
+              </div>
+              <Select onValueChange={handleTagSelect}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Filter by tag" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Tags</SelectItem>
+                  {allTags.map(tag => (
+                    <SelectItem key={tag} value={tag}>
+                      {tag} {selectedTags.includes(tag) && '✓'}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-          
-          <div>
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium">Filter by tag</h3>
-              {selectedTags.length > 0 && (
+
+          {/* Selected tags */}
+          {selectedTags.length > 0 && (
+            <div>
+              <div className="hidden sm:flex items-center justify-between">
+                <h3 className="text-sm font-medium">Selected tags</h3>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -154,31 +185,8 @@ export default function Blog() {
                 >
                   Clear ({selectedTags.length})
                 </Button>
-              )}
-            </div>
-            
-            {/* Tag dropdown */}
-            <div className="mt-2">
-              <Select onValueChange={handleTagSelect}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a tag to filter" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="all">All Tags</SelectItem>
-                    {allTags.map(tag => (
-                      <SelectItem key={tag} value={tag}>
-                        {tag} {selectedTags.includes(tag) && "✓"}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            {/* Selected tags */}
-            {selectedTags.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-2">
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2">
                 {selectedTags.map(tag => (
                   <Badge
                     key={tag}
@@ -191,8 +199,8 @@ export default function Blog() {
                   </Badge>
                 ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
         
         {/* Blog posts grid */}
