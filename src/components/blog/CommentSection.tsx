@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { MessageCircle } from 'lucide-react';
@@ -5,7 +6,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { BlogComment } from '@/components/blog/BlogComment';
-import { AuthSection } from '@/components/blog/AuthSection';
 import { supabase } from '@/lib/supabase';
 import { Comment } from '@/types/blog';
 import { User } from '@supabase/supabase-js';
@@ -46,7 +46,23 @@ export function CommentSection({ postId, currentUser }: CommentSectionProps) {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setComments(data || []);
+      
+      // Map Supabase data to Comment interface
+      const mappedComments: Comment[] = (data || []).map((item: CommentData) => ({
+        id: item.id,
+        author: item.author || 'Anonymous',
+        user_id: item.user_id,
+        content: item.content,
+        date: item.created_at || new Date().toISOString(),
+        created_at: item.created_at,
+        likes: item.likes || 0,
+        replies: [], // Initialize empty replies array
+        userHasLiked: false, // This would need to be determined by checking user likes
+        parent_id: item.parent_id,
+        post_id: item.post_id
+      }));
+      
+      setComments(mappedComments);
     } catch (error) {
       console.error('Error fetching comments:', error);
     } finally {
@@ -121,7 +137,6 @@ export function CommentSection({ postId, currentUser }: CommentSectionProps) {
               comment={comment}
               currentUser={currentUser}
               postId={postId}
-              onCommentUpdate={fetchComments}
             />
           ))
         ) : (
