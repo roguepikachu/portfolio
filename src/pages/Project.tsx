@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Github, Code2 } from 'lucide-react';
 import { MarkdownRenderer } from '@/utils/markdown-utils';
 import { VotingButtons } from '@/components/VotingButtons';
 import { loadProjects } from '@/utils/content-loader';
@@ -53,9 +53,15 @@ export default function Project() {
   if (loading) {
     return (
       <div className="container py-16 flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <p className="text-xl">Loading project...</p>
-          <LoadingDots size="sm" />
+        <div className="flex flex-col items-center space-y-6">
+          <div className="relative">
+            <Code2 className="h-16 w-16 text-primary animate-bounce" />
+          </div>
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-semibold">Compiling project...</h2>
+            <p className="text-muted-foreground">Executing code and loading features</p>
+          </div>
+          <LoadingDots size="lg" />
         </div>
       </div>
     );
