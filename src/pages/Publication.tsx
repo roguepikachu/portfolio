@@ -1,3 +1,4 @@
+
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { loadPublications } from '@/utils/content-loader';
@@ -45,7 +46,7 @@ export default function Publication() {
       <div className="container py-16 flex items-center justify-center">
         <div className="flex flex-col items-center space-y-6">
           <div className="relative">
-            <BookOpen className="h-16 w-16 text-primary animate-spin" />
+            <BookOpen className="h-16 w-16 text-primary animate-pulse" />
           </div>
           <div className="text-center space-y-2">
             <h2 className="text-2xl font-semibold">Analyzing research...</h2>
