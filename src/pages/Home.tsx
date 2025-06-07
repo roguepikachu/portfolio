@@ -49,18 +49,18 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="flex flex-col min-h-screen items-center justify-center">
-        <div className="text-center space-y-6">
-          <div className="relative">
-            <Sparkles className="h-20 w-20 text-primary animate-pulse mx-auto" />
+      <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
+        <div className="mx-auto max-w-5xl">
+          <div className="flex flex-col items-center justify-center space-y-6">
+            <div className="relative">
+              <Sparkles className="h-16 w-16 text-primary animate-pulse" />
+            </div>
+            <div className="text-center space-y-2">
+              <h2 className="text-2xl font-semibold">Crafting digital experiences...</h2>
+              <p className="text-muted-foreground">Loading the portfolio with passion, creativity, and a touch of magic</p>
+            </div>
+            <LoadingDots size="md" />
           </div>
-          <div className="space-y-2">
-            <h2 className="text-3xl font-bold">Crafting digital experiences...</h2>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              Loading the portfolio with passion, creativity, and a touch of magic
-            </p>
-          </div>
-          <LoadingDots size="md" />
         </div>
       </div>
     );
