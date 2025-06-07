@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { MessageCircle } from 'lucide-react';
@@ -48,8 +46,8 @@ export function CommentSection({ postId, currentUser }: CommentSectionProps) {
 
       if (error) throw error;
       
-      // Cast the data to CommentData[] and map to Comment interface
-      const rawComments = (data || []) as CommentData[];
+      // Cast through unknown first, then map to Comment interface
+      const rawComments = (data || []) as unknown as CommentData[];
       const mappedComments: Comment[] = rawComments.map((item) => ({
         id: item.id,
         author: item.author || 'Anonymous',
@@ -148,4 +146,3 @@ export function CommentSection({ postId, currentUser }: CommentSectionProps) {
     </section>
   );
 }
-
