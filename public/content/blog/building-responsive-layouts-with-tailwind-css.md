@@ -4,6 +4,7 @@ title: Building Responsive Layouts with Tailwind CSS
 excerpt: Learn how to create beautiful, responsive layouts using Tailwind CSS utility classes and responsive design principles.
 date: 2024-03-10
 tags: [CSS, Tailwind, Design, Responsive]
+image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80'
 pinned: false
 release: true
 ---
