@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { loadPublications } from '@/utils/content-loader';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ScrollText, Calendar, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Calendar, ExternalLink, BookOpen } from 'lucide-react';
 import { Publication as PublicationType } from '@/types/publication';
 import { MarkdownRenderer } from '@/utils/markdown-utils';
 import { VotingButtons } from '@/components/VotingButtons';
@@ -45,13 +45,13 @@ export default function Publication() {
       <div className="container py-16 flex items-center justify-center">
         <div className="flex flex-col items-center space-y-6">
           <div className="relative">
-            <ScrollText className="h-16 w-16 text-primary animate-pulse" />
+            <BookOpen className="h-16 w-16 text-primary animate-spin" />
           </div>
           <div className="text-center space-y-2">
-            <h2 className="text-2xl font-semibold">Reading research...</h2>
-            <p className="text-muted-foreground">Loading publication details</p>
+            <h2 className="text-2xl font-semibold">Analyzing research...</h2>
+            <p className="text-muted-foreground">Processing academic content and insights</p>
           </div>
-          <LoadingDots size="md" />
+          <LoadingDots size="sm" />
         </div>
       </div>
     );
