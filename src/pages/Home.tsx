@@ -75,21 +75,29 @@ export default function Home() {
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  Developer, Designer, Writer
+                  Researcher, Developer, Writer
                 </h1>
                 <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Hi, I'm Ayush Kumar. I build accessible, responsive web applications and write about web development, design, and tech.
+                  Hi, I’m Ayush Kumar — a software engineer with a witty knack for building scalable, resilient backend systems centered on
+                  microservices and cloud infrastructure. I bring a bias for minimalism and opinionated, clean code to design efficient and
+                  maintainable distributed architectures.
+                </p>
+                <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400 mt-4">
+                  Beyond my direct work, I'm deeply engaged in academic discussions about AI and love contributing to the broader
+                  conversation around it. I also write regularly about backend development, cloud technologies, and whatever new trends are
+                  shaping the tech landscape.
                 </p>
               </div>
+              <br />
               <div className="flex flex-col sm:flex-row gap-2">
                 <Button asChild className="inline-flex items-center">
-                  <a href="https://github.com/" target="_blank" rel="noopener noreferrer">
+                  <a href="https://github.com/roguepikachu" target="_blank" rel="noopener noreferrer">
                     <Github className="mr-2 h-4 w-4" />
                     GitHub Profile
                   </a>
                 </Button>
                 <Button asChild variant="outline">
-                  <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.linkedin.com/in/cs-ayush-kumar/" target="_blank" rel="noopener noreferrer">
                     <Linkedin className="mr-2 h-4 w-4" />
                     LinkedIn
                   </a>
