@@ -1,8 +1,10 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Github, Search, ExternalLink, Folder, Code2, Loader2 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Github, Search, ExternalLink, Folder, Code2, Loader2, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Project } from '@/types/project';
 import { loadProjects } from '@/utils/content-loader';
@@ -13,7 +15,7 @@ export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTag, setSelectedTag] = useState<string>('all');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   useEffect(() => {
     const loadProjectsData = async () => {
@@ -42,10 +44,28 @@ export default function Projects() {
       (project.readme && project.readme.toLowerCase().includes(searchQuery.toLowerCase())) ||
       project.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    const matchesTag = selectedTag === 'all' || project.tags.includes(selectedTag);
+    const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => project.tags.includes(tag));
 
-    return matchesSearch && matchesTag;
+    return matchesSearch && matchesTags;
   });
+
+  // Toggle tag selection
+  const toggleTag = (tag: string) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter(t => t !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
+    }
+  };
+
+  // Handle tag selection from dropdown
+  const handleTagSelect = (value: string) => {
+    if (value === 'all') {
+      setSelectedTags([]);
+    } else {
+      toggleTag(value);
+    }
+  };
 
   // Helper to strip markdown formatting
   function stripMarkdown(text: string) {
@@ -113,30 +133,88 @@ export default function Projects() {
         </div>
 
         {/* Filters */}
-        <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-          <div className="relative flex-1">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search projects..."
-              className="pl-8"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-            />
+        <div className="mt-8 space-y-6">
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="relative flex-1">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search projects..."
+                className="pl-8"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2"
+                  onClick={() => setSearchQuery('')}
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Clear search</span>
+                </Button>
+              )}
+            </div>
+            <div className="w-full sm:w-[180px]">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-medium sm:hidden">Filter by tag</h3>
+                {selectedTags.length > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-xs hover:bg-transparent hover:underline sm:hidden"
+                    onClick={() => setSelectedTags([])}
+                  >
+                    Clear ({selectedTags.length})
+                  </Button>
+                )}
+              </div>
+              <Select onValueChange={handleTagSelect}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Filter by tag" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Tags</SelectItem>
+                  {allTags.map(tag => (
+                    <SelectItem key={tag} value={tag}>
+                      {tag} {selectedTags.includes(tag) && '✓'}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-          <Select value={selectedTag} onValueChange={setSelectedTag}>
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Filter by tag" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Tags</SelectItem>
-              {allTags.map(tag => (
-                <SelectItem key={tag} value={tag}>
-                  {tag}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+
+          {/* Selected tags */}
+          {selectedTags.length > 0 && (
+            <div>
+              <div className="hidden sm:flex items-center justify-between">
+                <h3 className="text-sm font-medium">Selected tags</h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 text-xs hover:bg-transparent hover:underline"
+                  onClick={() => setSelectedTags([])}
+                >
+                  Clear ({selectedTags.length})
+                </Button>
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {selectedTags.map(tag => (
+                  <Badge
+                    key={tag}
+                    variant="default"
+                    className="cursor-pointer"
+                    onClick={() => toggleTag(tag)}
+                  >
+                    {tag}
+                    <X className="ml-1 h-3 w-3" />
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Project Grid */}
@@ -207,7 +285,7 @@ export default function Projects() {
               variant="link"
               onClick={() => {
                 setSearchQuery('');
-                setSelectedTag('all');
+                setSelectedTags([]);
               }}
             >
               Clear filters
