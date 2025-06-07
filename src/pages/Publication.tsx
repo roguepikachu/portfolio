@@ -1,10 +1,9 @@
-
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { loadPublications } from '@/utils/content-loader';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, ExternalLink, BookOpen } from 'lucide-react';
+import { ArrowLeft, Calendar, ExternalLink, GraduationCap } from 'lucide-react';
 import { Publication as PublicationType } from '@/types/publication';
 import { MarkdownRenderer } from '@/utils/markdown-utils';
 import { VotingButtons } from '@/components/VotingButtons';
@@ -43,16 +42,18 @@ export default function Publication() {
 
   if (loading) {
     return (
-      <div className="container py-16 flex items-center justify-center">
-        <div className="flex flex-col items-center space-y-6">
-          <div className="relative">
-            <BookOpen className="h-16 w-16 text-primary animate-pulse" />
+      <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
+        <div className="mx-auto max-w-5xl">
+          <div className="flex flex-col items-center justify-center space-y-6">
+            <div className="relative">
+              <GraduationCap className="h-16 w-16 text-primary animate-pulse" />
+            </div>
+            <div className="text-center space-y-2">
+              <h2 className="text-2xl font-semibold">Loading publication...</h2>
+              <p className="text-muted-foreground">Preparing academic content and insights</p>
+            </div>
+            <LoadingDots size="md" />
           </div>
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl font-semibold">Analyzing research...</h2>
-            <p className="text-muted-foreground">Processing academic content and insights</p>
-          </div>
-          <LoadingDots size="sm" />
         </div>
       </div>
     );
