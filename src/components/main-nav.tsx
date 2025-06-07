@@ -1,16 +1,16 @@
-import { useState, useEffect, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X, Search } from "lucide-react";
-import { ContactModal } from "./contact-modal";
-import { sectionConfig } from "@/config/sectionConfig";
-import { AuthButton } from "./auth/AuthButton";
-import { supabase } from "@/lib/supabase";
-import { User } from "@supabase/supabase-js";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useState, useEffect, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Menu, X, Search } from 'lucide-react';
+import { ContactModal } from './contact-modal';
+import { sectionConfig } from '@/config/sectionConfig';
+import { AuthButton } from './auth/AuthButton';
+import { supabase } from '@/lib/supabase';
+import { User } from '@supabase/supabase-js';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   CommandDialog,
   CommandInput,
@@ -18,23 +18,23 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandItem,
-  CommandSeparator
+  CommandSeparator,
 } from '@/components/ui/command';
 import { loadBlogPosts, loadProjects, loadPublications } from '@/utils/content-loader';
+// Import the pikachu image
+import pikachuImage from '/pikachu.jpeg';
 
 // Base navigation items
 const baseNavItems = [
-  { name: "Home", href: "/" },
-  { name: "Projects", href: "/projects", configKey: "projects" },
-  { name: "Publications", href: "/publications", configKey: "publications" },
-  { name: "Blog", href: "/blog", configKey: "blog" },
-  { name: "About", href: "/about" },
+  { name: 'Home', href: '/' },
+  { name: 'Projects', href: '/projects', configKey: 'projects' },
+  { name: 'Publications', href: '/publications', configKey: 'publications' },
+  { name: 'Blog', href: '/blog', configKey: 'blog' },
+  { name: 'About', href: '/about' },
 ];
 
 // Filter nav items based on section config
-const navItems = baseNavItems.filter(item => 
-  !item.configKey || sectionConfig[item.configKey as keyof typeof sectionConfig]
-);
+const navItems = baseNavItems.filter(item => !item.configKey || sectionConfig[item.configKey as keyof typeof sectionConfig]);
 
 // Helper to get a snippet with highlighted match
 function getSnippet(text: string, query: string) {
@@ -88,9 +88,7 @@ function MinimalSearchBar({ value, onChange }: { value: string; onChange: (v: st
 function PrettyCommandList({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex justify-center w-full">
-      <div className="w-full max-w-2xl mt-2 rounded-2xl bg-background/95 shadow-2xl border border-border overflow-hidden">
-        {children}
-      </div>
+      <div className="w-full max-w-2xl mt-2 rounded-2xl bg-background/95 shadow-2xl border border-border overflow-hidden">{children}</div>
     </div>
   );
 }
@@ -113,16 +111,12 @@ export function MainNav() {
   };
 
   // Check if we're on the Home or About page to hide the contact button
-  const hideContactButton = location.pathname === "/" || location.pathname === "/about";
+  const hideContactButton = location.pathname === '/' || location.pathname === '/about';
 
   // Load all content for search (on mount)
   useEffect(() => {
     setLoading(true);
-    Promise.all([
-      loadBlogPosts(),
-      loadProjects(),
-      loadPublications()
-    ]).then(([posts, projects, publications]) => {
+    Promise.all([loadBlogPosts(), loadProjects(), loadPublications()]).then(([posts, projects, publications]) => {
       setSearchResults({ posts, projects, publications });
       setLoading(false);
     });
@@ -130,27 +124,30 @@ export function MainNav() {
 
   // Filtered results
   const filteredPosts = searchQuery
-    ? searchResults.posts.filter((p: any) =>
-        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (p.excerpt && p.excerpt.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (p.tags && p.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()))) ||
-        (p.content && p.content.toLowerCase().includes(searchQuery.toLowerCase()))
+    ? searchResults.posts.filter(
+        (p: any) =>
+          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (p.excerpt && p.excerpt.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (p.tags && p.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()))) ||
+          (p.content && p.content.toLowerCase().includes(searchQuery.toLowerCase()))
       )
     : [];
   const filteredProjects = searchQuery
-    ? searchResults.projects.filter((p: any) =>
-        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (p.tags && p.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()))) ||
-        (p.readme && p.readme.toLowerCase().includes(searchQuery.toLowerCase()))
+    ? searchResults.projects.filter(
+        (p: any) =>
+          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (p.tags && p.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()))) ||
+          (p.readme && p.readme.toLowerCase().includes(searchQuery.toLowerCase()))
       )
     : [];
   const filteredPublications = searchQuery
-    ? searchResults.publications.filter((p: any) =>
-        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (p.summary && p.summary.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (p.tags && p.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()))) ||
-        (p.content && p.content.toLowerCase().includes(searchQuery.toLowerCase()))
+    ? searchResults.publications.filter(
+        (p: any) =>
+          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (p.summary && p.summary.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (p.tags && p.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()))) ||
+          (p.content && p.content.toLowerCase().includes(searchQuery.toLowerCase()))
       )
     : [];
 
@@ -186,21 +183,19 @@ export function MainNav() {
           <div className="flex items-center gap-4 md:gap-6">
             <Link to="/" className="flex items-center space-x-3">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder.svg" alt="Ayush Kumar" />
+                <AvatarImage src={pikachuImage} alt="Ayush Kumar" />
                 <AvatarFallback className="bg-primary text-primary-foreground font-semibold">AK</AvatarFallback>
               </Avatar>
               <span className="text-xl font-bold tracking-tight">Ayush Kumar</span>
             </Link>
             <nav className="hidden md:flex md:gap-4 items-center">
-              {navItems.map((item) => (
+              {navItems.map(item => (
                 <Link
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    "animated-underline text-sm font-medium transition-colors hover:text-foreground/80",
-                    isActiveRoute(item.href)
-                      ? "text-foreground"
-                      : "text-foreground/60"
+                    'animated-underline text-sm font-medium transition-colors hover:text-foreground/80',
+                    isActiveRoute(item.href) ? 'text-foreground' : 'text-foreground/60'
                   )}
                 >
                   {item.name}
@@ -210,7 +205,7 @@ export function MainNav() {
           </div>
           <div className="flex items-center gap-2">
             <div className="relative w-[450px] hidden xl:block">
-              {location.pathname === "/" && (
+              {location.pathname === '/' && (
                 <>
                   <span className="absolute left-5 top-1/2 -translate-y-1/2 text-primary">
                     <Search className="h-5 w-5" />
@@ -241,7 +236,11 @@ export function MainNav() {
                                   let snippet = null;
                                   if (searchQuery && post.content && post.content.toLowerCase().includes(searchQuery.toLowerCase())) {
                                     snippet = getSnippet(post.content, searchQuery);
-                                  } else if (searchQuery && post.excerpt && post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                  } else if (
+                                    searchQuery &&
+                                    post.excerpt &&
+                                    post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+                                  ) {
                                     snippet = getSnippet(post.excerpt, searchQuery);
                                   }
                                   return (
@@ -271,7 +270,11 @@ export function MainNav() {
                                   let snippet = null;
                                   if (searchQuery && project.content && project.content.toLowerCase().includes(searchQuery.toLowerCase())) {
                                     snippet = getSnippet(project.content, searchQuery);
-                                  } else if (searchQuery && project.description && project.description.toLowerCase().includes(searchQuery.toLowerCase())) {
+                                  } else if (
+                                    searchQuery &&
+                                    project.description &&
+                                    project.description.toLowerCase().includes(searchQuery.toLowerCase())
+                                  ) {
                                     snippet = getSnippet(project.description, searchQuery);
                                   }
                                   return (
@@ -335,11 +338,7 @@ export function MainNav() {
             <div className="hidden md:flex items-center gap-2">
               <ThemeToggle />
               <AuthButton currentUser={currentUser} onUserChange={setCurrentUser} />
-              {!hideContactButton && (
-                <Button onClick={() => setContactModalOpen(true)}>
-                  Contact
-                </Button>
-              )}
+              {!hideContactButton && <Button onClick={() => setContactModalOpen(true)}>Contact</Button>}
             </div>
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild className="xl:hidden">
@@ -353,7 +352,7 @@ export function MainNav() {
                   <div className="flex items-center justify-between">
                     <Link to="/" className="flex items-center space-x-3" onClick={() => setMobileMenuOpen(false)}>
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src="/placeholder.svg" alt="Ayush Kumar" />
+                        <AvatarImage src={pikachuImage} alt="Ayush Kumar" />
                         <AvatarFallback className="bg-primary text-primary-foreground font-semibold">AK</AvatarFallback>
                       </Avatar>
                       <span className="text-xl font-bold">Ayush Kumar</span>
@@ -362,7 +361,7 @@ export function MainNav() {
                       <ThemeToggle />
                     </div>
                   </div>
-                  {location.pathname === "/" && (
+                  {location.pathname === '/' && (
                     <div className="relative w-full">
                       <span className="absolute left-5 top-1/2 -translate-y-1/2 text-primary">
                         <Search className="h-5 w-5" />
@@ -457,13 +456,13 @@ export function MainNav() {
                     </div>
                   )}
                   <div className="flex flex-col gap-4">
-                    {navItems.map((item) => (
+                    {navItems.map(item => (
                       <Link
                         key={item.name}
                         to={item.href}
                         className={cn(
-                          "text-foreground/60 hover:text-foreground text-sm font-medium transition-colors",
-                          isActiveRoute(item.href) && "text-foreground"
+                          'text-foreground/60 hover:text-foreground text-sm font-medium transition-colors',
+                          isActiveRoute(item.href) && 'text-foreground'
                         )}
                         onClick={() => setMobileMenuOpen(false)}
                       >
@@ -471,8 +470,8 @@ export function MainNav() {
                       </Link>
                     ))}
                     {!hideContactButton && (
-                      <Button 
-                        className="w-full mt-4" 
+                      <Button
+                        className="w-full mt-4"
                         onClick={() => {
                           setContactModalOpen(true);
                           setMobileMenuOpen(false);
