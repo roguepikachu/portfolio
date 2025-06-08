@@ -1,4 +1,3 @@
-
 import { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -64,6 +63,11 @@ export default function Blog() {
   
   const sortedPosts = useMemo(() => {
     return [...filteredPosts].sort((a, b) => {
+      // First sort by featured status (featured items first)
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      
+      // Then sort by date (newest first)
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
   }, [filteredPosts]);
