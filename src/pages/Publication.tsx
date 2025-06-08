@@ -157,7 +157,7 @@ export default function Publication() {
                   key={pub.id}
                   className="block group rounded-lg border bg-card p-6 shadow-sm transition-colors hover:bg-muted"
                 >
-                  <h3 className="font-medium group-hover:text-primary transition-colors">{pub.title}</h3>
+                    <h2 className="font-bold group-hover:text-primary transition-colors">{pub.title}</h2>
                   <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{pub.summary}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {pub.tags.slice(0, 2).map(tag => (
