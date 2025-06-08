@@ -118,10 +118,10 @@ export default function Blog() {
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Blog</h1>
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed dark:text-gray-400">
-            Thoughts, insights, and technical guides on web development
+            Sharing ideas, insights, and lessons learned from navigating the tech world.
           </p>
         </div>
-        
+
         {/* Filters */}
         <div className="mt-8 space-y-6">
           <div className="flex flex-col gap-4 sm:flex-row">
@@ -132,14 +132,14 @@ export default function Blog() {
                 placeholder="Search posts..."
                 className="pl-8"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
               />
               {searchQuery && (
                 <Button
                   variant="ghost"
                   size="icon"
                   className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2"
-                  onClick={() => setSearchQuery("")}
+                  onClick={() => setSearchQuery('')}
                 >
                   <X className="h-4 w-4" />
                   <span className="sr-only">Clear search</span>
@@ -192,12 +192,7 @@ export default function Blog() {
               </div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {selectedTags.map(tag => (
-                  <Badge
-                    key={tag}
-                    variant="default"
-                    className="cursor-pointer"
-                    onClick={() => toggleTag(tag)}
-                  >
+                  <Badge key={tag} variant="default" className="cursor-pointer" onClick={() => toggleTag(tag)}>
                     {tag}
                     <X className="ml-1 h-3 w-3" />
                   </Badge>
@@ -206,7 +201,7 @@ export default function Blog() {
             </div>
           )}
         </div>
-        
+
         {/* Blog posts grid */}
         <div className="mt-12">
           {sortedPosts.length > 0 ? (
@@ -220,11 +215,7 @@ export default function Blog() {
           ) : (
             <div className="py-12 text-center">
               <p className="text-muted-foreground">No posts found matching your criteria.</p>
-              <Button 
-                variant="link" 
-                onClick={clearFilters}
-                className="mt-2"
-              >
+              <Button variant="link" onClick={clearFilters} className="mt-2">
                 Clear all filters
               </Button>
             </div>
