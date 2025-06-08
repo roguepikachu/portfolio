@@ -64,12 +64,21 @@ export default function Publications() {
 
     const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => publication.tags.includes(tag));
 
-    return matchesSearch && matchesTags;
+    const matchesYear = !selectedYear || new Date(publication.date).getFullYear().toString() === selectedYear;
+
+    return matchesSearch && matchesTags && matchesYear;
   });
 
-  // Sort publications by date (newest first)
+  // Sort publications by featured status first, then by date (newest first)
   const sortedPublications = useMemo(() => {
-    return [...filteredPublications].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return [...filteredPublications].sort((a, b) => {
+      // First sort by featured status (featured items first)
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      
+      // Then sort by date (newest first)
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
   }, [filteredPublications]);
 
   // Toggle tag selection

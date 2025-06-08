@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -47,6 +46,16 @@ export default function Projects() {
     const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => project.tags.includes(tag));
 
     return matchesSearch && matchesTags;
+  });
+
+  // Sort projects by featured status first, then by date or alphabetically
+  const sortedProjects = filteredProjects.sort((a, b) => {
+    // First sort by featured status (featured items first)
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    
+    // Then sort alphabetically by title
+    return a.title.localeCompare(b.title);
   });
 
   // Toggle tag selection
@@ -219,7 +228,7 @@ export default function Projects() {
 
         {/* Project Grid */}
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredProjects.map(project => {
+          {sortedProjects.map(project => {
             let snippet = null;
             if (searchQuery) {
               if (project.readme && project.readme.toLowerCase().includes(searchQuery.toLowerCase())) {
