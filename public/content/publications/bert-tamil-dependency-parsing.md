@@ -5,93 +5,103 @@ date: 2022-05-26
 summary: A BERT-embedding-based machine learning framework is presented in this work for dependency parsing in Tamil, addressing the challenges of class imbalance and free word order through contextual token representations and oversampling techniques.
 link: https://aclanthology.org/2022.dravidianlangtech-1.1
 tags: [BERT, Imbalanced Learning, Encoder, Low-resource NLP, Dependency Parsing, Machine Learning]
+featured: true
 ---
 
 # BERT-Based Sequence Labelling Approach for Dependency Parsing in Tamil
 
-## Abstract
+## Overview
 
-A novel BERT-based method targets dependency parsing in Tamil, leveraging its complex morphology and flexible word order. By leveraging contextual embeddings from pretrained multilingual BERT variants and combining them with classical machine learning algorithms, the authors achieve improved parsing performance. A key focus is addressing severe class imbalance in dependency relation labels using synthetic oversampling methods like SMOTE and ADASYN. The final model delivers competitive labeled and unlabeled attachment scores while offering a scalable framework adaptable to other low-resource languages.
+In this work, we present a BERT-based framework for dependency parsing in Tamil, a morphologically rich and free word order language. Our approach leverages contextual embeddings from multilingual BERT models, combined with classical machine learning classifiers, to predict dependency relations. To address the severe class imbalance in available Tamil treebanks, we apply synthetic oversampling techniques such as SMOTE and ADASYN.
 
-## Introduction
+The resulting system demonstrates competitive performance in both labeled and unlabeled attachment scores and offers a scalable methodology for other low-resource languages.
 
-Dependency parsing plays a critical role in understanding grammatical structure in natural language. For languages like Tamil, which exhibit high morphological richness and allow flexible word ordering, traditional parsers underperform due to a lack of annotated resources and tools. This work addresses this gap by designing a hybrid system that combines BERT-based embeddings with classical machine learning classifiers to predict syntactic dependencies. The system is further enhanced through data-level interventions to counter class imbalances common in low-resource treebanks.
+## Motivation
+
+Dependency parsing plays a crucial role in syntactic analysis, enabling downstream tasks like semantic parsing, relation extraction, and machine translation. However, for low-resource languages such as Tamil, parsing is particularly challenging due to the lack of annotated corpora and tools. We aimed to evaluate whether contextual embeddings, specifically those pre-trained on Indic languages, could enhance syntactic parsing performance when paired with effective yet lightweight classifiers.
 
 ## Methodology
 
-The proposed system operates in three core stages:
+Our system comprises four core components:
 
-### 1. Embedding Generation
+### 1. Contextual Embedding Generation
 
-Multilingual pretrained BERT models were employed to generate contextual token embeddings from Tamil sentences. The models used include:
+We used the following pretrained transformer models:
 
-- mBERT
-- XLM-RoBERTa
-- DistilBERT
-- IndicBERT
+* mBERT
+* XLM-RoBERTa
+* DistilBERT
+* IndicBERT
 
-Each sentence is tokenized using the CoNLL-U standard, and embeddings are generated for every token. These embeddings capture deep semantic and syntactic cues, crucial for distinguishing dependency relations in free word order scenarios.
+Sentences were tokenized using the CoNLL-U format, and token-wise embeddings were generated. These embeddings retain contextual and syntactic information, which is especially useful for parsing Tamil’s flexible word order.
 
-### 2. Classification of Dependency Labels
+### 2. Dependency Label Classification
 
-Once embeddings are obtained, the next step involves training machine learning models to classify dependency labels for each word. Four types of classifiers are tested:
+The token embeddings were used to train the following machine learning classifiers:
 
-- Support Vector Machines (SVM)
-- Decision Trees
-- Random Forest
-- Linear Regression (as a baseline)
+* Support Vector Machines (SVM)
+* Decision Trees
+* Random Forest
+* Linear Regression (baseline)
 
-The classifier takes a token’s embedding as input and predicts its corresponding dependency relation tag.
+Among these, the IndicBERT + SVM combination consistently outperformed others.
 
-### 3. Oversampling for Class Balance
+### 3. Addressing Class Imbalance via Oversampling
 
-The dataset used is significantly imbalanced, with a few dependency relations dominating the distribution. This negatively impacts model performance on rare labels. To resolve this, the following oversampling algorithms were used:
+Tamil dependency relations are unevenly distributed, which causes models to perform poorly on rare classes. To mitigate this, we applied:
 
-- **SMOTE (Synthetic Minority Oversampling Technique)**: Generates synthetic samples for minority classes by interpolating between existing samples.
-- **ADASYN (Adaptive Synthetic Sampling)**: Focuses more on generating synthetic samples for classes that are harder to learn, adjusting the number of new samples per class based on difficulty.
+* **SMOTE (Synthetic Minority Oversampling Technique)**
+* **ADASYN (Adaptive Synthetic Sampling)**
 
-The oversampled datasets led to improved class-wise precision and recall, particularly for rare dependency labels, without sacrificing overall accuracy.
+ADASYN proved particularly effective by adaptively generating synthetic samples for harder-to-learn classes, leading to improved class-wise precision and recall.
 
-### 4. Integration with Transition-Based Parser
+### 4. Integration with Transition-Based Parsing
 
-Predicted dependency labels were used as input for **MaltParser**, a transition-based dependency parser. The parser constructs a dependency tree using shift-reduce operations and a classifier-driven decision mechanism. The parser state includes a stack, a buffer, and a growing set of dependency arcs. Parsing decisions (shift, reduce, left-arc, right-arc) are made based on the current configuration and previous transitions.
+The predicted dependency labels were then fed into **MaltParser**, a transition-based dependency parser. This parser constructs a syntactic tree using shift-reduce operations informed by the classifier’s predictions. The combination allowed us to generate high-quality dependency trees while retaining interpretability and modularity.
 
 ## Dataset
 
-The experiments were conducted using the **Tamil Universal Dependency Treebank (UDT)**. The dataset contains approximately 536 manually annotated sentences in CoNLL-U format. Of these, 400 were used for training and the rest for testing. Tamil UDT includes POS tags, morphological features, and 30+ unique dependency labels. The treebank includes syntactic constructs such as relative clauses, case marking, and elision, making it a suitable testbed for robust dependency parsing.
+We worked with the **Tamil Universal Dependency Treebank (UDT)**, consisting of:
 
-## Experimental Setup and Results
+* 536 manually annotated sentences in CoNLL-U format
+* 400 training and 120 testing samples
+* 30+ unique dependency relation labels
+* POS tags and morphological annotations
 
-Experiments showed that using contextual embeddings from IndicBERT in combination with a Support Vector Machine yielded the best results. Initially, models exhibited poor class-wise performance due to label imbalance. After applying oversampling techniques like ADASYN, the model not only achieved higher accuracy for rare labels but also improved overall parser performance. Parsing metrics used include:
+This dataset features complex syntactic structures such as relative clauses, case marking, and elision, making it an ideal testbed for our system.
 
-- **Label Accuracy**: The percentage of correctly predicted dependency labels.
-- **Label Attachment Score (LAS)**: Measures the percentage of words that are assigned both the correct head and dependency label.
-- **Unlabeled Attachment Score (UAS)**: Measures the percentage of words attached to the correct head, regardless of the label.
+## Results
 
-The best model (IndicBERT + SVM + ADASYN) achieved an LAS of approximately 56% and UAS around 89%, which are competitive results for a low-resource language parser without mixed-language training.
+Experiments showed that IndicBERT embeddings paired with an SVM classifier produced the most promising results. Key performance metrics included:
 
-## Visualizations
+* **Label Accuracy (post-oversampling)**: 67.94%
+* **Labeled Attachment Score (LAS)**: \~56%
+* **Unlabeled Attachment Score (UAS)**: \~89%
 
-- Dependency label distribution graphs highlight extreme imbalance in training data.
-- Precision-recall curves before and after oversampling show noticeable gains in classification consistency.
-- Sample parsed trees before and after applying ADASYN demonstrate the improved syntactic quality of outputs.
+Visualizations demonstrated improvements in parsing accuracy and syntactic structure quality after applying oversampling techniques.
 
 ## Key Takeaways
 
-- Pretrained multilingual BERT models significantly enhance dependency parsing for morphologically complex languages.
-- Classical machine learning classifiers, when paired with high-quality embeddings, remain competitive for structured NLP tasks.
-- Oversampling techniques like ADASYN can effectively mitigate the impact of class imbalance in low-resource NLP pipelines.
-- The transition-based parsing framework remains a practical choice when augmented with modern embedding techniques.
-
-## Conclusion
-
-This study demonstrates that a machine learning pipeline using BERT-based contextual embeddings and oversampling strategies can greatly enhance dependency parsing for Tamil. IndicBERT emerged as the most effective embedding model due to its training on Indian languages. The integration with a traditional transition-based parser like MaltParser yields robust syntactic structures that can support downstream NLP applications.
+* Multilingual BERT models, particularly IndicBERT, significantly enhance dependency parsing for morphologically rich languages.
+* Classical classifiers remain effective when supported by strong contextual embeddings.
+* Oversampling algorithms like ADASYN can successfully address class imbalance and improve class-wise performance.
+* Transition-based parsers can be augmented with modern embedding and classification techniques to yield competitive results for low-resource languages.
 
 ## Future Work
 
-- Extend the methodology to other Dravidian and low-resource Indic languages.
-- Explore the use of end-to-end transformer-based models fine-tuned directly for parsing tasks.
-- Incorporate graph-based parsing architectures for potentially higher accuracy.
-- Apply semi-supervised learning and self-training to exploit unlabelled data.
-- Evaluate cross-lingual training using treebanks from related languages like Telugu and Malayalam.
+We plan to extend this methodology by:
 
+* Adapting it to other Dravidian and Indic languages
+* Exploring graph-based parsing architectures for enhanced accuracy
+* Fine-tuning transformer models specifically for parsing tasks
+* Incorporating self-training and semi-supervised learning with unlabeled data
+* Conducting cross-lingual training using related language treebanks (e.g., Telugu, Malayalam)
+
+## Conclusion
+
+This study demonstrates that contextual embeddings combined with machine learning and data augmentation can significantly improve dependency parsing for low-resource languages like Tamil. Our approach not only matches performance benchmarks from mixed-language models but also sets a robust foundation for future work in building scalable NLP tools for underrepresented languages.
+
+## Citation
+If you use this work or build upon it, please cite:
+
+Ayush Kumar et al., "BERT-Based Sequence Labelling Approach for Dependency Parsing in Tamil", Proceedings of the Second Workshop on Speech and Language Technologies for Dravidian Languages, ACL Anthology, May 2022. https://aclanthology.org/2022.dravidianlangtech-1.1

@@ -154,13 +154,9 @@ export async function loadProjects() {
 
 export async function loadPublications() {
   const publicationSlugs = [
-    'machine-learning-models-optimization',
-    'distributed-systems-reliability',
-    'secure-api-design',
-    'quantum-computing-algorithms',
-    'cognitive-load-ui-design',
-    'speech-emotion-recognition-using-cnn-lstm-vit',
     'bert-tamil-dependency-parsing',
+    'aerial-vehicle-detection-pca-deep-learning',
+    'speech-emotion-recognition-using-cnn-lstm-vit',
   ];
 
   const publications = [];
