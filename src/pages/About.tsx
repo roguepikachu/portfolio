@@ -47,7 +47,7 @@ export default function About() {
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">About Me</h1>
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed dark:text-gray-400">
-            Web developer, designer, and technical writer
+            Engineer by trade, Designer by instinct, and Writer by habit
           </p>
         </div>
 
@@ -64,14 +64,15 @@ export default function About() {
           <div className="flex flex-col justify-center">
             <h2 className="text-2xl font-bold">Hi, I'm Ayush Kumar</h2>
             <p className="mt-4 text-muted-foreground">
-              I'm a passionate web developer with over 5 years of experience building modern web applications. 
-              I specialize in React.js, TypeScript, and Node.js, with a focus on creating intuitive and 
-              performant user experiences.
-            </p>
-            <p className="mt-4 text-muted-foreground">
-              When I'm not coding, you can find me writing technical articles, contributing to open-source 
-              projects, or exploring new technologies. I believe in continuous learning and sharing knowledge 
-              with the developer community.
+              I work mostly with Go, Kubernetes, and cloud infrastructure — building backend systems that are meant to scale and stay up. My
+              focus is on clean, maintainable architecture, automation, and performance. I’ve spent a lot of time designing microservices,
+              setting up CI/CD pipelines, and getting things to run smoothly in production. I have a strong foundation in AI and data
+              systems, with hands-on experience in applying machine learning where it genuinely improves outcomes — and the judgment to
+              avoid it where simpler solutions are more effective..
+              <p className="mt-4 text-muted-foreground">
+                Outside of code, I write technical articles, contribute to open-source when I can, and keep learning whatever tool or system
+                looks like it’ll help me do better work. Not big on fluff. Just here to build useful stuff and keep improving.
+              </p>
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button asChild>
@@ -92,97 +93,154 @@ export default function About() {
         {/* Experience section */}
         <section className="space-y-8">
           <h2 className="text-2xl font-bold">Experience</h2>
-          
+
           <div className="space-y-8">
+            {/* Experience Item 1 */}
             {/* Experience Item 1 */}
             <div className="rounded-lg border p-6">
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
-                  <h3 className="font-bold">Senior Frontend Developer</h3>
-                  <p className="text-muted-foreground">Example Company</p>
+                  <h3 className="font-bold">Software Engineer II</h3>
+                  <p className="text-muted-foreground">Guidewire Software Inc.</p>
                 </div>
-                <Badge variant="outline">2023 - Present</Badge>
+                <Badge variant="outline">Jan 2023 – Present</Badge>
               </div>
               <ul className="mt-4 space-y-2 text-muted-foreground list-disc list-inside">
-                <li>Led the development of the company's flagship web application</li>
-                <li>Implemented a new component library that improved development speed by 30%</li>
-                <li>Mentored junior developers and conducted code reviews</li>
-                <li>Reduced bundle size by 40% through code splitting and lazy loading</li>
+                <li>
+                  Spearheaded the design and implementation of scalable microservice architectures using Go, contributing to
+                  high-availability systems deployed on AWS.
+                </li>
+                <li>
+                  Led end-to-end service development — from architectural design to production rollout — ensuring modularity, fault
+                  tolerance, and ease of integration across systems.
+                </li>
+                <li>
+                  Automated containerized deployments using Docker, Kubernetes (EKS), and KubeVela, enabling GitOps-driven workflows and
+                  significantly reducing deployment overhead.
+                </li>
+                <li>
+                  Managed infrastructure as code with Terraform/Crossplane, ensuring environment consistency, reducing manual intervention, and
+                  enabling rapid onboarding across teams.
+                </li>
+                <li>
+                  Advocated and implemented test-driven development (TDD) practices across services, improving test coverage and confidence
+                  in releases.
+                </li>
+                <li>
+                  Built and maintained CI/CD pipelines with TeamCity and GitHub Actions, incorporating quality gates via SonarQube, with
+                  observability integrated through CloudWatch and Datadog.
+                </li>
+                <li>
+                  Conducted deep query profiling and optimization across critical data flows, reducing database response times and improving
+                  end-user experience.
+                </li>
+                <li>
+                  Worked closely with globally distributed teams and cross-functional stakeholders to align backend development with DevOps
+                  and SRE best practices.
+                </li>
               </ul>
             </div>
-            
+
+            {/* Experience Item 5 */}
+            <div className="rounded-lg border p-6">
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <h3 className="font-bold">Amazon ML Summer School Trainee</h3>
+                  <p className="text-muted-foreground">Amazon</p>
+                </div>
+                <Badge variant="outline">Jul 2022</Badge>
+              </div>
+              <ul className="mt-4 space-y-2 text-muted-foreground list-disc list-inside">
+                <li>Selected for an intensive machine learning training program conducted by Amazon’s ML scientists.</li>
+                <li>Gained hands-on experience with supervised/unsupervised learning, deep learning, and real-world ML pipelines.</li>
+                <li>Engaged in problem-solving sessions focused on scalable ML solutions used in industry applications.</li>
+              </ul>
+            </div>
+
             {/* Experience Item 2 */}
             <div className="rounded-lg border p-6">
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
-                  <h3 className="font-bold">Frontend Developer</h3>
-                  <p className="text-muted-foreground">Previous Company</p>
+                  <h3 className="font-bold">Machine Learning Intern</h3>
+                  <p className="text-muted-foreground">Cleareye.ai</p>
                 </div>
-                <Badge variant="outline">2020 - 2023</Badge>
+                <Badge variant="outline">May 2022 – Jul 2022</Badge>
               </div>
               <ul className="mt-4 space-y-2 text-muted-foreground list-disc list-inside">
-                <li>Built responsive web applications using React and TypeScript</li>
-                <li>Implemented state management solutions using Redux and Context API</li>
-                <li>Created a design system that ensured consistency across products</li>
-                <li>Collaborated with designers and backend developers to deliver features</li>
+                <li>Built and fine-tuned BERT and BiLSTM models for high-precision Named Entity Recognition (NER) in textual data.</li>
+                <li>Created and managed labeled datasets, contributing to improved data accuracy and NLP pipeline performance.</li>
               </ul>
             </div>
-            
+
+            {/* Experience Item 4 */}
+            <div className="rounded-lg border p-6">
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <h3 className="font-bold">Machine Learning Intern</h3>
+                  <p className="text-muted-foreground">Feynn Labs</p>
+                </div>
+                <Badge variant="outline">Apr 2022 – Jun 2022</Badge>
+              </div>
+              <ul className="mt-4 space-y-2 text-muted-foreground list-disc list-inside">
+                <li>Prototyped AI-powered products and services, focusing on practical deployment and integration feasibility.</li>
+                <li>Performed market segmentation using machine learning and data analysis techniques to uncover business insights.</li>
+                <li>Contributed to financial and business modeling for AI-driven solutions, aligning tech output with market value.</li>
+              </ul>
+            </div>
+
             {/* Experience Item 3 */}
             <div className="rounded-lg border p-6">
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
-                  <h3 className="font-bold">Web Developer Intern</h3>
-                  <p className="text-muted-foreground">Starter Company</p>
+                  <h3 className="font-bold">Cyber Security Analyst Intern</h3>
+                  <p className="text-muted-foreground">TechByHeart</p>
                 </div>
-                <Badge variant="outline">2019 - 2020</Badge>
+                <Badge variant="outline">Feb 2022 – May 2022</Badge>
               </div>
               <ul className="mt-4 space-y-2 text-muted-foreground list-disc list-inside">
-                <li>Developed and maintained client websites</li>
-                <li>Assisted in migrating legacy code to modern frameworks</li>
-                <li>Created responsive layouts using HTML, CSS, and JavaScript</li>
-                <li>Participated in daily standups and sprint planning meetings</li>
+                <li>Applied ML and analytics techniques to detect and respond to security threats in real-time.</li>
+                <li>Documented security protocols and supported compliance through data-driven threat analysis.</li>
               </ul>
             </div>
           </div>
         </section>
-        
+
         <Separator className="my-12" />
-        
+
         {/* Tech Stack section */}
         <section className="space-y-8">
           <h2 className="text-2xl font-bold">Tech Stack</h2>
-          
+
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
             {/* Frontend */}
             <div className="rounded-lg border p-6">
               <h3 className="font-bold text-lg mb-4">Frontend</h3>
               <div className="flex flex-wrap gap-2">
-                {techStack.frontend.map((tech) => (
+                {techStack.frontend.map(tech => (
                   <Badge key={tech} variant="secondary">
                     {tech}
                   </Badge>
                 ))}
               </div>
             </div>
-            
+
             {/* Backend */}
             <div className="rounded-lg border p-6">
               <h3 className="font-bold text-lg mb-4">Backend</h3>
               <div className="flex flex-wrap gap-2">
-                {techStack.backend.map((tech) => (
+                {techStack.backend.map(tech => (
                   <Badge key={tech} variant="secondary">
                     {tech}
                   </Badge>
                 ))}
               </div>
             </div>
-            
+
             {/* Tools */}
             <div className="rounded-lg border p-6">
               <h3 className="font-bold text-lg mb-4">Tools & DevOps</h3>
               <div className="flex flex-wrap gap-2">
-                {techStack.tools.map((tech) => (
+                {techStack.tools.map(tech => (
                   <Badge key={tech} variant="secondary">
                     {tech}
                   </Badge>
@@ -191,13 +249,13 @@ export default function About() {
             </div>
           </div>
         </section>
-        
+
         <Separator className="my-12" />
-        
+
         {/* Education section */}
         <section className="space-y-8">
           <h2 className="text-2xl font-bold">Education</h2>
-          
+
           <div className="rounded-lg border p-6">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
@@ -207,18 +265,18 @@ export default function About() {
               <Badge variant="outline">2015 - 2019</Badge>
             </div>
             <p className="mt-4 text-muted-foreground">
-              Graduated with honors. Specialized in web technologies and software engineering.
-              Completed a senior project on real-time collaborative web applications.
+              Graduated with honors. Specialized in web technologies and software engineering. Completed a senior project on real-time
+              collaborative web applications.
             </p>
           </div>
         </section>
-        
+
         <Separator className="my-12" />
-        
+
         {/* Open Source & Community */}
         <section className="space-y-8">
           <h2 className="text-2xl font-bold">Open Source & Community</h2>
-          
+
           <div className="grid gap-6 sm:grid-cols-2">
             <div className="rounded-lg border p-6">
               <h3 className="font-bold text-lg">Open Source Contributions</h3>
@@ -227,12 +285,12 @@ export default function About() {
               </p>
               <Button variant="link" size="sm" asChild className="mt-2 p-0">
                 <a href="https://github.com/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
-                  View on GitHub 
+                  View on GitHub
                   <ExternalLink className="ml-1 h-3 w-3" />
                 </a>
               </Button>
             </div>
-            
+
             <div className="rounded-lg border p-6">
               <h3 className="font-bold text-lg">Speaker & Writer</h3>
               <p className="mt-2 text-muted-foreground">
@@ -240,14 +298,14 @@ export default function About() {
               </p>
               <Button variant="link" size="sm" asChild className="mt-2 p-0">
                 <a href="#" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
-                  See Talks & Articles 
+                  See Talks & Articles
                   <ExternalLink className="ml-1 h-3 w-3" />
                 </a>
               </Button>
             </div>
           </div>
         </section>
-        
+
         <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
       </div>
     </div>
