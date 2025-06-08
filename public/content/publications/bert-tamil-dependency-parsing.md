@@ -1,10 +1,10 @@
 ---
 id: bert-tamil-dependency-parsing
 title: BERT-Based Sequence Labelling Approach for Dependency Parsing in Tamil
-date: 2022-05-26
+date: 2022-07-21
 summary: A BERT-embedding-based machine learning framework is presented in this work for dependency parsing in Tamil, addressing the challenges of class imbalance and free word order through contextual token representations and oversampling techniques.
 link: https://aclanthology.org/2022.dravidianlangtech-1.1
-tags: [BERT, Imbalanced Learning, Encoder, Low-resource NLP, Dependency Parsing, Machine Learning]
+tags: [BERT, Imbalanced Learning, Encoder, Low-Resource NLP, Dependency Parsing, Machine Learning]
 featured: true
 ---
 

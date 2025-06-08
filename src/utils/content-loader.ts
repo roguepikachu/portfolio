@@ -154,8 +154,9 @@ export async function loadProjects() {
 
 export async function loadPublications() {
   const publicationSlugs = [
-    'bert-tamil-dependency-parsing',
     'aerial-vehicle-detection-pca-deep-learning',
+    'bert-tamil-dependency-parsing',
+    'mosquito-classification-deep-learning',
     'speech-emotion-recognition-using-cnn-lstm-vit',
   ];
 
