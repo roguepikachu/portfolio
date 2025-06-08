@@ -4,6 +4,7 @@ title: Understanding JavaScript Closures
 excerpt: A deep dive into one of JavaScript's most powerful features - closures and how they work under the hood.
 date: 2024-03-15
 tags: [JavaScript, Programming, Web Development]
+image: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80'
 pinned: true
 release: false
 ---
