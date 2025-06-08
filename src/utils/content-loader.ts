@@ -160,6 +160,7 @@ export async function loadPublications() {
     'quantum-computing-algorithms',
     'cognitive-load-ui-design',
     'speech-emotion-recognition-using-cnn-lstm-vit',
+    'bert-tamil-dependency-parsing',
   ];
 
   const publications = [];
