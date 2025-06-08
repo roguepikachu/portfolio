@@ -159,6 +159,7 @@ export async function loadPublications() {
     'secure-api-design',
     'quantum-computing-algorithms',
     'cognitive-load-ui-design',
+    'speech-emotion-recognition-using-cnn-lstm-vit',
   ];
 
   const publications = [];
