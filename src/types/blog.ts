@@ -1,3 +1,4 @@
+
 export interface BlogPost {
   id: string;
   title: string;
@@ -7,6 +8,7 @@ export interface BlogPost {
   content?: string;
   pinned?: boolean;
   release?: boolean;
+  featured?: boolean;
   image?: string;
 }
 
