@@ -171,6 +171,9 @@ function toast({ ...props }: Toast) {
 function useToast() {
   const [state, setState] = React.useState<State>(memoryState)
 
+  // Subscribe to toast state updates once on mount. Using an empty
+  // dependency array prevents repeatedly adding the same listener
+  // whenever state changes, which previously caused a memory leak.
   React.useEffect(() => {
     listeners.push(setState)
     return () => {
@@ -179,7 +182,7 @@ function useToast() {
         listeners.splice(index, 1)
       }
     }
-  }, [state])
+  }, [])
 
   return {
     ...state,
