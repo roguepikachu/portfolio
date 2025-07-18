@@ -73,7 +73,7 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: window.location.href,
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
       });
       if (error) throw error;
