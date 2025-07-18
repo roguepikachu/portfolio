@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Mail, User, LogOut, Github, Linkedin } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
-import { toast } from 'sonner';
-import { User as SupabaseUser } from '@supabase/supabase-js';
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Mail, User, LogOut, Github, Linkedin } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
+import { User as SupabaseUser } from "@supabase/supabase-js";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,7 +28,7 @@ interface AuthButtonProps {
 }
 
 export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [loadingSession, setLoadingSession] = useState(true);
@@ -38,11 +38,11 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
       const { data, error } = await supabase.auth.getSession();
 
       if (error) {
-        console.error('Error retrieving session:', error);
-        toast.error('Authentication failed');
+        console.error("Error retrieving session:", error);
+        toast.error("Authentication failed");
       } else if (data?.session?.user) {
         onUserChange(data.session.user);
-        toast.success('Successfully signed in');
+        toast.success("Successfully signed in");
       }
 
       setLoadingSession(false);
@@ -50,14 +50,16 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
 
     handleInitialAuth();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session?.user) {
-        onUserChange(session.user);
-        setDialogOpen(false);
-      } else if (event === 'SIGNED_OUT') {
-        onUserChange(null);
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === "SIGNED_IN" && session?.user) {
+          onUserChange(session.user);
+          setDialogOpen(false);
+        } else if (event === "SIGNED_OUT") {
+          onUserChange(null);
+        }
       }
-    });
+    );
 
     return () => {
       authListener.subscription?.unsubscribe();
@@ -71,7 +73,7 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
+          emailRedirectTo: window.location.href,
         },
       });
       if (error) throw error;
@@ -83,12 +85,14 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
     }
   };
 
-  const handleOAuthSignIn = async (provider: 'google' | 'github' | 'linkedin') => {
+  const handleOAuthSignIn = async (
+    provider: "google" | "github" | "linkedin"
+  ) => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: window.location.href,
         },
       });
       if (error) throw error;
@@ -102,15 +106,19 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
       onUserChange(null);
-      toast.info('You have been logged out');
+      toast.info("You have been logged out");
     } catch (error) {
-      console.error('Error logging out:', error);
-      toast.error('Failed to log out');
+      console.error("Error logging out:", error);
+      toast.error("Failed to log out");
     }
   };
 
   if (loadingSession) {
-    return <Button variant="ghost" size="sm" disabled>Loading...</Button>;
+    return (
+      <Button variant="ghost" size="sm" disabled>
+        Loading...
+      </Button>
+    );
   }
 
   if (!currentUser) {
@@ -130,7 +138,7 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
             <div className="grid grid-cols-3 gap-2">
               <Button
                 variant="outline"
-                onClick={() => handleOAuthSignIn('google')}
+                onClick={() => handleOAuthSignIn("google")}
                 className="w-full"
               >
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
@@ -155,7 +163,7 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
               </Button>
               <Button
                 variant="outline"
-                onClick={() => handleOAuthSignIn('github')}
+                onClick={() => handleOAuthSignIn("github")}
                 className="w-full"
               >
                 <Github className="mr-2 h-4 w-4" />
@@ -163,7 +171,7 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
               </Button>
               <Button
                 variant="outline"
-                onClick={() => handleOAuthSignIn('linkedin')}
+                onClick={() => handleOAuthSignIn("linkedin")}
                 className="w-full"
               >
                 <Linkedin className="mr-2 h-4 w-4" />
@@ -203,10 +211,15 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="gap-2">
           <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center">
-            {currentUser.user_metadata?.full_name?.charAt(0) || currentUser.email?.charAt(0) || 'U'}
+            {currentUser.user_metadata?.full_name?.charAt(0) ||
+              currentUser.email?.charAt(0) ||
+              "U"}
           </div>
           <span className="hidden md:inline-block">
-            {currentUser.user_metadata?.full_name?.split(' ')[0] || currentUser.user_metadata?.name?.split(' ')[0] || currentUser.email?.split('@')[0] || 'User'}
+            {currentUser.user_metadata?.full_name?.split(" ")[0] ||
+              currentUser.user_metadata?.name?.split(" ")[0] ||
+              currentUser.email?.split("@")[0] ||
+              "User"}
           </span>
         </Button>
       </DropdownMenuTrigger>
@@ -214,7 +227,10 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
         <DropdownMenuLabel>
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {currentUser.user_metadata?.full_name || currentUser.user_metadata?.name || currentUser.email?.split('@')[0] || 'User'}
+              {currentUser.user_metadata?.full_name ||
+                currentUser.user_metadata?.name ||
+                currentUser.email?.split("@")[0] ||
+                "User"}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
               {currentUser.email}
@@ -229,4 +245,4 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-} 
+}
