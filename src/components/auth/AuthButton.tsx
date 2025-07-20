@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Mail, User, LogOut, Github, Linkedin } from "lucide-react";
+import { Mail, User, LogOut, Github, Facebook } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { User as SupabaseUser } from "@supabase/supabase-js";
@@ -29,9 +29,11 @@ interface AuthButtonProps {
 
 export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [loadingSession, setLoadingSession] = useState(true);
+  const [isSignUp, setIsSignUp] = useState(false);
 
   useEffect(() => {
     const handleInitialAuth = async () => {
@@ -66,27 +68,40 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
     };
   }, [onUserChange]);
 
-  const handleEmailSignIn = async (e: React.FormEvent) => {
+
+  const handleEmailPasswordAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
-      if (error) throw error;
+      if (isSignUp) {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
+          },
+        });
+        if (error) throw error;
+        toast.success("Check your email for the confirmation link!");
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (error) throw error;
+        toast.success("Successfully signed in!");
+      }
       setDialogOpen(false);
-    } catch (error) {
-      console.error("Error signing in with email:", error);
+    } catch (error: any) {
+      console.error("Error with email/password auth:", error);
+      toast.error(error.message || "Authentication failed");
     } finally {
       setLoading(false);
     }
   };
 
   const handleOAuthSignIn = async (
-    provider: "google" | "github" | "linkedin"
+    provider: "google" | "github" | "facebook"
   ) => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
@@ -132,7 +147,7 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Sign in</DialogTitle>
+            <DialogTitle>{isSignUp ? "Sign up" : "Sign in"}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid grid-cols-3 gap-2">
@@ -171,11 +186,11 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
               </Button>
               <Button
                 variant="outline"
-                onClick={() => handleOAuthSignIn("linkedin")}
+                onClick={() => handleOAuthSignIn("facebook")}
                 className="w-full"
               >
-                <Linkedin className="mr-2 h-4 w-4" />
-                LinkedIn
+                <Facebook className="mr-2 h-4 w-4" />
+                Facebook
               </Button>
             </div>
             <div className="relative">
@@ -188,7 +203,7 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
                 </span>
               </div>
             </div>
-            <form onSubmit={handleEmailSignIn} className="grid gap-2">
+            <form onSubmit={handleEmailPasswordAuth} className="grid gap-2">
               <Input
                 type="email"
                 placeholder="name@example.com"
@@ -196,10 +211,32 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
+              <Input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
               <Button type="submit" disabled={loading}>
-                {loading ? "Sending link..." : "Sign in with Email"}
+                {loading 
+                  ? (isSignUp ? "Creating account..." : "Signing in...") 
+                  : (isSignUp ? "Sign up" : "Sign in")
+                }
               </Button>
             </form>
+            <div className="text-center">
+              <Button
+                variant="link"
+                onClick={() => setIsSignUp(!isSignUp)}
+                className="text-sm"
+              >
+                {isSignUp 
+                  ? "Already have an account? Sign in" 
+                  : "Don't have an account? Sign up"
+                }
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
