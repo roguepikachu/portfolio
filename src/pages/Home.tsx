@@ -8,6 +8,7 @@ import { PublicationCard } from '@/components/publication-card';
 import { LoadingDots } from '../components/ui/LoadingDots';
 import { delay } from '../utils/delay';
 import { BlogPostCard } from '@/components/blog-post-card';
+import { ProfileSlideshow } from '@/components/ProfileSlideshow';
 
 export default function Home() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -108,12 +109,7 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <div className="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] rounded-full overflow-hidden border-8 border-background shadow-xl">
-                {/* Replace with your profile image */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary flex items-center justify-center text-6xl font-bold text-primary">
-                  AK
-                </div>
-              </div>
+              <ProfileSlideshow />
             </div>
           </div>
         </div>
