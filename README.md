@@ -1,73 +1,148 @@
-# Welcome to your Lovable project
+Welcome to my personal portfolio repository! I'm Ayush, and this is where I showcase my work, share my thoughts through blog posts, and highlight my research contributions. This modern, responsive portfolio is built with React, TypeScript, and Tailwind CSS to provide an engaging way for visitors to learn about my projects and get in touch.
 
-## Project info
+You can view the live website here: [https://roguepikachu.github.io/portfolio](https://roguepikachu.github.io/portfolio)
 
-**URL**: https://lovable.dev/projects/7d51b8e0-5aca-4e7d-bdc5-3d7117e41c13
+## About This Portfolio
 
-## How can I edit this code?
+This website serves as a comprehensive showcase of my professional work and interests, featuring:
 
-There are several ways of editing your application.
+- **Modern Design**: Clean, responsive interface with dark and light mode support
+- **Mobile-First Approach**: Fully responsive design that works seamlessly on all devices
+- **Blog Integration**: Dynamic blog posts with markdown support for sharing insights and tutorials
+- **Project Showcase**: Featured projects with live demos and GitHub repository links
+- **Publications Section**: Academic publications and research work display
+- **Interactive Features**: Voting and commenting system powered by Supabase
+- **SEO Optimized**: Built with best practices for search engine optimization
+- **Fast Performance**: Optimized with Vite for lightning-fast loading and development
 
-**Use Lovable**
+## Development Setup
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/7d51b8e0-5aca-4e7d-bdc5-3d7117e41c13) and start prompting.
+To run this portfolio locally for development purposes, follow these steps:
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js (version 16 or higher) - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- npm or yarn package manager
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Local Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
+1. Clone the repository:
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone <repository-url>
+cd portfolio
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Install dependencies:
+```sh
+npm install
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+```sh
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Open your browser and visit `http://localhost:3000`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Available Development Scripts
 
-**Use GitHub Codespaces**
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build for production
+- `npm run build:dev` - Build in development mode
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Run ESLint for code quality checks
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Technology Stack
 
-## What technologies are used for this project?
+This portfolio leverages modern web technologies for optimal performance and developer experience:
 
-This project is built with:
+### Frontend Technologies
+- **React 18** - Component-based UI library for building interactive interfaces
+- **TypeScript** - Type-safe JavaScript development for better code quality
+- **Vite** - Fast build tool and development server
+- **Tailwind CSS** - Utility-first CSS framework for rapid styling
+- **Shadcn/ui** - Beautiful, accessible UI component library
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Backend and Database
+- **Supabase** - Backend-as-a-Service providing authentication and database functionality
+- **PostgreSQL** - Robust relational database system (managed by Supabase)
 
-## How can I deploy this project?
+### Supporting Libraries
+- **React Router** - Declarative client-side routing
+- **React Query** - Powerful data fetching and caching library
+- **Lucide React** - Beautiful and consistent icon library
+- **Date-fns** - Modern JavaScript date utility library
+- **React Hook Form** - Performant form handling and validation
 
-Simply open [Lovable](https://lovable.dev/projects/7d51b8e0-5aca-4e7d-bdc5-3d7117e41c13) and click on Share -> Publish.
+## Project Structure
 
-## Can I connect a custom domain to my Lovable project?
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ui/             # Shadcn/ui components
+│   ├── auth/           # Authentication components
+│   └── blog/           # Blog-specific components
+├── pages/              # Route components
+├── hooks/              # Custom React hooks
+├── lib/                # Utility libraries and configurations
+├── types/              # TypeScript type definitions
+└── utils/              # Helper functions
 
-Yes, you can!
+public/
+└── content/            # Markdown content files
+    ├── blog/           # Blog posts
+    ├── projects/       # Project descriptions
+    └── publications/   # Academic publications
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Content Management
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Content for the portfolio is organized through markdown files in the `public/content/` directory structure:
+
+- **Blog Posts**: Create new blog entries by adding `.md` files to `public/content/blog/`
+- **Project Descriptions**: Add detailed project information to `public/content/projects/`
+- **Research Publications**: Document academic work in `public/content/publications/`
+
+Each content file includes frontmatter with essential metadata such as titles, descriptions, tags, and relevant links for proper categorization and display.
+
+## Deployment Options
+
+This portfolio can be deployed to various static hosting platforms:
+
+### Vercel (Recommended)
+1. Connect your GitHub repository to Vercel
+2. Vercel automatically detects the Vite configuration
+3. Deploy with a single click
+
+### Netlify
+1. Connect your repository to Netlify
+2. Set build command: `npm run build`
+3. Set publish directory: `dist`
+
+### GitHub Pages
+1. Install gh-pages: `npm install --save-dev gh-pages`
+2. Add deployment script to package.json
+3. Run `npm run deploy`
+
+## Environment Configuration
+
+For local development, create a `.env.local` file in the project root:
+
+```env
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+## Contributing to This Project
+
+If you'd like to contribute improvements or suggestions:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/improvement-name`
+3. Make your changes and commit: `git commit -m 'Add specific improvement'`
+4. Push to the branch: `git push origin feature/improvement-name`
+5. Submit a pull request for review
+
+## License
+
+This project is open source and available under the MIT License.
