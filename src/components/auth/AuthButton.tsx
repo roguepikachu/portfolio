@@ -29,11 +29,9 @@ interface AuthButtonProps {
 
 export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [loadingSession, setLoadingSession] = useState(true);
-  const [isSignUp, setIsSignUp] = useState(false);
 
   useEffect(() => {
     const handleInitialAuth = async () => {
@@ -69,31 +67,33 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
   }, [onUserChange]);
 
 
-  const handleEmailPasswordAuth = async (e: React.FormEvent) => {
+  const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
-          },
-        });
-        if (error) throw error;
-        toast.success("Check your email for the confirmation link!");
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        if (error) throw error;
-        toast.success("Successfully signed in!");
-      }
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      if (error) throw error;
+      
+      // Show a more prominent success message
+      toast.success("🎉 Magic link sent! Check your email inbox and click the link to sign in.", {
+        duration: 8000,
+        style: {
+          background: 'hsl(var(--primary))',
+          color: 'hsl(var(--primary-foreground))',
+          border: '1px solid hsl(var(--primary))',
+          fontSize: '16px',
+          padding: '16px',
+          borderRadius: '8px',
+        },
+      });
       setDialogOpen(false);
     } catch (error: any) {
-      console.error("Error with email/password auth:", error);
+      console.error("Error signing in with email:", error);
       toast.error(error.message || "Authentication failed");
     } finally {
       setLoading(false);
@@ -147,7 +147,10 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{isSignUp ? "Sign up" : "Sign in"}</DialogTitle>
+            <DialogTitle>Sign in</DialogTitle>
+            <DialogDescription>
+              Enter your email to receive a magic link for instant sign-in
+            </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid grid-cols-3 gap-2">
@@ -199,11 +202,11 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-background px-2 text-muted-foreground">
-                  Or continue with
+                  Or continue with magic link
                 </span>
               </div>
             </div>
-            <form onSubmit={handleEmailPasswordAuth} className="grid gap-2">
+            <form onSubmit={handleEmailSignIn} className="grid gap-2">
               <Input
                 type="email"
                 placeholder="name@example.com"
@@ -211,32 +214,11 @@ export function AuthButton({ currentUser, onUserChange }: AuthButtonProps) {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <Input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <Button type="submit" disabled={loading}>
-                {loading 
-                  ? (isSignUp ? "Creating account..." : "Signing in...") 
-                  : (isSignUp ? "Sign up" : "Sign in")
-                }
+              <Button type="submit" disabled={loading} className="w-full">
+                <Mail className="mr-2 h-4 w-4" />
+                {loading ? "Sending magic link..." : "Send Magic Link"}
               </Button>
             </form>
-            <div className="text-center">
-              <Button
-                variant="link"
-                onClick={() => setIsSignUp(!isSignUp)}
-                className="text-sm"
-              >
-                {isSignUp 
-                  ? "Already have an account? Sign in" 
-                  : "Don't have an account? Sign up"
-                }
-              </Button>
-            </div>
           </div>
         </DialogContent>
       </Dialog>
