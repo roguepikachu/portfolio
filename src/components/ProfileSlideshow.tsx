@@ -69,7 +69,7 @@ export function ProfileSlideshow() {
   return (
     <div className="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px]">
       <Card 
-        className="relative w-full h-full rounded-full overflow-hidden border-8 border-background shadow-xl group cursor-pointer"
+        className="relative w-full h-full rounded-3xl overflow-hidden border-8 border-background shadow-xl group cursor-pointer"
         onClick={() => setIsPlaying(!isPlaying)}
       >
         {/* Main Image */}
