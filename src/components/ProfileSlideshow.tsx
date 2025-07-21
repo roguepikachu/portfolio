@@ -68,43 +68,73 @@ export function ProfileSlideshow() {
 
   return (
     <div className="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px]">
-      <Card 
-        className="relative w-full h-full rounded-3xl overflow-hidden border-8 border-background shadow-xl group cursor-pointer"
-        onClick={() => setIsPlaying(!isPlaying)}
-      >
-        {/* Main Image */}
-        <div className="relative w-full h-full">
-          {slideData.map((slide, index) => (
-            <div
+      <div className="relative w-full h-full group cursor-pointer" onClick={() => setIsPlaying(!isPlaying)}>
+        {/* Stacked Cards */}
+        {slideData.map((slide, index) => {
+          const offset = (index - currentIndex + slideData.length) % slideData.length;
+          const isVisible = offset <= 2;
+          
+          let transform = '';
+          let opacity = 0;
+          let zIndex = 0;
+          
+          if (offset === 0) {
+            // Current image - front and center
+            transform = 'translateX(0px) translateY(0px) scale(1) rotate(0deg)';
+            opacity = 1;
+            zIndex = 30;
+          } else if (offset === 1) {
+            // Next image - slightly behind and to the right
+            transform = 'translateX(8px) translateY(8px) scale(0.95) rotate(2deg)';
+            opacity = 0.8;
+            zIndex = 20;
+          } else if (offset === 2) {
+            // Third image - further behind
+            transform = 'translateX(16px) translateY(16px) scale(0.9) rotate(4deg)';
+            opacity = 0.6;
+            zIndex = 10;
+          }
+          
+          return (
+            <Card
               key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                index === currentIndex ? 'opacity-100' : 'opacity-0'
+              className={`absolute inset-0 rounded-3xl overflow-hidden border-4 border-background shadow-xl transition-all duration-700 ease-out ${
+                isVisible ? 'visible' : 'invisible'
               }`}
+              style={{
+                transform,
+                opacity,
+                zIndex,
+              }}
             >
-              <img
-                src={slide.image}
-                alt={slide.caption}
-                className="w-full h-full object-cover"
-              />
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            </div>
-          ))}
-        </div>
-
-        {/* Caption and Date */}
-        <div className="absolute bottom-4 left-4 right-4 text-center">
-          <Badge variant="secondary" className="mb-2 bg-white/10 text-white border-white/20">
-            {currentSlide.date}
-          </Badge>
-          <p className="text-white font-medium text-sm">{currentSlide.caption}</p>
-        </div>
+              <div className="relative w-full h-full">
+                <img
+                  src={slide.image}
+                  alt={slide.caption}
+                  className="w-full h-full object-cover"
+                />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                
+                {/* Caption and Date - only show for current image */}
+                {offset === 0 && (
+                  <div className="absolute bottom-4 left-4 right-4 text-center">
+                    <Badge variant="secondary" className="mb-2 bg-white/10 text-white border-white/20">
+                      {slide.date}
+                    </Badge>
+                    <p className="text-white font-medium text-sm">{slide.caption}</p>
+                  </div>
+                )}
+              </div>
+            </Card>
+          );
+        })}
 
         {/* Navigation Arrows */}
         <Button
           variant="ghost"
           size="icon"
-          className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/10 hover:bg-white/20 text-white border-white/20"
+          className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/10 hover:bg-white/20 text-white border-white/20 z-40"
           onClick={(e) => {
             e.stopPropagation();
             goToPrevious();
@@ -116,7 +146,7 @@ export function ProfileSlideshow() {
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/10 hover:bg-white/20 text-white border-white/20"
+          className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/10 hover:bg-white/20 text-white border-white/20 z-40"
           onClick={(e) => {
             e.stopPropagation();
             goToNext();
@@ -126,12 +156,12 @@ export function ProfileSlideshow() {
         </Button>
 
         {/* Play/Pause Indicator */}
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity z-40">
           <Badge variant="secondary" className="bg-white/10 text-white border-white/20 text-xs">
             {isPlaying ? 'Playing' : 'Paused'}
           </Badge>
         </div>
-      </Card>
+      </div>
 
       {/* Dots Indicator */}
       <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex space-x-2">
