@@ -5,9 +5,114 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Download, ExternalLink } from "lucide-react";
 import { ContactModal } from "@/components/contact-modal";
+import { CareerTimeline } from "@/components/CareerTimeline";
 
 export default function About() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
+  
+  // Career timeline data
+  const careerData = [
+    {
+      id: "swe2-guidewire",
+      title: "Software Engineer II",
+      company: "Guidewire Software Inc.",
+      period: "Jan 2023 – Present",
+      location: "Remote",
+      type: "role" as const,
+      achievements: [
+        "Spearheaded the design and implementation of scalable microservice architectures using Go, contributing to high-availability systems deployed on AWS",
+        "Led end-to-end service development — from architectural design to production rollout — ensuring modularity, fault tolerance, and ease of integration across systems",
+        "Automated containerized deployments using Docker, Kubernetes (EKS), and KubeVela, enabling GitOps-driven workflows and significantly reducing deployment overhead"
+      ],
+      responsibilities: [
+        "Managed infrastructure as code with Terraform/Crossplane, ensuring environment consistency",
+        "Advocated and implemented test-driven development (TDD) practices across services",
+        "Built and maintained CI/CD pipelines with TeamCity and GitHub Actions"
+      ],
+      milestones: [
+        "Reduced deployment time by 60%",
+        "Improved test coverage to 85%",
+        "Led team of 4 engineers",
+        "Optimized database performance by 40%"
+      ]
+    },
+    {
+      id: "amazon-ml",
+      title: "Amazon ML Summer School Trainee",
+      company: "Amazon",
+      period: "Jul 2022",
+      type: "role" as const,
+      achievements: [
+        "Selected for an intensive machine learning training program conducted by Amazon's ML scientists",
+        "Gained hands-on experience with supervised/unsupervised learning, deep learning, and real-world ML pipelines",
+        "Engaged in problem-solving sessions focused on scalable ML solutions used in industry applications"
+      ],
+      milestones: [
+        "Top 5% performer in program",
+        "Completed 8 ML projects",
+        "Networked with 50+ ML engineers"
+      ]
+    },
+    {
+      id: "cleareye-ml",
+      title: "Machine Learning Intern",
+      company: "Cleareye.ai",
+      period: "May 2022 – Jul 2022",
+      type: "role" as const,
+      achievements: [
+        "Built and fine-tuned BERT and BiLSTM models for high-precision Named Entity Recognition (NER) in textual data",
+        "Created and managed labeled datasets, contributing to improved data accuracy and NLP pipeline performance"
+      ],
+      responsibilities: [
+        "Model development and fine-tuning",
+        "Dataset creation and management",
+        "Performance optimization and testing"
+      ],
+      milestones: [
+        "Achieved 94% NER accuracy",
+        "Processed 100K+ text samples",
+        "Reduced inference time by 30%"
+      ]
+    },
+    {
+      id: "feynn-ml",
+      title: "Machine Learning Intern",
+      company: "Feynn Labs",
+      period: "Apr 2022 – Jun 2022",
+      type: "role" as const,
+      achievements: [
+        "Prototyped AI-powered products and services, focusing on practical deployment and integration feasibility",
+        "Performed market segmentation using machine learning and data analysis techniques to uncover business insights",
+        "Contributed to financial and business modeling for AI-driven solutions, aligning tech output with market value"
+      ],
+      milestones: [
+        "Delivered 3 AI prototypes",
+        "Identified $2M market opportunity",
+        "Presented to C-level executives"
+      ]
+    },
+    {
+      id: "techbyheart-security",
+      title: "Cyber Security Analyst Intern",
+      company: "TechByHeart",
+      period: "Feb 2022 – May 2022",
+      type: "role" as const,
+      achievements: [
+        "Applied ML and analytics techniques to detect and respond to security threats in real-time",
+        "Documented security protocols and supported compliance through data-driven threat analysis"
+      ],
+      responsibilities: [
+        "Threat detection and analysis",
+        "Security protocol documentation",
+        "Compliance support and reporting"
+      ],
+      milestones: [
+        "Detected 150+ security threats",
+        "Improved response time by 25%",
+        "Automated 3 security workflows"
+      ]
+    }
+  ];
   
   // Tech stack data organized by categories
   const techStack = {
@@ -90,120 +195,11 @@ export default function About() {
 
         <Separator className="my-12" />
 
-        {/* Experience section */}
-        <section className="space-y-8">
-          <h2 className="text-2xl font-bold">Experience</h2>
-
-          <div className="space-y-8">
-            {/* Experience Item 1 */}
-            {/* Experience Item 1 */}
-            <div className="rounded-lg border p-6">
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <div>
-                  <h3 className="font-bold">Software Engineer II</h3>
-                  <p className="text-muted-foreground">Guidewire Software Inc.</p>
-                </div>
-                <Badge variant="outline">Jan 2023 – Present</Badge>
-              </div>
-              <ul className="mt-4 space-y-2 text-muted-foreground list-disc list-inside">
-                <li>
-                  Spearheaded the design and implementation of scalable microservice architectures using Go, contributing to
-                  high-availability systems deployed on AWS.
-                </li>
-                <li>
-                  Led end-to-end service development — from architectural design to production rollout — ensuring modularity, fault
-                  tolerance, and ease of integration across systems.
-                </li>
-                <li>
-                  Automated containerized deployments using Docker, Kubernetes (EKS), and KubeVela, enabling GitOps-driven workflows and
-                  significantly reducing deployment overhead.
-                </li>
-                <li>
-                  Managed infrastructure as code with Terraform/Crossplane, ensuring environment consistency, reducing manual intervention, and
-                  enabling rapid onboarding across teams.
-                </li>
-                <li>
-                  Advocated and implemented test-driven development (TDD) practices across services, improving test coverage and confidence
-                  in releases.
-                </li>
-                <li>
-                  Built and maintained CI/CD pipelines with TeamCity and GitHub Actions, incorporating quality gates via SonarQube, with
-                  observability integrated through CloudWatch and Datadog.
-                </li>
-                <li>
-                  Conducted deep query profiling and optimization across critical data flows, reducing database response times and improving
-                  end-user experience.
-                </li>
-                <li>
-                  Worked closely with globally distributed teams and cross-functional stakeholders to align backend development with DevOps
-                  and SRE best practices.
-                </li>
-              </ul>
-            </div>
-
-            {/* Experience Item 5 */}
-            <div className="rounded-lg border p-6">
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <div>
-                  <h3 className="font-bold">Amazon ML Summer School Trainee</h3>
-                  <p className="text-muted-foreground">Amazon</p>
-                </div>
-                <Badge variant="outline">Jul 2022</Badge>
-              </div>
-              <ul className="mt-4 space-y-2 text-muted-foreground list-disc list-inside">
-                <li>Selected for an intensive machine learning training program conducted by Amazon’s ML scientists.</li>
-                <li>Gained hands-on experience with supervised/unsupervised learning, deep learning, and real-world ML pipelines.</li>
-                <li>Engaged in problem-solving sessions focused on scalable ML solutions used in industry applications.</li>
-              </ul>
-            </div>
-
-            {/* Experience Item 2 */}
-            <div className="rounded-lg border p-6">
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <div>
-                  <h3 className="font-bold">Machine Learning Intern</h3>
-                  <p className="text-muted-foreground">Cleareye.ai</p>
-                </div>
-                <Badge variant="outline">May 2022 – Jul 2022</Badge>
-              </div>
-              <ul className="mt-4 space-y-2 text-muted-foreground list-disc list-inside">
-                <li>Built and fine-tuned BERT and BiLSTM models for high-precision Named Entity Recognition (NER) in textual data.</li>
-                <li>Created and managed labeled datasets, contributing to improved data accuracy and NLP pipeline performance.</li>
-              </ul>
-            </div>
-
-            {/* Experience Item 4 */}
-            <div className="rounded-lg border p-6">
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <div>
-                  <h3 className="font-bold">Machine Learning Intern</h3>
-                  <p className="text-muted-foreground">Feynn Labs</p>
-                </div>
-                <Badge variant="outline">Apr 2022 – Jun 2022</Badge>
-              </div>
-              <ul className="mt-4 space-y-2 text-muted-foreground list-disc list-inside">
-                <li>Prototyped AI-powered products and services, focusing on practical deployment and integration feasibility.</li>
-                <li>Performed market segmentation using machine learning and data analysis techniques to uncover business insights.</li>
-                <li>Contributed to financial and business modeling for AI-driven solutions, aligning tech output with market value.</li>
-              </ul>
-            </div>
-
-            {/* Experience Item 3 */}
-            <div className="rounded-lg border p-6">
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <div>
-                  <h3 className="font-bold">Cyber Security Analyst Intern</h3>
-                  <p className="text-muted-foreground">TechByHeart</p>
-                </div>
-                <Badge variant="outline">Feb 2022 – May 2022</Badge>
-              </div>
-              <ul className="mt-4 space-y-2 text-muted-foreground list-disc list-inside">
-                <li>Applied ML and analytics techniques to detect and respond to security threats in real-time.</li>
-                <li>Documented security protocols and supported compliance through data-driven threat analysis.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
+        {/* Career Timeline */}
+        <CareerTimeline 
+          items={careerData} 
+          title="Professional Journey" 
+        />
 
         <Separator className="my-12" />
 
