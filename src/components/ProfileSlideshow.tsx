@@ -72,39 +72,57 @@ export function ProfileSlideshow() {
         {/* Stacked Cards */}
         {slideData.map((slide, index) => {
           const offset = (index - currentIndex + slideData.length) % slideData.length;
-          const isVisible = offset <= 2;
+          const isVisible = offset <= 3;
           
           let transform = '';
           let opacity = 0;
           let zIndex = 0;
+          let borderColor = 'border-background';
+          let shadowClass = 'shadow-xl';
           
           if (offset === 0) {
-            // Current image - front and center
+            // Current image - front and center with enhanced styling
             transform = 'translateX(0px) translateY(0px) scale(1) rotate(0deg)';
             opacity = 1;
-            zIndex = 30;
+            zIndex = 40;
+            borderColor = 'border-primary/20';
+            shadowClass = 'shadow-2xl shadow-primary/20';
           } else if (offset === 1) {
             // Next image - slightly behind and to the right
-            transform = 'translateX(8px) translateY(8px) scale(0.95) rotate(2deg)';
-            opacity = 0.8;
-            zIndex = 20;
+            transform = 'translateX(12px) translateY(12px) scale(0.94) rotate(3deg)';
+            opacity = 0.85;
+            zIndex = 30;
+            borderColor = 'border-muted/30';
+            shadowClass = 'shadow-xl shadow-black/10';
           } else if (offset === 2) {
             // Third image - further behind
-            transform = 'translateX(16px) translateY(16px) scale(0.9) rotate(4deg)';
-            opacity = 0.6;
+            transform = 'translateX(24px) translateY(24px) scale(0.88) rotate(6deg)';
+            opacity = 0.7;
+            zIndex = 20;
+            borderColor = 'border-muted/20';
+            shadowClass = 'shadow-lg shadow-black/5';
+          } else if (offset === 3) {
+            // Fourth image - deepest in the stack
+            transform = 'translateX(36px) translateY(36px) scale(0.82) rotate(9deg)';
+            opacity = 0.55;
             zIndex = 10;
+            borderColor = 'border-muted/10';
+            shadowClass = 'shadow-md shadow-black/5';
           }
           
           return (
             <Card
               key={slide.id}
-              className={`absolute inset-0 rounded-3xl overflow-hidden border-4 border-background shadow-xl transition-all duration-700 ease-out ${
+              className={`absolute inset-0 rounded-[2rem] overflow-hidden border-2 ${borderColor} ${shadowClass} transition-all duration-700 ease-out backdrop-blur-sm ${
                 isVisible ? 'visible' : 'invisible'
               }`}
               style={{
                 transform,
                 opacity,
                 zIndex,
+                background: offset === 0 
+                  ? 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)'
+                  : 'rgba(255,255,255,0.02)',
               }}
             >
               <div className="relative w-full h-full">
