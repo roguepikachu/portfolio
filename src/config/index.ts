@@ -3,9 +3,12 @@ export { siteConfig } from './site.config';
 export type { SiteConfig } from './site.config';
 
 export { 
-  careerTimeline, 
+  careerData,
   techStack, 
   education, 
-  communityContributions 
+  openSourceContributions 
 } from './career.config';
-export type { TimelineItem } from './career.config';
+export type { CareerRole, CareerCompany } from './career.config';
+
+export { uiStrings, getString } from './ui-strings.config';
+export type { UIStrings } from './ui-strings.config';

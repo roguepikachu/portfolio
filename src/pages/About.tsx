@@ -6,12 +6,13 @@ import { Badge } from "@/components/ui/badge";
 import { Download, ExternalLink } from "lucide-react";
 import { ContactModal } from "@/components/contact-modal";
 import { CareerTimeline } from "@/components/CareerTimeline";
+import { siteConfig, careerData, techStack, education, openSourceContributions, uiStrings } from "@/config";
 
 export default function About() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   
-  // Career timeline data
-  const careerData = [
+  // Career timeline data is now imported from config
+  /* const careerData = [
     {
       id: "guidewire",
       company: "Guidewire Software Inc.",
@@ -182,10 +183,10 @@ export default function About() {
         }
       ]
     }
-  ];
+  ]; */
   
-  // Tech stack data organized by categories
-  const techStack = {
+  // Tech stack data is now imported from config
+  /* const techStack = {
     frontend: [
       "React.js",
       "TypeScript",
@@ -214,15 +215,15 @@ export default function About() {
       "GitHub Actions",
       "AWS",
     ],
-  };
+  }; */
 
   return (
     <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
       <div className="mx-auto max-w-4xl">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">About Me</h1>
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">{siteConfig.pages.about.title}</h1>
           <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed dark:text-gray-400">
-            Engineer by trade, Designer by instinct, and Writer by habit
+            {siteConfig.personal.tagline}
           </p>
         </div>
 
