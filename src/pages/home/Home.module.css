@@ -60,7 +60,7 @@
 }
 
 .heroTitle {
-  @apply text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none;
+  @apply text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl/none mb-4;
 }
 
 .heroBio {
