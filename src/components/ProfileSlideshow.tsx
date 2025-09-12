@@ -67,12 +67,28 @@ export function ProfileSlideshow() {
   const currentSlide = slideData[currentIndex];
 
   return (
-    <div className="relative w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] md:w-[480px] md:h-[480px] lg:w-[520px] lg:h-[520px]">
-      <div className="relative w-full h-full group cursor-pointer" onClick={() => setIsPlaying(!isPlaying)}>
+    <div className="relative flex items-center justify-center gap-12">
+      {/* Left Navigation Button - Outside slideshow */}
+      <Button
+        variant="outline"
+        size="icon"
+        className="bg-background hover:bg-primary hover:text-primary-foreground border-2 border-primary/40 hover:border-primary shadow-lg hover:shadow-xl transition-all dark:bg-card dark:hover:bg-primary dark:border-primary/50"
+        onClick={(e) => {
+          e.stopPropagation();
+          goToPrevious();
+          setIsPlaying(false);
+        }}
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </Button>
+
+      {/* Slideshow Container */}
+      <div className="relative w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] md:w-[480px] md:h-[480px] lg:w-[520px] lg:h-[520px]">
+        <div className="relative w-full h-full group cursor-pointer" onClick={() => setIsPlaying(!isPlaying)} style={{ perspective: '800px', transformStyle: 'preserve-3d' }}>
         {/* Stacked Cards - Simplified transforms for better performance */}
         {slideData.map((slide, index) => {
           const offset = (index - currentIndex + slideData.length) % slideData.length;
-          const isVisible = offset <= 2; // Show fewer cards for better performance
+          const isVisible = offset <= 2; // Show background cards
           
           let transform = '';
           let opacity = 0;
@@ -81,26 +97,26 @@ export function ProfileSlideshow() {
           let shadowClass = 'shadow-lg';
           
           if (offset === 0) {
-            // Current image - front and center
-            transform = 'translate3d(0px, 0px, 0px) scale(1)';
+            // Current image - front and center - full priority
+            transform = 'translateX(0px) translateY(0px) translateZ(50px) scale(1) rotateY(0deg) rotateZ(0deg)';
             opacity = 1;
-            zIndex = 30;
-            borderColor = 'border-primary/20';
-            shadowClass = 'shadow-2xl shadow-primary/20';
+            zIndex = 100;
+            borderColor = 'border-primary/40';
+            shadowClass = 'shadow-2xl shadow-primary/30';
           } else if (offset === 1) {
-            // Next image - simpler transform
-            transform = 'translate3d(25px, 20px, 0px) scale(0.90)';
-            opacity = 0.8;
-            zIndex = 20;
-            borderColor = 'border-muted/30';
-            shadowClass = 'shadow-xl shadow-primary/10';
+            // Next image - more visible behind and to the right
+            transform = 'translateX(35px) translateY(20px) translateZ(0px) scale(0.92) rotateY(-6deg) rotateZ(2deg)';
+            opacity = 0.85;
+            zIndex = 50;
+            borderColor = 'border-primary/25';
+            shadowClass = 'shadow-xl shadow-primary/20';
           } else if (offset === 2) {
-            // Third image - minimal background presence
-            transform = 'translate3d(50px, 40px, 0px) scale(0.80)';
-            opacity = 0.6;
-            zIndex = 10;
-            borderColor = 'border-muted/20';
-            shadowClass = 'shadow-lg shadow-primary/5';
+            // Third image - visible further back
+            transform = 'translateX(65px) translateY(35px) translateZ(-30px) scale(0.84) rotateY(-12deg) rotateZ(4deg)';
+            opacity = 0.7;
+            zIndex = 25;
+            borderColor = 'border-primary/15';
+            shadowClass = 'shadow-lg shadow-primary/15';
           }
           
           return (
@@ -113,7 +129,8 @@ export function ProfileSlideshow() {
                 transform,
                 opacity,
                 zIndex,
-                transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease-out',
+                transition: 'all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                transformStyle: 'preserve-3d',
                 backfaceVisibility: 'hidden', // Prevent flickering
                 WebkitBackfaceVisibility: 'hidden',
               }}
@@ -142,53 +159,58 @@ export function ProfileSlideshow() {
           );
         })}
 
-        {/* Navigation Arrows - Simplified styling */}
-        <Button
-          variant="secondary"
-          size="icon"
-          className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70 hover:opacity-100 transition-opacity bg-background/90 hover:bg-background border border-primary/20 hover:border-primary/40 z-40 shadow-md"
-          onClick={(e) => {
-            e.stopPropagation();
-            goToPrevious();
-          }}
-        >
-          <ChevronLeft className="h-4 w-4 text-primary" />
-        </Button>
 
-        <Button
-          variant="secondary"
-          size="icon"
-          className="absolute right-4 top-1/2 -translate-y-1/2 opacity-70 hover:opacity-100 transition-opacity bg-background/90 hover:bg-background border border-primary/20 hover:border-primary/40 z-40 shadow-md"
-          onClick={(e) => {
-            e.stopPropagation();
-            goToNext();
-          }}
-        >
-          <ChevronRight className="h-4 w-4 text-primary" />
-        </Button>
-
-        {/* Play/Pause Indicator */}
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity z-40">
-          <Badge variant="secondary" className="bg-white/10 text-white border-white/20 text-xs">
-            {isPlaying ? 'Playing' : 'Paused'}
+        {/* Play/Pause Indicator - Always visible and prominent */}
+        <div className="absolute top-4 left-4 transition-all" style={{ zIndex: 9999 }}>
+          <Badge 
+            variant="outline"
+            className={`text-xs cursor-pointer border-2 shadow-lg font-semibold ${
+              isPlaying 
+                ? 'bg-primary/90 text-primary-foreground border-primary hover:bg-primary' 
+                : 'bg-secondary/90 text-secondary-foreground border-secondary hover:bg-secondary'
+            } hover:shadow-xl transition-all`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsPlaying(!isPlaying);
+            }}
+          >
+            {isPlaying ? '▶ Playing' : '⏸ Paused'}
           </Badge>
         </div>
+
+        {/* Dots Indicator - Further below slideshow */}
+        <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 flex space-x-3" style={{ zIndex: 9999 }}>
+          {slideData.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                goToSlide(index);
+                setIsPlaying(false);
+              }}
+              className={`w-3 h-3 rounded-full transition-all duration-300 border-2 ${
+                index === currentIndex 
+                  ? 'bg-primary border-primary scale-125 shadow-lg shadow-primary/40' 
+                  : 'bg-background border-primary/60 hover:border-primary hover:bg-primary/20 hover:scale-110'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
       </div>
 
-      {/* Dots Indicator */}
-      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex space-x-2">
-        {slideData.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-              index === currentIndex 
-                ? 'bg-primary scale-110 shadow-sm shadow-primary/30' 
-                : 'bg-muted-foreground/40 hover:bg-muted-foreground/60'
-            }`}
-          />
-        ))}
-      </div>
+      {/* Right Navigation Button - Outside slideshow */}
+      <Button
+        variant="outline"
+        size="icon"
+        className="bg-background hover:bg-primary hover:text-primary-foreground border-2 border-primary/40 hover:border-primary shadow-lg hover:shadow-xl transition-all dark:bg-card dark:hover:bg-primary dark:border-primary/50"
+        onClick={(e) => {
+          e.stopPropagation();
+          goToNext();
+          setIsPlaying(false);
+        }}
+      >
+        <ChevronRight className="h-5 w-5" />
+      </Button>
     </div>
   );
 }
