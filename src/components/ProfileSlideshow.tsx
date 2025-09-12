@@ -69,60 +69,53 @@ export function ProfileSlideshow() {
   return (
     <div className="relative w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] md:w-[480px] md:h-[480px] lg:w-[520px] lg:h-[520px]">
       <div className="relative w-full h-full group cursor-pointer" onClick={() => setIsPlaying(!isPlaying)}>
-        {/* Stacked Cards */}
+        {/* Stacked Cards - Simplified transforms for better performance */}
         {slideData.map((slide, index) => {
           const offset = (index - currentIndex + slideData.length) % slideData.length;
-          const isVisible = offset <= 3;
+          const isVisible = offset <= 2; // Show fewer cards for better performance
           
           let transform = '';
           let opacity = 0;
           let zIndex = 0;
           let borderColor = 'border-background';
-          let shadowClass = 'shadow-xl';
+          let shadowClass = 'shadow-lg';
           
           if (offset === 0) {
-            // Current image - front and center with enhanced styling
-            transform = 'translateX(0px) translateY(0px) scale(1) rotate(0deg)';
+            // Current image - front and center
+            transform = 'translate3d(0px, 0px, 0px) scale(1)';
             opacity = 1;
-            zIndex = 40;
+            zIndex = 30;
             borderColor = 'border-primary/20';
             shadowClass = 'shadow-2xl shadow-primary/20';
           } else if (offset === 1) {
-            // Next image - more visible with gentle offset
-            transform = 'translateX(20px) translateY(15px) scale(0.92) rotate(4deg)';
-            opacity = 0.9;
-            zIndex = 30;
-            borderColor = 'border-muted/40';
-            shadowClass = 'shadow-xl shadow-primary/10';
-          } else if (offset === 2) {
-            // Third image - clearly visible in background
-            transform = 'translateX(40px) translateY(30px) scale(0.84) rotate(8deg)';
+            // Next image - simpler transform
+            transform = 'translate3d(25px, 20px, 0px) scale(0.90)';
             opacity = 0.8;
             zIndex = 20;
             borderColor = 'border-muted/30';
-            shadowClass = 'shadow-lg shadow-primary/5';
-          } else if (offset === 3) {
-            // Fourth image - still partially visible
-            transform = 'translateX(60px) translateY(45px) scale(0.76) rotate(12deg)';
-            opacity = 0.7;
+            shadowClass = 'shadow-xl shadow-primary/10';
+          } else if (offset === 2) {
+            // Third image - minimal background presence
+            transform = 'translate3d(50px, 40px, 0px) scale(0.80)';
+            opacity = 0.6;
             zIndex = 10;
             borderColor = 'border-muted/20';
-            shadowClass = 'shadow-md shadow-black/5';
+            shadowClass = 'shadow-lg shadow-primary/5';
           }
           
           return (
             <Card
               key={slide.id}
-              className={`absolute inset-0 rounded-[2rem] overflow-hidden border-2 ${borderColor} ${shadowClass} transition-all duration-700 ease-out backdrop-blur-sm ${
+              className={`absolute inset-0 rounded-[2rem] overflow-hidden border-2 ${borderColor} ${shadowClass} will-change-transform ${
                 isVisible ? 'visible' : 'invisible'
               }`}
               style={{
                 transform,
                 opacity,
                 zIndex,
-                background: offset === 0 
-                  ? 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)'
-                  : 'rgba(255,255,255,0.02)',
+                transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease-out',
+                backfaceVisibility: 'hidden', // Prevent flickering
+                WebkitBackfaceVisibility: 'hidden',
               }}
             >
               <div className="relative w-full h-full">
@@ -130,6 +123,7 @@ export function ProfileSlideshow() {
                   src={slide.image}
                   alt={slide.caption}
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -148,29 +142,29 @@ export function ProfileSlideshow() {
           );
         })}
 
-        {/* Navigation Arrows - Always visible and more prominent */}
+        {/* Navigation Arrows - Simplified styling */}
         <Button
           variant="secondary"
           size="icon"
-          className="absolute left-4 top-1/2 -translate-y-1/2 opacity-80 hover:opacity-100 transition-all bg-background/90 hover:bg-background border-2 border-primary/20 hover:border-primary/40 z-50 hover:scale-110 shadow-lg"
+          className="absolute left-4 top-1/2 -translate-y-1/2 opacity-70 hover:opacity-100 transition-opacity bg-background/90 hover:bg-background border border-primary/20 hover:border-primary/40 z-40 shadow-md"
           onClick={(e) => {
             e.stopPropagation();
             goToPrevious();
           }}
         >
-          <ChevronLeft className="h-5 w-5 text-primary" />
+          <ChevronLeft className="h-4 w-4 text-primary" />
         </Button>
 
         <Button
           variant="secondary"
           size="icon"
-          className="absolute right-4 top-1/2 -translate-y-1/2 opacity-80 hover:opacity-100 transition-all bg-background/90 hover:bg-background border-2 border-primary/20 hover:border-primary/40 z-50 hover:scale-110 shadow-lg"
+          className="absolute right-4 top-1/2 -translate-y-1/2 opacity-70 hover:opacity-100 transition-opacity bg-background/90 hover:bg-background border border-primary/20 hover:border-primary/40 z-40 shadow-md"
           onClick={(e) => {
             e.stopPropagation();
             goToNext();
           }}
         >
-          <ChevronRight className="h-5 w-5 text-primary" />
+          <ChevronRight className="h-4 w-4 text-primary" />
         </Button>
 
         {/* Play/Pause Indicator */}
@@ -181,16 +175,16 @@ export function ProfileSlideshow() {
         </div>
       </div>
 
-      {/* Dots Indicator - Larger and more prominent */}
-      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex space-x-3">
+      {/* Dots Indicator */}
+      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex space-x-2">
         {slideData.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 ${
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
               index === currentIndex 
-                ? 'bg-primary scale-125 shadow-lg shadow-primary/30' 
-                : 'bg-muted-foreground/40 hover:bg-muted-foreground/70'
+                ? 'bg-primary scale-110 shadow-sm shadow-primary/30' 
+                : 'bg-muted-foreground/40 hover:bg-muted-foreground/60'
             }`}
           />
         ))}
