@@ -11,6 +11,7 @@ import { delay } from '@/utils/delay';
 import { Link } from 'react-router-dom';
 import { FileText, ExternalLink } from 'lucide-react';
 import styles from './Publications.module.css';
+import badgeStyles from '@/styles/badges.module.css';
 
 export default function Publications() {
   const [publications, setPublications] = useState([]);
@@ -311,7 +312,7 @@ export default function Publications() {
                     <div className={styles.publicationCardInner}>
                       {/* Featured label (or placeholder) above the title for alignment */}
                       {publication.featured ? (
-                        <div className={styles.featuredBadge} style={{ minHeight: '24px' }}>
+                        <div className={`${badgeStyles.featuredDiv} ${styles.featuredBadge}`} style={{ minHeight: '24px' }}>
                           Featured
                         </div>
                       ) : (

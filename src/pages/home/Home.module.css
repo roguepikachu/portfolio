@@ -245,7 +245,7 @@
 }
 
 .projectBadge {
-  @apply badge-featured-div mb-4 self-start;
+  @apply mb-4 self-start;
 }
 
 .projectTitle {

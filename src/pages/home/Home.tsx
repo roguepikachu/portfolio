@@ -15,6 +15,7 @@ import { BlogPostCard } from "@/components/blog-post-card";
 import { ProfileSlideshow } from "@/components/ProfileSlideshow";
 import { siteConfig } from "@/config";
 import styles from "./Home.module.css";
+import badgeStyles from "@/styles/badges.module.css";
 
 export default function Home() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -339,7 +340,7 @@ export default function Home() {
                   >
                     <div className={styles.projectCardInner}>
                       {/* Featured label */}
-                      <div className={styles.projectBadge}>
+                      <div className={`${badgeStyles.featuredDiv} ${styles.projectBadge}`}>
                         {siteConfig.ui.badges.featured}
                       </div>
                       {/* Make the project title a clickable Link */}
