@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { LoadingDots } from "@/components/ui/LoadingDots";
+import styles from './AuthCallback.module.css';
 
 export default function AuthCallback() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function AuthCallback() {
   }, [navigate]);
 
   return (
-    <div className="flex h-screen w-full items-center justify-center">
+    <div className={styles.container}>
       <LoadingDots />
     </div>
   );

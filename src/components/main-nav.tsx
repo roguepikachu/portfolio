@@ -23,6 +23,7 @@ import {
 import { loadBlogPosts, loadProjects, loadPublications } from '@/utils/content-loader';
 // Import the pikachu image
 import pikachuImage from '/pikachu.jpeg';
+import styles from './main-nav.module.css';
 
 // Base navigation items
 const baseNavItems = [
@@ -48,9 +49,9 @@ function getSnippet(text: string, query: string) {
   const match = text.slice(idx, idx + query.length);
   const after = text.slice(idx + query.length, end);
   return (
-    <span className="block text-xs mt-1 text-muted-foreground">
+    <span className={styles.searchResultSnippet}>
       ...{before}
-      <mark className="px-1 rounded bg-primary/20 text-primary dark:bg-primary/40 dark:text-primary font-semibold">{match}</mark>
+      <mark className={styles.searchHighlight}>{match}</mark>
       {after}...
     </span>
   );
@@ -65,17 +66,17 @@ function getSnippet(text: string, query: string) {
 // Custom minimal search bar for empty state
 function MinimalSearchBar({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   return (
-    <div className="flex justify-center items-center min-h-[200px]">
-      <div className="relative w-full max-w-2xl mx-auto">
-        <span className="absolute left-6 top-1/2 -translate-y-1/2 text-primary">
-          <Search className="h-6 w-6" />
+    <div className={styles.minimalSearchContainer}>
+      <div className={styles.minimalSearchWrapper}>
+        <span className={`${styles.searchIcon} absolute left-6 top-1/2 -translate-y-1/2`}>
+          <Search className={styles.searchIconLarge} />
         </span>
         <input
           type="text"
           value={value}
           onChange={e => onChange(e.target.value)}
           placeholder="Search blog posts, projects, publications..."
-          className="w-full pl-14 pr-4 py-5 rounded-full border-none bg-background/90 text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all shadow-xl placeholder:text-muted-foreground"
+          className={styles.searchInputLarge}
           autoFocus
           style={{ boxShadow: '0 6px 32px 0 rgb(0 0 0 / 0.10)' }}
         />
@@ -87,8 +88,8 @@ function MinimalSearchBar({ value, onChange }: { value: string; onChange: (v: st
 // Custom CommandList wrapper for beautiful dropdown
 function PrettyCommandList({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex justify-center w-full">
-      <div className="w-full max-w-2xl mt-2 rounded-2xl bg-background/95 shadow-2xl border border-border overflow-hidden">{children}</div>
+    <div className={styles.minimalSearchResults}>
+      <div className={styles.minimalSearchResultsWrapper}>{children}</div>
     </div>
   );
 }
@@ -178,24 +179,24 @@ export function MainNav() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 border-b bg-background/80 backdrop-blur">
-        <div className="container flex h-16 items-center justify-between px-4">
-          <div className="flex items-center gap-4 md:gap-6">
-            <Link to="/" className="flex items-center space-x-3">
-              <Avatar className="h-8 w-8">
+      <header className={styles.header}>
+        <div className={`container ${styles.headerContainer}`}>
+          <div className={styles.logoSection}>
+            <Link to="/" className={styles.logoLink}>
+              <Avatar className={styles.avatar}>
                 <AvatarImage src={pikachuImage} alt="Ayush Kumar" />
-                <AvatarFallback className="bg-primary text-primary-foreground font-semibold">AK</AvatarFallback>
+                <AvatarFallback className={styles.avatarFallback}>AK</AvatarFallback>
               </Avatar>
-              <span className="text-xl font-bold tracking-tight">Ayush Kumar</span>
+              <span className={styles.logoText}>Ayush Kumar</span>
             </Link>
-            <nav className="hidden md:flex md:gap-4 items-center">
+            <nav className={styles.navLinks}>
               {navItems.map(item => (
                 <Link
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    'animated-underline text-sm font-medium transition-colors hover:text-foreground/80',
-                    isActiveRoute(item.href) ? 'text-foreground' : 'text-foreground/60'
+                    styles.navLink,
+                    isActiveRoute(item.href) ? styles.navLinkActive : styles.navLinkInactive
                   )}
                 >
                   {item.name}
@@ -203,12 +204,12 @@ export function MainNav() {
               ))}
             </nav>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="relative w-[450px] hidden xl:block">
+          <div className={styles.rightSection}>
+            <div className={styles.searchContainer}>
               {location.pathname === '/' && (
                 <>
-                  <span className="absolute left-5 top-1/2 -translate-y-1/2 text-primary">
-                    <Search className="h-5 w-5" />
+                  <span className={`${styles.searchIcon} absolute left-5 top-1/2 -translate-y-1/2`}>
+                    <Search className={styles.searchIconSmall} />
                   </span>
                   <input
                     ref={searchRef}
@@ -216,7 +217,7 @@ export function MainNav() {
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
                     placeholder="Search blog posts, projects, publications..."
-                    className="w-full pl-12 pr-4 py-2 rounded-full border border-border bg-background text-base font-medium focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all shadow placeholder:text-muted-foreground"
+                    className={styles.searchInput}
                     onFocus={() => searchQuery && setShowDropdown(true)}
                   />
                   {showDropdown && (

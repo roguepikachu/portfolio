@@ -9,6 +9,7 @@ import { loadProjects } from '@/utils/content-loader';
 import { Project as ProjectType } from '@/types/project';
 import { LoadingDots } from '../components/ui/LoadingDots';
 import { delay } from '../utils/delay';
+import styles from './Project.module.css';
 
 export default function Project() {
   const { id } = useParams<{ id: string }>();
@@ -52,14 +53,14 @@ export default function Project() {
 
   if (loading) {
     return (
-      <div className="container py-16 flex items-center justify-center">
-        <div className="flex flex-col items-center space-y-6">
-          <div className="relative">
-            <Code2 className="h-16 w-16 text-primary animate-pulse" />
+      <div className={`container ${styles.loadingContainer}`}>
+        <div className={styles.loadingContent}>
+          <div className={styles.loadingIconWrapper}>
+            <Code2 className={styles.loadingIcon} />
           </div>
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl font-semibold">Compiling project...</h2>
-            <p className="text-muted-foreground">Executing code and loading features</p>
+          <div className={styles.loadingTextWrapper}>
+            <h2 className={styles.loadingTitle}>Compiling project...</h2>
+            <p className={styles.loadingMessage}>Executing code and loading features</p>
           </div>
           <LoadingDots size="lg" />
         </div>
@@ -69,10 +70,10 @@ export default function Project() {
 
   if (!project) {
     return (
-      <div className="container py-16 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-xl">Project not found</p>
-          <Button variant="link" asChild className="mt-4">
+      <div className={`container ${styles.notFoundContainer}`}>
+        <div className={styles.notFoundContent}>
+          <p className={styles.notFoundTitle}>Project not found</p>
+          <Button variant="link" asChild className={styles.backToProjectsButton}>
             <Link to="/projects">Back to Projects</Link>
           </Button>
         </div>
@@ -81,50 +82,50 @@ export default function Project() {
   }
 
   return (
-    <div className="container py-12 md:py-16">
-      <div className="mx-auto max-w-3xl">
+    <div className={`container ${styles.container}`}>
+      <div className={styles.wrapper}>
         {/* Back to projects link */}
         <Link
           to="/projects"
-          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-8"
+          className={styles.backLink}
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <ArrowLeft className={styles.backIcon} />
           Back to all projects
         </Link>
 
         {/* Project header */}
         <article>
-          <header className="mb-10">
-            <div className="flex flex-wrap items-center gap-2 mb-4">
+          <header className={styles.projectHeader}>
+            <div className={styles.badgesWrapper}>
               {project.featured && (
-                <Badge variant="outline" className="bg-primary/10 hover:bg-primary/20 text-primary border-primary/10">
+                <Badge variant="outline" className={styles.featuredBadge}>
                   Featured
                 </Badge>
               )}
             </div>
 
-            <h1 className="project-title text-3xl font-bold tracking-tight sm:text-4xl mb-4">{project.title}</h1>
+            <h1 className={styles.projectTitle}>{project.title}</h1>
 
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className={styles.tagsWrapper}>
               {project.tags.map(tag => (
-                <Badge key={tag} variant="secondary" className="hover:bg-secondary/80">
+                <Badge key={tag} variant="secondary" className={styles.tagLink}>
                   {tag}
                 </Badge>
               ))}
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className={styles.buttonWrapper}>
               <Button asChild>
-                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
-                  <Github className="mr-2 h-4 w-4" />
+                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className={styles.buttonInner}>
+                  <Github className={styles.buttonIcon} />
                   View on GitHub
                 </a>
               </Button>
 
               {project.demoUrl && (
                 <Button asChild variant="outline">
-                  <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
-                    <ExternalLink className="mr-2 h-4 w-4" />
+                  <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className={styles.buttonInner}>
+                    <ExternalLink className={styles.buttonIcon} />
                     Live Demo
                   </a>
                 </Button>
@@ -132,44 +133,44 @@ export default function Project() {
             </div>
 
             {/* Voting buttons */}
-            <div className="mt-6">
+            <div className={styles.votingWrapper}>
               <VotingButtons itemId={String(project.id)} itemType="project" />
             </div>
           </header>
 
           {/* Project content */}
           {project.readme ? (
-            <div className="prose prose-lg dark:prose-invert max-w-none">
+            <div className={`prose prose-lg dark:prose-invert ${styles.projectContent}`}>
               <MarkdownRenderer content={project.readme} />
             </div>
           ) : (
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <p className="text-muted-foreground">{project.description}</p>
-              <p className="mt-4">For more details about this project, check out the GitHub repository.</p>
+            <div className={`prose prose-lg dark:prose-invert ${styles.projectContent}`}>
+              <p className={styles.contentPlaceholder}>{project.description}</p>
+              <p className={styles.contentExtra}>For more details about this project, check out the GitHub repository.</p>
             </div>
           )}
         </article>
 
         {/* Related projects */}
         {relatedProjects.length > 0 && (
-          <div className="mt-16">
-            <h2 className="project-title text-2xl font-bold mb-8">Related Projects</h2>
-            <div className="grid gap-6 sm:grid-cols-2">
+          <div className={styles.relatedSection}>
+            <h2 className={styles.relatedTitle}>Related Projects</h2>
+            <div className={styles.relatedGrid}>
               {relatedProjects.map(proj => (
                 <Link
                   to={`/projects/${proj.id}`}
                   key={proj.id}
-                  className="block group rounded-lg border bg-card p-6 shadow-sm hover:bg-muted"
+                  className={`group ${styles.relatedProjectCard}`}
                 >
-                  <h3 className="project-title font-medium group-hover:text-primary">{proj.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{proj.description}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <h3 className={styles.relatedProjectTitle}>{proj.title}</h3>
+                  <p className={styles.relatedProjectDescription}>{proj.description}</p>
+                  <div className={styles.relatedProjectTags}>
                     {proj.tags.slice(0, 2).map(tag => (
-                      <Badge key={tag} variant="secondary" className="text-xs">
+                      <Badge key={tag} variant="secondary" className={styles.relatedProjectTag}>
                         {tag}
                       </Badge>
                     ))}
-                    {proj.tags.length > 2 && <span className="text-xs text-muted-foreground">+{proj.tags.length - 2}</span>}
+                    {proj.tags.length > 2 && <span className={styles.relatedProjectTagsMore}>+{proj.tags.length - 2}</span>}
                   </div>
                 </Link>
               ))}

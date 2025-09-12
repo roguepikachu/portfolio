@@ -1,0 +1,185 @@
+/* Main Navigation Component CSS Module */
+
+.header {
+  @apply fixed top-0 left-0 right-0 z-40 border-b bg-background/80 backdrop-blur;
+}
+
+.headerContainer {
+  @apply flex h-16 items-center justify-between px-4;
+}
+
+.logoSection {
+  @apply flex items-center gap-4 md:gap-6;
+}
+
+.logoLink {
+  @apply flex items-center space-x-3;
+}
+
+.avatar {
+  @apply h-8 w-8;
+}
+
+.avatarFallback {
+  @apply bg-primary text-primary-foreground font-semibold;
+}
+
+.logoText {
+  @apply text-xl font-bold tracking-tight;
+}
+
+.navLinks {
+  @apply hidden md:flex md:gap-4 items-center;
+}
+
+.navLink {
+  @apply animated-underline text-sm font-medium transition-colors hover:text-foreground/80;
+}
+
+.navLinkActive {
+  @apply text-foreground;
+}
+
+.navLinkInactive {
+  @apply text-foreground/60;
+}
+
+.rightSection {
+  @apply flex items-center gap-2;
+}
+
+.searchContainer {
+  @apply relative w-[450px] hidden xl:block;
+}
+
+.searchIcon {
+  @apply absolute left-5 top-1/2 -translate-y-1/2 text-primary;
+}
+
+.searchIconSmall {
+  @apply h-5 w-5;
+}
+
+.searchIconLarge {
+  @apply h-6 w-6;
+}
+
+.searchInput {
+  @apply w-full pl-12 pr-4 py-2 rounded-full border border-border bg-background text-base font-medium focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all shadow placeholder:text-muted-foreground;
+}
+
+.searchInputLarge {
+  @apply w-full pl-14 pr-4 py-5 rounded-full border-none bg-background/90 text-lg font-medium focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all shadow-xl placeholder:text-muted-foreground;
+}
+
+.searchDropdown {
+  @apply absolute left-0 right-0 mt-2 z-50 rounded-2xl bg-background/95 shadow-2xl border border-border overflow-hidden;
+}
+
+.searchResults {
+  @apply max-h-96 overflow-y-auto;
+}
+
+.searchNoResults {
+  @apply p-6 text-center text-muted-foreground;
+}
+
+.searchSectionHeader {
+  @apply px-6 pt-4 pb-1 text-xs font-semibold text-muted-foreground uppercase;
+}
+
+.searchResultButton {
+  @apply w-full text-left px-6 py-3 hover:bg-accent/40 transition-colors;
+}
+
+.searchResultContent {
+  @apply block;
+}
+
+.searchResultTitle {
+  @apply font-medium;
+}
+
+.searchResultType {
+  @apply ml-2 text-xs text-muted-foreground;
+}
+
+.searchResultSnippet {
+  @apply block text-xs mt-1 text-muted-foreground;
+}
+
+.searchHighlight {
+  @apply px-1 rounded bg-primary/20 text-primary dark:bg-primary/40 dark:text-primary font-semibold;
+}
+
+.desktopActions {
+  @apply hidden md:flex items-center gap-2;
+}
+
+.mobileMenuButton {
+  @apply xl:hidden;
+}
+
+.mobileMenu {
+  @apply w-full sm:max-w-xs;
+}
+
+.mobileMenuContent {
+  @apply flex flex-col gap-6 pt-6;
+}
+
+.mobileMenuHeader {
+  @apply flex items-center justify-between;
+}
+
+.mobileMenuLogo {
+  @apply flex items-center space-x-3;
+}
+
+.mobileMenuLogoText {
+  @apply text-xl font-bold;
+}
+
+.mobileMenuThemes {
+  @apply flex items-center gap-2;
+}
+
+.mobileSearchContainer {
+  @apply relative w-full;
+}
+
+.mobileNavLinks {
+  @apply flex flex-col gap-4;
+}
+
+.mobileNavLink {
+  @apply text-foreground/60 hover:text-foreground text-sm font-medium transition-colors;
+}
+
+.mobileNavLinkActive {
+  @apply text-foreground;
+}
+
+.mobileContactButton {
+  @apply w-full mt-4;
+}
+
+.mobileAuthSection {
+  @apply mt-auto border-t pt-4;
+}
+
+.minimalSearchContainer {
+  @apply flex justify-center items-center min-h-[200px];
+}
+
+.minimalSearchWrapper {
+  @apply relative w-full max-w-2xl mx-auto;
+}
+
+.minimalSearchResults {
+  @apply flex justify-center w-full;
+}
+
+.minimalSearchResultsWrapper {
+  @apply w-full max-w-2xl mt-2 rounded-2xl bg-background/95 shadow-2xl border border-border overflow-hidden;
+}

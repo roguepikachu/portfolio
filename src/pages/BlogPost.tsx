@@ -15,6 +15,7 @@ import { LoadingDots } from '../components/ui/LoadingDots';
 import { delay } from '../utils/delay';
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
+import styles from './BlogPost.module.css';
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>();
@@ -98,14 +99,14 @@ export default function BlogPost() {
   
   if (loading) {
     return (
-      <div className="container py-16 flex items-center justify-center">
-        <div className="flex flex-col items-center space-y-6">
-          <div className="relative">
-            <FileText className="h-16 w-16 text-primary animate-pulse" />
+      <div className={`container ${styles.loadingContainer}`}>
+        <div className={styles.loadingContent}>
+          <div className={styles.loadingIconWrapper}>
+            <FileText className={styles.loadingIcon} />
           </div>
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl font-semibold">Reading between the lines...</h2>
-            <p className="text-muted-foreground">Loading your article with care</p>
+          <div className={styles.loadingTextWrapper}>
+            <h2 className={styles.loadingTitle}>Reading between the lines...</h2>
+            <p className={styles.loadingMessage}>Loading your article with care</p>
           </div>
           <LoadingDots size="sm" />
         </div>
@@ -115,10 +116,10 @@ export default function BlogPost() {
   
   if (!post) {
     return (
-      <div className="container py-16 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-xl">Post not found</p>
-          <Button variant="link" asChild className="mt-4">
+      <div className={`container ${styles.notFoundContainer}`}>
+        <div className={styles.notFoundContent}>
+          <p className={styles.notFoundTitle}>Post not found</p>
+          <Button variant="link" asChild className={styles.backToBlogButton}>
             <Link to="/blog">Back to Blog</Link>
           </Button>
         </div>
@@ -134,55 +135,55 @@ export default function BlogPost() {
   });
 
   return (
-    <div className="container py-12 md:py-16">
-      <div className="mx-auto max-w-3xl">
+    <div className={`container ${styles.container}`}>
+      <div className={styles.wrapper}>
         {/* Back to blog link */}
         <Link 
           to="/blog" 
-          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+          className={styles.backLink}
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <ArrowLeft className={styles.backIcon} />
           Back to all posts
         </Link>
         
         {/* Post header */}
         <article>
-          <header className="mb-10">
-            <div className="flex flex-wrap items-center gap-2 mb-4">
+          <header className={styles.postHeader}>
+            <div className={styles.badgesWrapper}>
               {post.pinned && (
-                <Badge variant="outline" className="bg-primary/10 hover:bg-primary/20 text-primary border-primary/10">
+                <Badge variant="outline" className={styles.pinnedBadge}>
                   Pinned
                 </Badge>
               )}
               {post.release && (
-                <Badge variant="outline" className="bg-accent/10 hover:bg-accent/20 border-accent/10">
+                <Badge variant="outline" className={styles.newBadge}>
                   New
                 </Badge>
               )}
             </div>
             
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
+            <h1 className={styles.postTitle}>
               {post.title}
             </h1>
             
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-              <div className="flex items-center">
-                <Calendar className="mr-1 h-4 w-4" />
+            <div className={styles.postMeta}>
+              <div className={styles.metaItem}>
+                <Calendar className={styles.metaIcon} />
                 <time dateTime={post.date}>{formattedDate}</time>
               </div>
               
               {!!readingTime && (
-                <div className="flex items-center">
-                  <Clock className="mr-1 h-4 w-4" />
+                <div className={styles.metaItem}>
+                  <Clock className={styles.metaIcon} />
                   <span>{readingTime} min read</span>
                 </div>
               )}
             </div>
             
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className={styles.tagsWrapper}>
               {post.tags.map(tag => (
                 <Link to={`/blog?tag=${tag}`} key={tag}>
-                  <Badge variant="secondary" className="hover:bg-secondary/80">
+                  <Badge variant="secondary" className={styles.tagLink}>
                     {tag}
                   </Badge>
                 </Link>
@@ -190,7 +191,7 @@ export default function BlogPost() {
             </div>
 
             {/* Voting buttons */}
-            <div className="mt-6">
+            <div className={styles.votingWrapper}>
               <VotingButtons itemId={post.id} itemType="blog" />
             </div>
           </header>
@@ -199,44 +200,44 @@ export default function BlogPost() {
           {post.content ? (
             <MarkdownRenderer content={post.content} />
           ) : (
-            <p className="text-muted-foreground">No content available for this post.</p>
+            <p className={styles.contentPlaceholder}>No content available for this post.</p>
           )}
 
           {/* Share buttons */}
-          <div className="mt-10 flex flex-wrap items-center gap-3 border-t pt-6">
-            <span className="text-sm font-medium">Share this post:</span>
+          <div className={styles.shareSection}>
+            <span className={styles.shareLabel}>Share this post:</span>
             <Button 
               variant="outline" 
               size="sm" 
-              className="rounded-full" 
+              className={styles.shareButton} 
               onClick={() => shareOnSocialMedia('facebook')}
             >
-              <Facebook className="h-4 w-4" />
-              <span className="sr-only">Share on Facebook</span>
+              <Facebook className={styles.shareIcon} />
+              <span className={styles.screenReaderOnly}>Share on Facebook</span>
             </Button>
             <Button 
               variant="outline" 
               size="sm" 
-              className="rounded-full" 
+              className={styles.shareButton} 
               onClick={() => shareOnSocialMedia('twitter')}
             >
-              <Twitter className="h-4 w-4" />
-              <span className="sr-only">Share on Twitter</span>
+              <Twitter className={styles.shareIcon} />
+              <span className={styles.screenReaderOnly}>Share on Twitter</span>
             </Button>
             <Button 
               variant="outline" 
               size="sm" 
               onClick={copyToClipboard} 
-              className="ml-auto"
+              className={styles.shareButtonCopy}
             >
               {linkCopied ? (
                 <>
-                  <Check className="mr-1 h-4 w-4" />
+                  <Check className={styles.shareIconSmall} />
                   Copied
                 </>
               ) : (
                 <>
-                  <Copy className="mr-1 h-4 w-4" />
+                  <Copy className={styles.shareIconSmall} />
                   Copy Link
                 </>
               )}
@@ -244,31 +245,29 @@ export default function BlogPost() {
           </div>
           
           {/* Post navigation */}
-          <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className={styles.postNavigation}>
             {prevPost && (
               <Link
                 to={`/blog/${prevPost.id}`}
-                className="group flex flex-col gap-1 rounded-lg border p-4 transition-colors hover:bg-muted"
+                className={`group ${styles.navLink}`}
               >
-                <span className="text-sm text-muted-foreground flex items-center">
-                  <ArrowLeft className="mr-1 h-3 w-3" />
+                <span className={styles.navLabel}>
+                  <ArrowLeft className={styles.navIcon} />
                   Previous post
                 </span>
-                <span className="font-medium group-hover:text-foreground/80">{prevPost.title}</span>
+                <span className={styles.navTitle}>{prevPost.title}</span>
               </Link>
             )}
             {nextPost && (
               <Link
                 to={`/blog/${nextPost.id}`}
-                className={`group flex flex-col gap-1 rounded-lg border p-4 transition-colors hover:bg-muted ${
-                  !prevPost ? "sm:col-start-2" : ""
-                }`}
+                className={`group ${!prevPost ? styles.navLinkNextSingle : styles.navLinkNext}`}
               >
-                <span className="text-sm text-muted-foreground flex items-center justify-end">
+                <span className={styles.navLabelNext}>
                   Next post
-                  <ArrowRight className="ml-1 h-3 w-3" />
+                  <ArrowRight className={styles.navIconNext} />
                 </span>
-                <span className="font-medium text-right group-hover:text-foreground/80">{nextPost.title}</span>
+                <span className={styles.navTitleNext}>{nextPost.title}</span>
               </Link>
             )}
           </div>
@@ -280,10 +279,10 @@ export default function BlogPost() {
         
         {/* Related posts */}
         {relatedPosts.length > 0 && (
-          <div className="mt-16">
-            <Separator className="my-8" />
-            <h2 className="text-2xl font-bold mb-8">Related Posts</h2>
-            <div className="grid gap-6 sm:grid-cols-2">
+          <div className={styles.relatedSection}>
+            <Separator className={styles.relatedSeparator} />
+            <h2 className={styles.relatedTitle}>Related Posts</h2>
+            <div className={styles.relatedGrid}>
               {relatedPosts.map(post => (
                 <BlogPostCard key={post.id} post={post} />
               ))}

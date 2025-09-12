@@ -1,0 +1,57 @@
+/* Publication Card Component CSS Module */
+
+.card {
+  @apply h-full flex flex-col overflow-hidden transition-shadow hover:shadow-md;
+}
+
+.badgeContainer {
+  @apply flex flex-wrap gap-2 mb-2;
+}
+
+.featuredBadge {
+  @apply bg-primary/10 hover:bg-primary/20 text-primary border-primary/10;
+}
+
+.title {
+  @apply line-clamp-2;
+}
+
+.titleLink {
+  @apply hover:text-primary transition-colors;
+}
+
+.date {
+  @apply text-sm text-muted-foreground;
+}
+
+.content {
+  @apply flex-grow;
+}
+
+.summaryFull {
+  /* No line-clamp when showing full summary */
+}
+
+.summaryTruncated {
+  @apply line-clamp-3;
+}
+
+.footer {
+  @apply flex flex-col items-stretch gap-4 pt-4;
+}
+
+.tagsContainer {
+  @apply flex flex-wrap gap-2;
+}
+
+.tag {
+  @apply hover:bg-secondary/80;
+}
+
+.buttonsContainer {
+  @apply flex items-center gap-2;
+}
+
+.icon {
+  @apply mr-2 h-4 w-4;
+}

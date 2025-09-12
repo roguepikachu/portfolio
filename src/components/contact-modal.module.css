@@ -1,0 +1,49 @@
+/* Contact Modal Component CSS Module */
+
+.content {
+  @apply sm:max-w-md;
+}
+
+.contactsContainer {
+  @apply space-y-6 py-4;
+}
+
+.contactItem {
+  @apply flex items-center gap-4 rounded-lg border p-4;
+}
+
+.iconContainer {
+  @apply rounded-full bg-primary/10 p-2;
+}
+
+.icon {
+  @apply h-5 w-5 text-primary;
+}
+
+.contactInfo {
+  @apply flex-1;
+}
+
+.label {
+  @apply text-sm font-medium;
+}
+
+.link {
+  @apply text-sm text-muted-foreground hover:underline;
+}
+
+.copyButton {
+  @apply h-8 w-8 p-0;
+}
+
+.copyIcon {
+  @apply h-4 w-4;
+}
+
+.srOnly {
+  @apply sr-only;
+}
+
+.footer {
+  @apply sm:justify-center;
+}

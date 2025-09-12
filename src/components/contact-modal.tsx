@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Mail, Phone, Copy, Check } from 'lucide-react';
 import { toast } from 'sonner';
+import styles from './contact-modal.module.css';
 
 interface ContactModalProps {
   open: boolean;
@@ -34,25 +35,25 @@ export function ContactModal({ open, onOpenChange }: ContactModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className={styles.content}>
         <DialogHeader>
           <DialogTitle>Contact Me</DialogTitle>
           <DialogDescription>Feel free to reach out via email.</DialogDescription>
         </DialogHeader>
-        <div className="space-y-6 py-4">
-          <div className="flex items-center gap-4 rounded-lg border p-4">
-            <div className="rounded-full bg-primary/10 p-2">
-              <Mail className="h-5 w-5 text-primary" />
+        <div className={styles.contactsContainer}>
+          <div className={styles.contactItem}>
+            <div className={styles.iconContainer}>
+              <Mail className={styles.icon} />
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium">Email</p>
-              <a href={`mailto:${email}`} className="text-sm text-muted-foreground hover:underline">
+            <div className={styles.contactInfo}>
+              <p className={styles.label}>Email</p>
+              <a href={`mailto:${email}`} className={styles.link}>
                 {email}
               </a>
             </div>
-            <Button variant="outline" size="sm" className="h-8 w-8 p-0" onClick={() => copyToClipboard(email, 'email')}>
-              {emailCopied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              <span className="sr-only">Copy email</span>
+            <Button variant="outline" size="sm" className={styles.copyButton} onClick={() => copyToClipboard(email, 'email')}>
+              {emailCopied ? <Check className={styles.copyIcon} /> : <Copy className={styles.copyIcon} />}
+              <span className={styles.srOnly}>Copy email</span>
             </Button>
           </div>
 
@@ -81,7 +82,7 @@ export function ContactModal({ open, onOpenChange }: ContactModalProps) {
             </Button>
           </div> */}
         </div>
-        <DialogFooter className="sm:justify-center">
+        <DialogFooter className={styles.footer}>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Close
           </Button>

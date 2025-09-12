@@ -1,0 +1,261 @@
+/* Home Page CSS Module */
+
+/* Loading Section */
+.loadingContainer {
+  @apply container px-4 py-12 md:px-6 md:py-16 lg:py-24;
+}
+
+.loadingWrapper {
+  @apply mx-auto max-w-5xl;
+}
+
+.loadingContent {
+  @apply flex flex-col items-center justify-center space-y-6;
+}
+
+.loadingIconWrapper {
+  @apply relative;
+}
+
+.loadingIcon {
+  @apply h-16 w-16 text-primary animate-pulse;
+}
+
+.loadingTextWrapper {
+  @apply text-center space-y-2;
+}
+
+.loadingTitle {
+  @apply text-2xl font-semibold;
+}
+
+.loadingMessage {
+  @apply text-muted-foreground;
+}
+
+/* Main Container */
+.mainContainer {
+  @apply flex flex-col min-h-screen;
+}
+
+/* Hero Section */
+.heroSection {
+  @apply flex-1 flex items-center relative overflow-hidden;
+}
+
+.heroContainer {
+  @apply container px-4 md:px-6 space-y-10 py-16 md:py-24;
+}
+
+.heroGrid {
+  @apply grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_500px];
+}
+
+.heroContent {
+  @apply flex flex-col justify-center space-y-4;
+}
+
+.heroTextWrapper {
+  @apply space-y-2;
+}
+
+.heroTitle {
+  @apply text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none;
+}
+
+.heroBio {
+  @apply max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400 whitespace-pre-line;
+}
+
+.heroButtons {
+  @apply flex flex-col sm:flex-row gap-2;
+}
+
+.heroButton {
+  @apply inline-flex items-center;
+}
+
+.heroImageWrapper {
+  @apply flex items-center justify-center;
+}
+
+/* Talks Section */
+.talksSection {
+  @apply py-16 bg-gradient-to-br from-primary/5 to-secondary/5;
+}
+
+.talksContainer {
+  @apply container px-4 md:px-6;
+}
+
+.talksHeader {
+  @apply text-center mb-12;
+}
+
+.talksTitle {
+  @apply text-2xl font-bold tracking-tight sm:text-3xl mb-4;
+}
+
+.talksDescription {
+  @apply text-muted-foreground max-w-2xl mx-auto;
+}
+
+.talksGrid {
+  @apply grid gap-8 lg:grid-cols-2 items-start;
+}
+
+.talksColumn {
+  @apply space-y-6;
+}
+
+.talkCard {
+  @apply cursor-pointer;
+}
+
+.talkCardInner {
+  @apply relative overflow-hidden rounded-xl border bg-card shadow-lg hover:shadow-xl transition-all duration-300 p-6;
+}
+
+.talkBadgeWrapper {
+  @apply absolute top-4 right-4;
+}
+
+.talkBadge {
+  @apply inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary;
+}
+
+.talkContent {
+  @apply space-y-4;
+}
+
+.talkHeader {
+  @apply flex items-center gap-3;
+}
+
+.talkIconCircle {
+  @apply w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center;
+}
+
+.talkIcon {
+  @apply w-6 h-6 text-primary-foreground;
+}
+
+.talkTitle {
+  @apply font-semibold text-lg;
+}
+
+.talkSubtitle {
+  @apply text-muted-foreground text-sm;
+}
+
+.videoWrapper {
+  @apply aspect-video rounded-lg overflow-hidden;
+}
+
+.videoIframe {
+  @apply w-full h-full;
+}
+
+.talkDescription {
+  @apply text-muted-foreground;
+}
+
+.eventButton {
+  @apply w-full;
+}
+
+.eventButtonInner {
+  @apply inline-flex items-center justify-center;
+}
+
+/* Coming Soon Card */
+.comingSoonCard {
+  @apply relative overflow-hidden rounded-xl border bg-card/50 shadow-sm p-6;
+}
+
+.comingSoonHeader {
+  @apply flex items-center justify-between mb-4;
+}
+
+.comingSoonTitle {
+  @apply font-semibold;
+}
+
+.comingSoonBadge {
+  @apply inline-flex items-center rounded-full bg-muted px-3 py-1 text-xs font-semibold text-muted-foreground;
+}
+
+.comingSoonText {
+  @apply text-muted-foreground text-sm;
+}
+
+/* Blog Section */
+.blogSection {
+  @apply py-16;
+}
+
+.sectionHeader {
+  @apply flex flex-col md:flex-row justify-between items-center gap-4 mb-10;
+}
+
+.sectionTitle {
+  @apply text-2xl font-bold tracking-tight sm:text-3xl;
+}
+
+.sectionDescription {
+  @apply text-muted-foreground;
+}
+
+.blogGrid {
+  @apply grid gap-6 sm:grid-cols-2 lg:grid-cols-3;
+}
+
+/* Publications Section */
+.publicationsSection {
+  @apply py-16 bg-muted/30;
+}
+
+.publicationsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+/* Projects Section */
+.projectsSection {
+  @apply bg-muted/50 py-16;
+}
+
+.projectsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.projectCard {
+  @apply rounded-lg border bg-card shadow-sm hover:shadow-md;
+}
+
+.projectCardInner {
+  @apply p-6 flex flex-col h-full;
+}
+
+.projectBadge {
+  @apply inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-4 self-start;
+}
+
+.projectTitle {
+  @apply text-xl font-bold mb-2 hover:text-primary;
+}
+
+.projectDescription {
+  @apply text-muted-foreground text-sm flex-grow;
+}
+
+.projectTags {
+  @apply mt-4 flex flex-wrap gap-2;
+}
+
+.projectTag {
+  @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold;
+}
+
+.projectActions {
+  @apply flex items-center gap-3 mt-4 pt-4 border-t;
+}

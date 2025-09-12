@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Building, Calendar, MapPin } from "lucide-react";
+import styles from './CareerTimeline.module.css';
 
 interface Role {
   id: string;
@@ -27,26 +28,26 @@ interface CareerTimelineProps {
 
 export function CareerTimeline({ items, title = "Career Journey" }: CareerTimelineProps) {
   return (
-    <section className="space-y-8">
-      <h2 className="text-2xl font-bold">{title}</h2>
+    <section className={styles.section}>
+      <h2 className={styles.title}>{title}</h2>
       
-      <div className="relative">
+      <div className={styles.timelineContainer}>
         {/* Main timeline line */}
-        <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/60 to-primary/20" />
+        <div className={styles.mainTimelineLine} />
         
         {/* Timeline items */}
-        <div className="space-y-12">
+        <div className={styles.timelineItems}>
           {items.map((item, companyIndex) => (
-            <div key={item.id} className="relative">
+            <div key={item.id} className={styles.companyItem}>
               {/* Company Header */}
-              <div className="relative flex items-start gap-8 mb-6">
+              <div className={styles.companyHeader}>
                 {/* Company timeline node */}
-                <div className="relative z-10 flex-shrink-0">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary/60 shadow-lg flex items-center justify-center border-4 border-background">
-                    <Building className="w-6 h-6 text-primary-foreground" />
+                <div className={styles.companyNode}>
+                  <div className={styles.companyNodeCircle}>
+                    <Building className={styles.companyIcon} />
                   </div>
                   {/* Connecting line to content */}
-                  <div className="absolute top-8 left-16 w-8 h-0.5 bg-gradient-to-r from-primary/60 to-transparent" />
+                  <div className={styles.companyConnector} />
                 </div>
                 
                 {/* Company header card */}

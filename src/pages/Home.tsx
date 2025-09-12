@@ -14,7 +14,7 @@ import { delay } from "../utils/delay";
 import { BlogPostCard } from "@/components/blog-post-card";
 import { ProfileSlideshow } from "@/components/ProfileSlideshow";
 import { siteConfig } from "@/config";
-import { homeStyles } from "./home.styles";
+import styles from "./Home.module.css";
 
 export default function Home() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -58,17 +58,17 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className={homeStyles.loading.container}>
-        <div className={homeStyles.loading.wrapper}>
-          <div className={homeStyles.loading.content}>
-            <div className={homeStyles.loading.iconWrapper}>
-              <Sparkles className={homeStyles.loading.icon} />
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingWrapper}>
+          <div className={styles.loadingContent}>
+            <div className={styles.loadingIconWrapper}>
+              <Sparkles className={styles.loadingIcon} />
             </div>
-            <div className={homeStyles.loading.textWrapper}>
-              <h2 className={homeStyles.loading.title}>
+            <div className={styles.loadingTextWrapper}>
+              <h2 className={styles.loadingTitle}>
                 {siteConfig.loading.home.title}
               </h2>
-              <p className={homeStyles.loading.message}>
+              <p className={styles.loadingMessage}>
                 {siteConfig.loading.home.message}
               </p>
             </div>
@@ -80,29 +80,29 @@ export default function Home() {
   }
 
   return (
-    <div className={homeStyles.main}>
+    <div className={styles.mainContainer}>
       {/* Hero Section */}
-      <section className={homeStyles.hero.section}>
-        <div className={homeStyles.hero.container}>
-          <div className={homeStyles.hero.grid}>
-            <div className={homeStyles.hero.content}>
-              <div className={homeStyles.hero.textWrapper}>
-                <h1 className={homeStyles.hero.title}>
+      <section className={styles.heroSection}>
+        <div className={styles.heroContainer}>
+          <div className={styles.heroGrid}>
+            <div className={styles.heroContent}>
+              <div className={styles.heroTextWrapper}>
+                <h1 className={styles.heroTitle}>
                   {siteConfig.personal.role}
                 </h1>
-                <p className={homeStyles.hero.bio}>
+                <p className={styles.heroBio}>
                   {siteConfig.personal.fullBio}
                 </p>
               </div>
               <br />
-              <div className={homeStyles.hero.buttons}>
-                <Button asChild className={homeStyles.hero.button}>
+              <div className={styles.heroButtons}>
+                <Button asChild className={styles.heroButton}>
                   <a
                     href={siteConfig.social.github}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Github className={homeStyles.hero.buttonIcon} />
+                    <Github className="mr-2 h-4 w-4" />
                     {siteConfig.ui.buttons.githubProfile}
                   </a>
                 </Button>
@@ -112,7 +112,7 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Linkedin className={homeStyles.hero.buttonIcon} />
+                    <Linkedin className="mr-2 h-4 w-4" />
                     {siteConfig.ui.buttons.linkedin}
                   </a>
                 </Button>
@@ -124,51 +124,51 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-            <div className={homeStyles.hero.imageWrapper}>
+            <div className={styles.heroImageWrapper}>
               <ProfileSlideshow />
             </div>
           </div>
         </div>
 
         {/* Decorative elements */}
-        <div className={homeStyles.hero.decorativeBg}></div>
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(rgba(var(--primary-rgb),0.06)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:20px_20px] [mask-image:radial-gradient(ellipse_at_center,white,transparent)]"></div>
       </section>
 
       {/* My Talks Section */}
-      <section className="py-16 bg-gradient-to-br from-primary/5 to-secondary/5">
-        <div className="container px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-4">
+      <section className={styles.talksSection}>
+        <div className={styles.talksContainer}>
+          <div className={styles.talksHeader}>
+            <h2 className={styles.talksTitle}>
               {siteConfig.sections.talks.title}
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className={styles.talksDescription}>
               {siteConfig.sections.talks.description}
             </p>
           </div>
           
-          <div className="grid gap-8 lg:grid-cols-2 items-start">
+          <div className={styles.talksGrid}>
             {/* Featured Talk */}
-            <div className="space-y-6">
-              <div className="group cursor-pointer">
-                <div className="relative overflow-hidden rounded-xl border bg-card shadow-lg hover:shadow-xl transition-all duration-300 p-6">
-                  <div className="absolute top-4 right-4">
-                    <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+            <div className={styles.talksColumn}>
+              <div className={styles.talkCard}>
+                <div className={styles.talkCardInner}>
+                  <div className={styles.talkBadgeWrapper}>
+                    <div className={styles.talkBadge}>
                       Featured
                     </div>
                   </div>
                   
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                        <Play className="w-6 h-6 text-primary-foreground" />
+                  <div className={styles.talkContent}>
+                    <div className={styles.talkHeader}>
+                      <div className={styles.talkIconCircle}>
+                        <Play className={styles.talkIcon} />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-lg">{siteConfig.sections.featuredTalk.title}</h3>
-                        <p className="text-muted-foreground text-sm">{siteConfig.sections.featuredTalk.subtitle}</p>
+                        <h3 className={styles.talkTitle}>{siteConfig.sections.featuredTalk.title}</h3>
+                        <p className={styles.talkSubtitle}>{siteConfig.sections.featuredTalk.subtitle}</p>
                       </div>
                     </div>
                     
-                    <div className="aspect-video rounded-lg overflow-hidden">
+                    <div className={styles.videoWrapper}>
                       <iframe 
                         width="100%" 
                         height="100%" 
@@ -178,7 +178,7 @@ export default function Home() {
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                         referrerPolicy="strict-origin-when-cross-origin" 
                         allowFullScreen
-                        className="w-full h-full"
+                        className={styles.videoIframe}
                       ></iframe>
                     </div>
                   </div>
@@ -187,36 +187,36 @@ export default function Home() {
             </div>
 
             {/* Meetup Event */}
-            <div className="space-y-6">
-              <div className="group cursor-pointer">
-                <div className="relative overflow-hidden rounded-xl border bg-card shadow-lg hover:shadow-xl transition-all duration-300 p-6">
-                  <div className="absolute top-4 right-4">
-                    <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+            <div className={styles.talksColumn}>
+              <div className={styles.talkCard}>
+                <div className={styles.talkCardInner}>
+                  <div className={styles.talkBadgeWrapper}>
+                    <div className={styles.talkBadge}>
                       {siteConfig.ui.badges.liveEvent}
                     </div>
                   </div>
                   
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                        <Sparkles className="w-6 h-6 text-primary-foreground" />
+                  <div className={styles.talkContent}>
+                    <div className={styles.talkHeader}>
+                      <div className={styles.talkIconCircle}>
+                        <Sparkles className={styles.talkIcon} />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-lg">{siteConfig.sections.collabnixMeetup.title}</h3>
-                        <p className="text-muted-foreground text-sm">{siteConfig.sections.collabnixMeetup.subtitle}</p>
+                        <h3 className={styles.talkTitle}>{siteConfig.sections.collabnixMeetup.title}</h3>
+                        <p className={styles.talkSubtitle}>{siteConfig.sections.collabnixMeetup.subtitle}</p>
                       </div>
                     </div>
                     
-                    <p className="text-muted-foreground">
+                    <p className={styles.talkDescription}>
                       {siteConfig.sections.collabnixMeetup.description}
                     </p>
                     
-                    <Button asChild variant="outline" className="w-full">
+                    <Button asChild variant="outline" className={styles.eventButton}>
                       <a 
                         href={siteConfig.external.meetupEventUrl} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center"
+                        className={styles.eventButtonInner}
                       >
                         View Event Details <ArrowRight className="ml-2 h-4 w-4" />
                       </a>
@@ -226,14 +226,14 @@ export default function Home() {
               </div>
               
               {/* Additional Talk Placeholder */}
-              <div className="relative overflow-hidden rounded-xl border bg-card/50 shadow-sm p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold">More Talks Coming Soon</h3>
-                  <div className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-xs font-semibold text-muted-foreground">
+              <div className={styles.comingSoonCard}>
+                <div className={styles.comingSoonHeader}>
+                  <h3 className={styles.comingSoonTitle}>More Talks Coming Soon</h3>
+                  <div className={styles.comingSoonBadge}>
                     Coming Soon
                   </div>
                 </div>
-                <p className="text-muted-foreground text-sm">
+                <p className={styles.comingSoonText}>
                   Stay tuned for upcoming presentations and workshop sessions on 
                   distributed systems, AI/ML implementations, and cloud-native architectures.
                 </p>
@@ -245,14 +245,14 @@ export default function Home() {
 
       {/* Blog Posts Section */}
       {sectionConfig.blog && (
-        <section className="py-16">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
+        <section className={styles.blogSection}>
+          <div className={styles.talksContainer}>
+            <div className={styles.sectionHeader}>
               <div>
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <h2 className={styles.sectionTitle}>
                   {siteConfig.sections.recentPosts.title}
                 </h2>
-                <p className="text-muted-foreground">
+                <p className={styles.sectionDescription}>
                   Thoughts, ideas, and tutorials
                 </p>
               </div>
@@ -262,7 +262,7 @@ export default function Home() {
                 </Link>
               </Button>
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className={styles.blogGrid}>
               {posts.slice(0, 3).map((post) => (
                 <BlogPostCard key={post.id} post={post} />
               ))}
@@ -273,14 +273,14 @@ export default function Home() {
 
       {/* Publications Section - Conditional based on sectionConfig */}
       {sectionConfig.publications && (
-        <section className="py-16 bg-muted/30">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
+        <section className={styles.publicationsSection}>
+          <div className={styles.talksContainer}>
+            <div className={styles.sectionHeader}>
               <div>
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <h2 className={styles.sectionTitle}>
                   {siteConfig.sections.featuredPublications.title}
                 </h2>
-                <p className="text-muted-foreground">
+                <p className={styles.sectionDescription}>
                   Academic papers and research articles
                 </p>
               </div>
@@ -291,7 +291,7 @@ export default function Home() {
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className={styles.publicationsGrid}>
               {featuredPublications.map((publication) => (
                 <PublicationCard
                   key={publication.id}
@@ -305,14 +305,14 @@ export default function Home() {
 
       {/* Featured Projects Section - Conditional based on sectionConfig */}
       {sectionConfig.projects && (
-        <section className="bg-muted/50 py-16">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
+        <section className={styles.projectsSection}>
+          <div className={styles.talksContainer}>
+            <div className={styles.sectionHeader}>
               <div>
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                <h2 className={styles.sectionTitle}>
                   {siteConfig.sections.featuredProjects.title}
                 </h2>
-                <p className="text-muted-foreground">
+                <p className={styles.sectionDescription}>
                   {siteConfig.sections.featuredProjects.description}
                 </p>
               </div>
@@ -322,40 +322,40 @@ export default function Home() {
                 </Link>
               </Button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className={styles.projectsGrid}>
               {projects
                 .filter((p) => p.featured)
                 .slice(0, 3)
                 .map((project) => (
                   <div
                     key={project.id}
-                    className="group rounded-lg border bg-card shadow-sm hover:shadow-md"
+                    className={styles.projectCard}
                   >
-                    <div className="p-6 flex flex-col h-full">
+                    <div className={styles.projectCardInner}>
                       {/* Featured label */}
-                      <div className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-4 self-start">
+                      <div className={styles.projectBadge}>
                         {siteConfig.ui.badges.featured}
                       </div>
                       {/* Make the project title a clickable Link */}
                       <Link to={`/projects/${project.id}`}>
-                        <h3 className="text-xl font-bold mb-2 hover:text-primary">
+                        <h3 className={styles.projectTitle}>
                           {project.title}
                         </h3>
                       </Link>
-                      <p className="text-muted-foreground text-sm flex-grow">
+                      <p className={styles.projectDescription}>
                         {project.description}
                       </p>
-                      <div className="mt-4 flex flex-wrap gap-2">
+                      <div className={styles.projectTags}>
                         {project.tags.map((tag) => (
                           <div
                             key={tag}
-                            className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold"
+                            className={styles.projectTag}
                           >
                             {tag}
                           </div>
                         ))}
                       </div>
-                      <div className="flex items-center gap-3 mt-4 pt-4 border-t">
+                      <div className={styles.projectActions}>
                         <Button size="sm" variant="outline" asChild>
                           <a
                             href={project.githubUrl}

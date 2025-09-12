@@ -16,6 +16,7 @@ import {
 import { LoadingDots } from '../components/ui/LoadingDots';
 import { delay } from '../utils/delay';
 import { Link } from "react-router-dom";
+import styles from './Blog.module.css';
 
 export default function Blog() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
@@ -95,15 +96,15 @@ export default function Blog() {
 
   if (loading) {
     return (
-      <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
-        <div className="mx-auto max-w-4xl">
-          <div className="flex flex-col items-center justify-center space-y-6">
-            <div className="relative">
-              <BookOpen className="h-16 w-16 text-primary animate-pulse" />
+      <div className={`container ${styles.loadingContainer}`}>
+        <div className={styles.loadingWrapper}>
+          <div className={styles.loadingContent}>
+            <div className={styles.loadingIconWrapper}>
+              <BookOpen className={styles.loadingIcon} />
             </div>
-            <div className="text-center space-y-2">
-              <h2 className="text-2xl font-semibold">Loading amazing content...</h2>
-              <p className="text-muted-foreground">Just a moment while we fetch the latest blog posts</p>
+            <div className={styles.loadingTextWrapper}>
+              <h2 className={styles.loadingTitle}>Loading amazing content...</h2>
+              <p className={styles.loadingMessage}>Just a moment while we fetch the latest blog posts</p>
             </div>
             <LoadingDots size="md" />
           </div>
@@ -113,24 +114,24 @@ export default function Blog() {
   }
 
   return (
-    <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
-      <div className="mx-auto max-w-4xl">
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Blog</h1>
-          <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed dark:text-gray-400">
+    <div className={`container ${styles.container}`}>
+      <div className={styles.wrapper}>
+        <div className={styles.headerSection}>
+          <h1 className={styles.title}>Blog</h1>
+          <p className={styles.subtitle}>
             Sharing ideas, insights, and lessons learned from navigating the tech world.
           </p>
         </div>
 
         {/* Filters */}
-        <div className="mt-8 space-y-6">
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <div className="relative flex-1">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <div className={styles.filtersSection}>
+          <div className={styles.filtersRow}>
+            <div className={styles.searchWrapper}>
+              <Search className={styles.searchIcon} />
               <Input
                 type="search"
                 placeholder="Search posts..."
-                className="pl-8"
+                className={styles.searchInput}
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
               />
@@ -138,22 +139,22 @@ export default function Blog() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2"
+                  className={styles.clearButton}
                   onClick={() => setSearchQuery('')}
                 >
-                  <X className="h-4 w-4" />
-                  <span className="sr-only">Clear search</span>
+                  <X className={styles.clearIcon} />
+                  <span className={styles.screenReaderOnly}>Clear search</span>
                 </Button>
               )}
             </div>
-            <div className="w-full sm:w-[180px]">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium sm:hidden">Filter by tag</h3>
+            <div className={styles.selectWrapper}>
+              <div className={styles.selectHeader}>
+                <h3 className={styles.selectTitle}>Filter by tag</h3>
                 {selectedTags.length > 0 && (
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-7 text-xs hover:bg-transparent hover:underline sm:hidden"
+                    className={styles.clearButtonSmall}
                     onClick={() => setSelectedTags([])}
                   >
                     Clear ({selectedTags.length})
@@ -161,7 +162,7 @@ export default function Blog() {
                 )}
               </div>
               <Select onValueChange={handleTagSelect}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className={styles.selectTrigger}>
                   <SelectValue placeholder="Filter by tag" />
                 </SelectTrigger>
                 <SelectContent>
@@ -179,22 +180,22 @@ export default function Blog() {
           {/* Selected tags */}
           {selectedTags.length > 0 && (
             <div>
-              <div className="hidden sm:flex items-center justify-between">
-                <h3 className="text-sm font-medium">Selected tags</h3>
+              <div className={styles.selectedTagsHeader}>
+                <h3 className={styles.selectedTagsTitle}>Selected tags</h3>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-7 text-xs hover:bg-transparent hover:underline"
+                  className={styles.selectedTagsClear}
                   onClick={() => setSelectedTags([])}
                 >
                   Clear ({selectedTags.length})
                 </Button>
               </div>
-              <div className="mt-2 flex flex-wrap gap-2">
+              <div className={styles.selectedTagsContainer}>
                 {selectedTags.map(tag => (
-                  <Badge key={tag} variant="default" className="cursor-pointer" onClick={() => toggleTag(tag)}>
+                  <Badge key={tag} variant="default" className={styles.selectedTag} onClick={() => toggleTag(tag)}>
                     {tag}
-                    <X className="ml-1 h-3 w-3" />
+                    <X className={styles.selectedTagIcon} />
                   </Badge>
                 ))}
               </div>
@@ -203,19 +204,19 @@ export default function Blog() {
         </div>
 
         {/* Blog posts grid */}
-        <div className="mt-12">
+        <div className={styles.postsSection}>
           {sortedPosts.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className={styles.postsGrid}>
               {sortedPosts.map(post => (
-                <div key={post.id} className="h-full">
-                  <BlogPostCard post={post} className="h-full" />
+                <div key={post.id} className={styles.postWrapper}>
+                  <BlogPostCard post={post} className={styles.postCard} />
                 </div>
               ))}
             </div>
           ) : (
-            <div className="py-12 text-center">
-              <p className="text-muted-foreground">No posts found matching your criteria.</p>
-              <Button variant="link" onClick={clearFilters} className="mt-2">
+            <div className={styles.noResults}>
+              <p className={styles.noResultsText}>No posts found matching your criteria.</p>
+              <Button variant="link" onClick={clearFilters} className={styles.clearFiltersButton}>
                 Clear all filters
               </Button>
             </div>
