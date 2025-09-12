@@ -45,5 +45,13 @@
 }
 
 .footer {
-  @apply sm:justify-center;
+  @apply p-0;
+}
+
+.actionButtons {
+  @apply flex w-full gap-2;
+}
+
+.fullWidthButton {
+  @apply flex-1 rounded-md;
 }

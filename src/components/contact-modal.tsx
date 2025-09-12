@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Mail, Phone, Copy, Check } from 'lucide-react';
+import { Mail, Phone, Copy, Check, Linkedin, Download } from 'lucide-react';
 import { toast } from 'sonner';
+import { siteConfig } from '@/config';
 import styles from './contact-modal.module.css';
 
 interface ContactModalProps {
@@ -14,8 +15,7 @@ export function ContactModal({ open, onOpenChange }: ContactModalProps) {
   const [emailCopied, setEmailCopied] = useState(false);
   // const [phoneCopied, setPhoneCopied] = useState(false);
 
-  // Replace with your actual contact info
-  const email = 'kumar.ayush.cs@gmail.com';
+  const email = siteConfig.personal.email;
   // const phone = "+1 (123) 456-7890";
 
   const copyToClipboard = (text: string, type: 'email' | 'phone') => {
@@ -83,9 +83,35 @@ export function ContactModal({ open, onOpenChange }: ContactModalProps) {
           </div> */}
         </div>
         <DialogFooter className={styles.footer}>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Close
-          </Button>
+          <div className={styles.actionButtons}>
+            <Button 
+              asChild 
+              className={`${styles.fullWidthButton} bg-blue-600 hover:bg-blue-700 text-white`}
+            >
+              <a 
+                href={siteConfig.social.linkedin} 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <Linkedin className="mr-2 h-4 w-4" />
+                LinkedIn
+              </a>
+            </Button>
+            <Button 
+              asChild 
+              className={`${styles.fullWidthButton} bg-blue-500 hover:bg-blue-600 text-white`}
+            >
+              <a 
+                href={siteConfig.external.resumePath} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                download
+              >
+                <Download className="mr-2 h-4 w-4" />
+                Resume
+              </a>
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
