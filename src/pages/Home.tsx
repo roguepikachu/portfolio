@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin, ArrowRight, Sparkles, Loader2 } from "lucide-react";
+import { Github, Linkedin, ArrowRight, Sparkles, Loader2, Play } from "lucide-react";
 import { ContactModal } from "@/components/contact-modal";
 import { Link } from "react-router-dom";
 import {
@@ -163,27 +163,41 @@ export default function Home() {
           </div>
           
           <div className="grid gap-8 lg:grid-cols-2 items-start">
-            {/* Video Embed */}
-            <div className="group">
-              <div className="relative overflow-hidden rounded-xl border shadow-lg bg-card hover:shadow-xl transition-all duration-300">
-                <div className="aspect-video">
-                  <iframe 
-                    width="100%" 
-                    height="100%" 
-                    src="https://www.youtube.com/embed/MOkPoKh0-hA?si=DSxFyJUbzf3PMt9g" 
-                    title="YouTube video player" 
-                    frameBorder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    referrerPolicy="strict-origin-when-cross-origin" 
-                    allowFullScreen
-                    className="rounded-t-xl"
-                  ></iframe>
-                </div>
-                <div className="p-6">
-                  <h3 className="font-semibold text-lg mb-2">Featured Talk</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Deep dive into modern development practices and cloud architecture
-                  </p>
+            {/* Featured Talk */}
+            <div className="space-y-6">
+              <div className="group cursor-pointer">
+                <div className="relative overflow-hidden rounded-xl border bg-card shadow-lg hover:shadow-xl transition-all duration-300 p-6">
+                  <div className="absolute top-4 right-4">
+                    <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                      Featured
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                        <Play className="w-6 h-6 text-primary-foreground" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-lg">Featured Talk</h3>
+                        <p className="text-muted-foreground text-sm">Deep dive into modern development practices and cloud architecture</p>
+                      </div>
+                    </div>
+                    
+                    <div className="aspect-video rounded-lg overflow-hidden">
+                      <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src="https://www.youtube.com/embed/MOkPoKh0-hA?si=DSxFyJUbzf3PMt9g" 
+                        title="YouTube video player" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        referrerPolicy="strict-origin-when-cross-origin" 
+                        allowFullScreen
+                        className="w-full h-full"
+                      ></iframe>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
