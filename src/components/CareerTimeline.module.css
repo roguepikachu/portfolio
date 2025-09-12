@@ -1,11 +1,11 @@
 /* Career Timeline Component CSS Module */
 
 .section {
-  @apply space-y-8;
+  @apply space-y-6;
 }
 
 .title {
-  @apply text-2xl font-bold;
+  @apply text-xl font-bold;
 }
 
 .timelineContainer {
@@ -13,11 +13,11 @@
 }
 
 .mainTimelineLine {
-  @apply absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/60 to-primary/20;
+  @apply absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/60 to-primary/20;
 }
 
 .timelineItems {
-  @apply space-y-12;
+  @apply space-y-8;
 }
 
 .companyItem {
@@ -25,7 +25,7 @@
 }
 
 .companyHeader {
-  @apply relative flex items-start gap-8 mb-6;
+  @apply relative flex items-start gap-6 mb-4;
 }
 
 .companyNode {
@@ -33,15 +33,15 @@
 }
 
 .companyNodeCircle {
-  @apply w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary/60 shadow-lg flex items-center justify-center border-4 border-background;
+  @apply w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/60 shadow-md flex items-center justify-center border-2 border-background;
 }
 
 .companyIcon {
-  @apply w-6 h-6 text-primary-foreground;
+  @apply w-4 h-4 text-primary-foreground;
 }
 
 .companyConnector {
-  @apply absolute top-8 left-16 w-8 h-0.5 bg-gradient-to-r from-primary/60 to-transparent;
+  @apply absolute top-6 left-12 w-6 h-0.5 bg-gradient-to-r from-primary/60 to-transparent;
 }
 
 .companyContent {
@@ -49,11 +49,15 @@
 }
 
 .companyCard {
-  @apply shadow-lg border-l-4 border-l-primary bg-primary/5;
+  @apply shadow-md border-l-4 border-l-primary bg-primary/5;
+}
+
+.companyCard .cardHeader {
+  @apply px-4 py-3;
 }
 
 .companyCardHeader {
-  @apply pb-4;
+  @apply pb-2;
 }
 
 .companyInfo {
@@ -65,7 +69,7 @@
 }
 
 .companyName {
-  @apply text-2xl font-bold text-foreground;
+  @apply text-lg font-bold text-foreground;
 }
 
 .locationContainer {
@@ -81,7 +85,7 @@
 }
 
 .periodBadge {
-  @apply flex items-center gap-1;
+  @apply flex items-center gap-1 pt-2;
 }
 
 .periodIcon {
@@ -93,15 +97,15 @@
 }
 
 .rolesTimelineLine {
-  @apply absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-secondary via-secondary/60 to-secondary/20;
+  @apply absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-blue-500/80 to-blue-500/40;
 }
 
 .rolesItems {
-  @apply space-y-8;
+  @apply space-y-6;
 }
 
 .roleItem {
-  @apply relative flex items-start gap-6;
+  @apply relative flex items-start gap-4;
 }
 
 .roleNode {
@@ -109,15 +113,15 @@
 }
 
 .roleNodeCircle {
-  @apply w-12 h-12 rounded-full bg-gradient-to-br from-secondary to-secondary/60 shadow-md flex items-center justify-center border-4 border-background;
+  @apply w-8 h-8 rounded-full bg-gradient-to-br from-secondary to-secondary/60 shadow-sm flex items-center justify-center border-2 border-background;
 }
 
 .roleNodeDot {
-  @apply w-2 h-2 rounded-full bg-secondary-foreground;
+  @apply w-1.5 h-1.5 rounded-full bg-secondary-foreground;
 }
 
 .roleConnector {
-  @apply absolute top-6 left-12 w-6 h-0.5 bg-gradient-to-r from-secondary/60 to-transparent;
+  @apply absolute top-4 left-8 w-4 h-0.5 bg-gradient-to-r from-secondary/60 to-transparent;
 }
 
 .roleContent {
@@ -125,11 +129,19 @@
 }
 
 .roleCard {
-  @apply shadow-md hover:shadow-lg transition-all duration-300 border-l-4 border-l-secondary/30;
+  @apply shadow-sm hover:shadow-md transition-all duration-300 border-l-2 border-l-secondary/30;
+}
+
+.roleCard .cardHeader {
+  @apply px-4 py-2;
+}
+
+.roleCard .cardContent {
+  @apply px-4 py-2;
 }
 
 .roleCardHeader {
-  @apply pb-3;
+  @apply pb-2 pt-3;
 }
 
 .roleInfo {
@@ -137,15 +149,15 @@
 }
 
 .roleTitle {
-  @apply text-lg font-bold text-foreground;
+  @apply text-base font-bold text-foreground pt-2;
 }
 
 .roleCardContent {
-  @apply pt-0 space-y-4;
+  @apply pt-3 space-y-2;
 }
 
 .sectionHeader {
-  @apply font-semibold text-foreground mb-2 flex items-center gap-2 text-sm;
+  @apply font-semibold text-foreground mb-1 flex items-center gap-2 text-sm;
 }
 
 .sectionDot {
@@ -157,15 +169,15 @@
 }
 
 .responsibilitiesDot {
-  @apply bg-secondary;
+  @apply bg-primary/80;
 }
 
 .milestonesDot {
-  @apply bg-accent;
+  @apply bg-primary/60;
 }
 
 .list {
-  @apply space-y-1.5;
+  @apply space-y-1 ml-2;
 }
 
 .listItem {
@@ -177,11 +189,11 @@
 }
 
 .achievementsListDot {
-  @apply bg-primary/60;
+  @apply bg-secondary;
 }
 
 .responsibilitiesListDot {
-  @apply bg-secondary/60;
+  @apply bg-secondary/80;
 }
 
 .listItemText {
@@ -189,11 +201,11 @@
 }
 
 .milestonesGrid {
-  @apply grid gap-2 sm:grid-cols-2;
+  @apply grid gap-2 sm:grid-cols-2 ml-2;
 }
 
 .milestoneItem {
-  @apply bg-accent/10 rounded-md p-2 border border-accent/20;
+  @apply bg-muted/50 rounded-md p-2 border border-muted;
 }
 
 .milestoneText {
@@ -201,7 +213,7 @@
 }
 
 .roleProgression {
-  @apply mt-4 ml-6 flex items-center gap-2 text-muted-foreground;
+  @apply mt-3 ml-4 flex items-center gap-2 text-muted-foreground;
 }
 
 .progressionLineBefore {
@@ -217,7 +229,7 @@
 }
 
 .companyProgression {
-  @apply mt-8 ml-8 flex items-center gap-3 text-muted-foreground;
+  @apply mt-6 ml-6 flex items-center gap-3 text-muted-foreground;
 }
 
 .companyProgressionLineBefore {
@@ -233,9 +245,9 @@
 }
 
 .timelineEnd {
-  @apply absolute left-8 bottom-0 w-0.5 h-12 bg-gradient-to-b from-primary/20 to-transparent;
+  @apply absolute left-6 bottom-0 w-0.5 h-8 bg-gradient-to-b from-primary/20 to-transparent;
 }
 
 .timelineEndDot {
-  @apply absolute left-6 -bottom-2 w-4 h-4 rounded-full bg-primary/20 border-2 border-background;
+  @apply absolute left-5 -bottom-1 w-3 h-3 rounded-full bg-primary/20 border-2 border-background;
 }

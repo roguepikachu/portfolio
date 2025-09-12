@@ -52,20 +52,20 @@ export function CareerTimeline({ items, title = "Career Journey" }: CareerTimeli
                 
                 {/* Company header card */}
                 <div className="flex-1 min-w-0">
-                  <Card className="shadow-lg border-l-4 border-l-primary bg-primary/5">
-                    <CardHeader className="pb-4">
-                      <div className="flex flex-wrap items-start justify-between gap-2">
-                        <div className="space-y-1">
-                          <h3 className="text-2xl font-bold text-foreground">{item.company}</h3>
+                  <Card className={styles.companyCard}>
+                    <CardHeader className={`${styles.companyCardHeader} px-4 py-3`}>
+                      <div className={styles.companyInfo}>
+                        <div className={styles.companyDetails}>
+                          <h3 className={styles.companyName}>{item.company}</h3>
                           {item.location && (
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <MapPin className="w-4 h-4" />
-                              <span className="text-sm">{item.location}</span>
+                            <div className={styles.locationContainer}>
+                              <MapPin className={styles.locationIcon} />
+                              <span className={styles.locationText}>{item.location}</span>
                             </div>
                           )}
                         </div>
-                        <Badge variant="outline" className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
+                        <Badge variant="outline" className={styles.periodBadge}>
+                          <Calendar className={styles.periodIcon} />
                           {item.overallPeriod}
                         </Badge>
                       </div>
@@ -75,48 +75,47 @@ export function CareerTimeline({ items, title = "Career Journey" }: CareerTimeli
               </div>
 
               {/* Roles Sub-timeline */}
-              <div className="ml-12 relative">
+              <div className={styles.rolesSection}>
                 {/* Sub-timeline line */}
-                <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-secondary via-secondary/60 to-secondary/20" />
+                <div className={styles.rolesTimelineLine} />
                 
-                <div className="space-y-8">
+                <div className={styles.rolesItems}>
                   {item.roles.map((role, roleIndex) => (
                     <div key={role.id} className="relative flex items-start gap-6">
                       {/* Role timeline node */}
                       <div className="relative z-10 flex-shrink-0">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary to-secondary/60 shadow-md flex items-center justify-center border-3 border-background">
-                          <div className="w-2 h-2 rounded-full bg-secondary-foreground" />
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-500/60 shadow-md flex items-center justify-center border-2 border-background">
+                          <div className="w-1.5 h-1.5 rounded-full bg-white dark:bg-slate-900" />
                         </div>
                         {/* Connecting line to content */}
-                        <div className="absolute top-6 left-12 w-6 h-0.5 bg-gradient-to-r from-secondary/60 to-transparent" />
+                        <div className="absolute top-4 left-8 w-6 h-0.5 bg-gradient-to-r from-blue-500/60 to-transparent" />
                       </div>
                       
                       {/* Role content card */}
                       <div className="flex-1 min-w-0">
-                        <Card className="shadow-md hover:shadow-lg transition-all duration-300 border-l-4 border-l-secondary/30">
-                          <CardHeader className="pb-3">
-                            <div className="flex flex-wrap items-start justify-between gap-2">
-                              <h4 className="text-lg font-bold text-foreground">{role.title}</h4>
-                              <Badge variant="secondary" className="flex items-center gap-1">
-                                <Calendar className="w-3 h-3" />
+                        <Card className={styles.roleCard}>
+                          <CardHeader className={`${styles.roleCardHeader} px-4 py-2`}>
+                            <div className={styles.roleInfo}>
+                              <h4 className={styles.roleTitle}>{role.title}</h4>
+                              <Badge variant="secondary" className={styles.periodBadge}>
+                                <Calendar className={styles.periodIcon} />
                                 {role.period}
                               </Badge>
                             </div>
                           </CardHeader>
                           
-                          <CardContent className="pt-0 space-y-4">
+                          <CardContent className={`${styles.roleCardContent} px-4 py-2`}>
                             {/* Key Achievements */}
                             {role.achievements.length > 0 && (
                               <div>
-                                <h5 className="font-semibold text-foreground mb-2 flex items-center gap-2 text-sm">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                                <h5 className={styles.sectionHeader}>
                                   Key Achievements
                                 </h5>
-                                <ul className="space-y-1.5">
+                                <ul className={styles.list}>
                                   {role.achievements.map((achievement, idx) => (
-                                    <li key={idx} className="text-muted-foreground flex items-start gap-2">
-                                      <div className="w-1 h-1 rounded-full bg-primary/60 mt-2 flex-shrink-0" />
-                                      <span className="text-sm leading-relaxed">{achievement}</span>
+                                    <li key={idx} className={styles.listItem}>
+                                      <div className={`${styles.listItemDot} ${styles.achievementsListDot}`} />
+                                      <span className={styles.listItemText}>{achievement}</span>
                                     </li>
                                   ))}
                                 </ul>
@@ -126,15 +125,14 @@ export function CareerTimeline({ items, title = "Career Journey" }: CareerTimeli
                             {/* Responsibilities */}
                             {role.responsibilities && role.responsibilities.length > 0 && (
                               <div>
-                                <h5 className="font-semibold text-foreground mb-2 flex items-center gap-2 text-sm">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                                <h5 className={styles.sectionHeader}>
                                   Core Responsibilities
                                 </h5>
-                                <ul className="space-y-1.5">
+                                <ul className={styles.list}>
                                   {role.responsibilities.map((responsibility, idx) => (
-                                    <li key={idx} className="text-muted-foreground flex items-start gap-2">
-                                      <div className="w-1 h-1 rounded-full bg-secondary/60 mt-2 flex-shrink-0" />
-                                      <span className="text-sm leading-relaxed">{responsibility}</span>
+                                    <li key={idx} className={styles.listItem}>
+                                      <div className={`${styles.listItemDot} ${styles.responsibilitiesListDot}`} />
+                                      <span className={styles.listItemText}>{responsibility}</span>
                                     </li>
                                   ))}
                                 </ul>
@@ -144,14 +142,13 @@ export function CareerTimeline({ items, title = "Career Journey" }: CareerTimeli
                             {/* Milestones */}
                             {role.milestones && role.milestones.length > 0 && (
                               <div>
-                                <h5 className="font-semibold text-foreground mb-2 flex items-center gap-2 text-sm">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+                                <h5 className={styles.sectionHeader}>
                                   Key Milestones
                                 </h5>
-                                <div className="grid gap-2 sm:grid-cols-2">
+                                <div className={styles.milestonesGrid}>
                                   {role.milestones.map((milestone, idx) => (
-                                    <div key={idx} className="bg-accent/10 rounded-md p-2 border border-accent/20">
-                                      <span className="text-xs text-foreground font-medium">{milestone}</span>
+                                    <div key={idx} className={styles.milestoneItem}>
+                                      <span className={styles.milestoneText}>{milestone}</span>
                                     </div>
                                   ))}
                                 </div>
