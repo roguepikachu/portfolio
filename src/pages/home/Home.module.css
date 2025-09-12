@@ -117,7 +117,7 @@
 }
 
 .talkBadgeWrapper {
-  @apply absolute top-4 right-4;
+  @apply absolute top-4 right-4 flex gap-2;
 }
 
 .talkBadge {
@@ -125,23 +125,27 @@
 }
 
 .talkContent {
-  @apply space-y-4;
+  @apply space-y-4 mt-6;
 }
 
 .talkHeader {
-  @apply flex items-center gap-3;
+  @apply flex items-start gap-3 flex-wrap;
 }
 
 .talkIconCircle {
-  @apply w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center;
+  @apply w-12 h-12 min-w-[3rem] rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0;
 }
 
 .talkIcon {
   @apply w-6 h-6 text-primary-foreground;
 }
 
+.talkTextContainer {
+  @apply flex-1 min-w-0;
+}
+
 .talkTitle {
-  @apply font-semibold text-lg;
+  @apply font-semibold text-lg break-words;
 }
 
 .talkSubtitle {

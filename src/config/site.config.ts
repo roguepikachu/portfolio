@@ -75,14 +75,16 @@ Outside of code, I write technical articles, contribute to open-source when I ca
         "Sharing knowledge and insights with the community through talks, workshops, and presentations",
     },
     featuredTalk: {
-      title: "Platform Engineering with Kubevela",
-      subtitle: "A tech talk on shipping the Application the Cloud Native Way",
+      title: "Platform Engineering with Kubevela - Shipping Applications the Cloud Native Way",
+      subtitle: "Featured Tech Talk",
+      description: "Explored how KubeVela simplifies application delivery in cloud-native environments by providing a unified platform for developers and operators. Demonstrated practical approaches to managing application lifecycle, deployments, and scaling using modern platform engineering principles.",
+      badge: "Live Event",
     },
     collabnixMeetup: {
       title: "jsPolicy - Easier & Faster Kubernetes Policies ",
       subtitle: "A Show and Tell Collabnix Meetup",
       description:
-        "Engaged with the developer community to share insights on scalable systems, cloud architecture, and modern development practices.",
+        "Presented jsPolicy, a powerful JavaScript-based policy engine for Kubernetes that simplifies policy creation and enforcement. Demonstrated how jsPolicy enables developers to write more intuitive and maintainable admission controllers using familiar JavaScript or TypeScript syntax.",
     },
     recentPosts: {
       title: "Recent Blog Posts",

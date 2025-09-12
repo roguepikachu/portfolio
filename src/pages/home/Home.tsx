@@ -153,7 +153,10 @@ export default function Home() {
                 <div className={styles.talkCardInner}>
                   <div className={styles.talkBadgeWrapper}>
                     <div className={styles.talkBadge}>
-                      Featured
+                      {siteConfig.ui.badges.liveEvent}
+                    </div>
+                    <div className={styles.talkBadge}>
+                      {siteConfig.ui.badges.featured}
                     </div>
                   </div>
                   
@@ -162,11 +165,14 @@ export default function Home() {
                       <div className={styles.talkIconCircle}>
                         <Play className={styles.talkIcon} />
                       </div>
-                      <div>
+                      <div className={styles.talkTextContainer}>
                         <h3 className={styles.talkTitle}>{siteConfig.sections.featuredTalk.title}</h3>
-                        <p className={styles.talkSubtitle}>{siteConfig.sections.featuredTalk.subtitle}</p>
                       </div>
                     </div>
+                    
+                    <p className={styles.talkDescription}>
+                      {siteConfig.sections.featuredTalk.description}
+                    </p>
                     
                     <div className={styles.videoWrapper}>
                       <iframe 
