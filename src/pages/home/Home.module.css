@@ -219,6 +219,10 @@
   @apply grid grid-cols-1 md:grid-cols-2 gap-6;
 }
 
+.publicationsGrid > * {
+  @apply justify-self-start;
+}
+
 /* Projects Section */
 .projectsSection {
   @apply bg-muted/50 py-16;
