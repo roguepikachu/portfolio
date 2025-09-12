@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Github, Linkedin, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
-import { ContactModal } from '@/components/contact-modal';
-import { Link } from 'react-router-dom';
-import { loadBlogPosts, loadProjects, loadPublications } from '@/utils/content-loader';
-import { PublicationCard } from '@/components/publication-card';
-import { LoadingDots } from '../components/ui/LoadingDots';
-import { delay } from '../utils/delay';
-import { BlogPostCard } from '@/components/blog-post-card';
-import { ProfileSlideshow } from '@/components/ProfileSlideshow';
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Github, Linkedin, ArrowRight, Sparkles, Loader2 } from "lucide-react";
+import { ContactModal } from "@/components/contact-modal";
+import { Link } from "react-router-dom";
+import {
+  loadBlogPosts,
+  loadProjects,
+  loadPublications,
+} from "@/utils/content-loader";
+import { PublicationCard } from "@/components/publication-card";
+import { LoadingDots } from "../components/ui/LoadingDots";
+import { delay } from "../utils/delay";
+import { BlogPostCard } from "@/components/blog-post-card";
+import { ProfileSlideshow } from "@/components/ProfileSlideshow";
 
 export default function Home() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -30,7 +34,7 @@ export default function Home() {
         setPublications(publicationsData);
         await delay(); // Use default delay
       } catch (error) {
-        console.error('Error loading data:', error);
+        console.error("Error loading data:", error);
       } finally {
         setLoading(false);
       }
@@ -39,7 +43,9 @@ export default function Home() {
     loadData();
   }, []);
 
-  const featuredPublications = publications.filter((publication: any) => publication.featured).slice(0, 2);
+  const featuredPublications = publications
+    .filter((publication: any) => publication.featured)
+    .slice(0, 2);
 
   // Add sectionConfig definition
   const sectionConfig = {
@@ -57,8 +63,13 @@ export default function Home() {
               <Sparkles className="h-16 w-16 text-primary animate-pulse" />
             </div>
             <div className="text-center space-y-2">
-              <h2 className="text-2xl font-semibold">Crafting digital experiences...</h2>
-              <p className="text-muted-foreground">Loading the portfolio with passion, creativity, and a touch of magic</p>
+              <h2 className="text-2xl font-semibold">
+                Crafting digital experiences...
+              </h2>
+              <p className="text-muted-foreground">
+                Loading the portfolio with passion, creativity, and a touch of
+                magic
+              </p>
             </div>
             <LoadingDots size="md" />
           </div>
@@ -79,31 +90,52 @@ export default function Home() {
                   Researcher, Developer, Writer
                 </h1>
                 <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Hi, I’m Ayush Kumar — a software engineer with a witty knack for building scalable, resilient backend systems centered on
-                  microservices and cloud infrastructure. I bring a bias for minimalism and opinionated, clean code to design efficient and
-                  maintainable distributed architectures.
+                  Hey there, I see you’ve stumbled across my portfolio. Since
+                  you’re here, I’m Ayush. I’m a software engineer who likes
+                  building backend systems that actually hold up under pressure:
+                  scalable, resilient, and clean. I’ve got a bias for
+                  minimalism, so I keep things simple and straightforward
+                  wherever I can. Most of the time I’m experimenting with new
+                  tech, hacking together projects, or diving deep into cloud
+                  infrastructure and distributed systems. I’m also trying to
+                  pick up some guitar skills (slowly but surely), and when I
+                  need a break, fictional story-driven games have me hooked.
+                  Uncharted in particular — man, that’s some serious
+                  storytelling and adventure.
                 </p>
                 <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400 mt-4">
-                  Beyond my direct work, I'm deeply engaged in academic discussions about AI and love contributing to the broader
-                  conversation around it. I also write regularly about backend development, cloud technologies, and whatever new trends are
-                  shaping the tech landscape.
+                  Pretty much always down to chat about code, cloud
+                  architectures, or why AI is either going to save us all or
+                  make us completely obsolete — haven’t decided which yet! What
+                  brings you here?
                 </p>
               </div>
               <br />
               <div className="flex flex-col sm:flex-row gap-2">
                 <Button asChild className="inline-flex items-center">
-                  <a href="https://github.com/roguepikachu" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://github.com/roguepikachu"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Github className="mr-2 h-4 w-4" />
                     GitHub Profile
                   </a>
                 </Button>
                 <Button asChild variant="outline">
-                  <a href="https://www.linkedin.com/in/cs-ayush-kumar/" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://www.linkedin.com/in/cs-ayush-kumar/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Linkedin className="mr-2 h-4 w-4" />
                     LinkedIn
                   </a>
                 </Button>
-                <Button variant="secondary" onClick={() => setContactModalOpen(true)}>
+                <Button
+                  variant="secondary"
+                  onClick={() => setContactModalOpen(true)}
+                >
                   Contact Me
                 </Button>
               </div>
@@ -124,8 +156,12 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
               <div>
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Recent Blog Posts</h2>
-                <p className="text-muted-foreground">Thoughts, ideas, and tutorials</p>
+                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                  Recent Blog Posts
+                </h2>
+                <p className="text-muted-foreground">
+                  Thoughts, ideas, and tutorials
+                </p>
               </div>
               <Button asChild variant="secondary">
                 <Link to="/blog" className="inline-flex items-center">
@@ -134,7 +170,7 @@ export default function Home() {
               </Button>
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {posts.slice(0, 3).map(post => (
+              {posts.slice(0, 3).map((post) => (
                 <BlogPostCard key={post.id} post={post} />
               ))}
             </div>
@@ -148,8 +184,12 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
               <div>
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Featured Publications</h2>
-                <p className="text-muted-foreground">Academic papers and research articles</p>
+                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                  Featured Publications
+                </h2>
+                <p className="text-muted-foreground">
+                  Academic papers and research articles
+                </p>
               </div>
               <Button asChild variant="secondary">
                 <Link to="/publications" className="inline-flex items-center">
@@ -159,8 +199,11 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {featuredPublications.map(publication => (
-                <PublicationCard key={publication.id} publication={publication} />
+              {featuredPublications.map((publication) => (
+                <PublicationCard
+                  key={publication.id}
+                  publication={publication}
+                />
               ))}
             </div>
           </div>
@@ -173,8 +216,12 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
               <div>
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Featured Projects</h2>
-                <p className="text-muted-foreground">Check out some of my latest work</p>
+                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                  Featured Projects
+                </h2>
+                <p className="text-muted-foreground">
+                  Check out some of my latest work
+                </p>
               </div>
               <Button asChild variant="secondary">
                 <Link to="/projects" className="inline-flex items-center">
@@ -184,10 +231,13 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {projects
-                .filter(p => p.featured)
+                .filter((p) => p.featured)
                 .slice(0, 3)
-                .map(project => (
-                  <div key={project.id} className="group rounded-lg border bg-card shadow-sm hover:shadow-md">
+                .map((project) => (
+                  <div
+                    key={project.id}
+                    className="group rounded-lg border bg-card shadow-sm hover:shadow-md"
+                  >
                     <div className="p-6 flex flex-col h-full">
                       {/* Featured label */}
                       <div className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-4 self-start">
@@ -195,26 +245,41 @@ export default function Home() {
                       </div>
                       {/* Make the project title a clickable Link */}
                       <Link to={`/projects/${project.id}`}>
-                        <h3 className="text-xl font-bold mb-2 hover:text-primary">{project.title}</h3>
+                        <h3 className="text-xl font-bold mb-2 hover:text-primary">
+                          {project.title}
+                        </h3>
                       </Link>
-                      <p className="text-muted-foreground text-sm flex-grow">{project.description}</p>
+                      <p className="text-muted-foreground text-sm flex-grow">
+                        {project.description}
+                      </p>
                       <div className="mt-4 flex flex-wrap gap-2">
-                        {project.tags.map(tag => (
-                          <div key={tag} className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
+                        {project.tags.map((tag) => (
+                          <div
+                            key={tag}
+                            className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold"
+                          >
                             {tag}
                           </div>
                         ))}
                       </div>
                       <div className="flex items-center gap-3 mt-4 pt-4 border-t">
                         <Button size="sm" variant="outline" asChild>
-                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
                             <Github className="mr-1 h-3 w-3" />
                             Code
                           </a>
                         </Button>
                         {project.demoUrl && (
                           <Button size="sm" asChild>
-                            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                            <a
+                              href={project.demoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
                               Live Demo
                             </a>
                           </Button>
@@ -228,7 +293,10 @@ export default function Home() {
         </section>
       )}
 
-      <ContactModal open={contactModalOpen} onOpenChange={setContactModalOpen} />
+      <ContactModal
+        open={contactModalOpen}
+        onOpenChange={setContactModalOpen}
+      />
     </div>
   );
 }
