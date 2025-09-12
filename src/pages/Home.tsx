@@ -13,6 +13,7 @@ import { LoadingDots } from "../components/ui/LoadingDots";
 import { delay } from "../utils/delay";
 import { BlogPostCard } from "@/components/blog-post-card";
 import { ProfileSlideshow } from "@/components/ProfileSlideshow";
+import { siteConfig } from "@/config";
 
 export default function Home() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -64,11 +65,10 @@ export default function Home() {
             </div>
             <div className="text-center space-y-2">
               <h2 className="text-2xl font-semibold">
-                Crafting digital experiences...
+                {siteConfig.loading.home.title}
               </h2>
               <p className="text-muted-foreground">
-                Loading the portfolio with passion, creativity, and a touch of
-                magic
+                {siteConfig.loading.home.message}
               </p>
             </div>
             <LoadingDots size="md" />
@@ -87,56 +87,39 @@ export default function Home() {
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  Researcher, Developer, Writer
+                  {siteConfig.personal.role}
                 </h1>
-                <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Hey there, I see you’ve stumbled across my portfolio. Since
-                  you’re here, I’m Ayush. I’m a software engineer who likes
-                  building backend systems that actually hold up under pressure:
-                  scalable, resilient, and clean. I’ve got a bias for
-                  minimalism, so I keep things simple and straightforward
-                  wherever I can. Most of the time I’m experimenting with new
-                  tech, hacking together projects, or diving deep into cloud
-                  infrastructure and distributed systems. I’m also trying to
-                  pick up some guitar skills (slowly but surely), and when I
-                  need a break, fictional story-driven games have me hooked.
-                  Uncharted in particular — man, that’s some serious
-                  storytelling and adventure.
-                </p>
-                <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400 mt-4">
-                  Pretty much always down to chat about code, cloud
-                  architectures, or why AI is either going to save us all or
-                  make us completely obsolete — haven’t decided which yet! What
-                  brings you here?
+                <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400 whitespace-pre-line">
+                  {siteConfig.personal.fullBio}
                 </p>
               </div>
               <br />
               <div className="flex flex-col sm:flex-row gap-2">
                 <Button asChild className="inline-flex items-center">
                   <a
-                    href="https://github.com/roguepikachu"
+                    href={siteConfig.social.github}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <Github className="mr-2 h-4 w-4" />
-                    GitHub Profile
+                    {siteConfig.ui.buttons.githubProfile}
                   </a>
                 </Button>
                 <Button asChild variant="outline">
                   <a
-                    href="https://www.linkedin.com/in/cs-ayush-kumar/"
+                    href={siteConfig.social.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <Linkedin className="mr-2 h-4 w-4" />
-                    LinkedIn
+                    {siteConfig.ui.buttons.linkedin}
                   </a>
                 </Button>
                 <Button
                   variant="secondary"
                   onClick={() => setContactModalOpen(true)}
                 >
-                  Contact Me
+                  {siteConfig.ui.buttons.contactMe}
                 </Button>
               </div>
             </div>
@@ -155,10 +138,10 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <div className="text-center mb-12">
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-4">
-              My Talks & Presentations
+              {siteConfig.sections.talks.title}
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Sharing knowledge and insights with the community through talks, workshops, and presentations
+              {siteConfig.sections.talks.description}
             </p>
           </div>
           
@@ -179,8 +162,8 @@ export default function Home() {
                         <Play className="w-6 h-6 text-primary-foreground" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-lg">Featured Talk</h3>
-                        <p className="text-muted-foreground text-sm">Deep dive into modern development practices and cloud architecture</p>
+                        <h3 className="font-semibold text-lg">{siteConfig.sections.featuredTalk.title}</h3>
+                        <p className="text-muted-foreground text-sm">{siteConfig.sections.featuredTalk.subtitle}</p>
                       </div>
                     </div>
                     
@@ -188,7 +171,7 @@ export default function Home() {
                       <iframe 
                         width="100%" 
                         height="100%" 
-                        src="https://www.youtube.com/embed/MOkPoKh0-hA?si=DSxFyJUbzf3PMt9g" 
+                        src={siteConfig.external.featuredVideoUrl} 
                         title="YouTube video player" 
                         frameBorder="0" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -208,7 +191,7 @@ export default function Home() {
                 <div className="relative overflow-hidden rounded-xl border bg-card shadow-lg hover:shadow-xl transition-all duration-300 p-6">
                   <div className="absolute top-4 right-4">
                     <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                      Live Event
+                      {siteConfig.ui.badges.liveEvent}
                     </div>
                   </div>
                   
@@ -218,19 +201,18 @@ export default function Home() {
                         <Sparkles className="w-6 h-6 text-primary-foreground" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-lg">Collabnix Meetup</h3>
-                        <p className="text-muted-foreground text-sm">Community Event</p>
+                        <h3 className="font-semibold text-lg">{siteConfig.sections.collabnixMeetup.title}</h3>
+                        <p className="text-muted-foreground text-sm">{siteConfig.sections.collabnixMeetup.subtitle}</p>
                       </div>
                     </div>
                     
                     <p className="text-muted-foreground">
-                      Engaged with the developer community to share insights on scalable systems, 
-                      cloud architecture, and modern development practices.
+                      {siteConfig.sections.collabnixMeetup.description}
                     </p>
                     
                     <Button asChild variant="outline" className="w-full">
                       <a 
-                        href="https://www.meetup.com/collabnix/events/300163572/" 
+                        href={siteConfig.external.meetupEventUrl} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center"
@@ -267,7 +249,7 @@ export default function Home() {
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
               <div>
                 <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                  Recent Blog Posts
+                  {siteConfig.sections.recentPosts.title}
                 </h2>
                 <p className="text-muted-foreground">
                   Thoughts, ideas, and tutorials
@@ -275,7 +257,7 @@ export default function Home() {
               </div>
               <Button asChild variant="secondary">
                 <Link to="/blog" className="inline-flex items-center">
-                  View All Posts <ArrowRight className="ml-2 h-4 w-4" />
+                  {siteConfig.sections.recentPosts.viewAllText} <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -295,7 +277,7 @@ export default function Home() {
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
               <div>
                 <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                  Featured Publications
+                  {siteConfig.sections.featuredPublications.title}
                 </h2>
                 <p className="text-muted-foreground">
                   Academic papers and research articles
@@ -303,7 +285,7 @@ export default function Home() {
               </div>
               <Button asChild variant="secondary">
                 <Link to="/publications" className="inline-flex items-center">
-                  View All Publications <ArrowRight className="ml-2 h-4 w-4" />
+                  {siteConfig.sections.featuredPublications.viewAllText} <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -327,15 +309,15 @@ export default function Home() {
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
               <div>
                 <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                  Featured Projects
+                  {siteConfig.sections.featuredProjects.title}
                 </h2>
                 <p className="text-muted-foreground">
-                  Check out some of my latest work
+                  {siteConfig.sections.featuredProjects.description}
                 </p>
               </div>
               <Button asChild variant="secondary">
                 <Link to="/projects" className="inline-flex items-center">
-                  View All Projects <ArrowRight className="ml-2 h-4 w-4" />
+                  {siteConfig.sections.featuredProjects.viewAllText} <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -351,7 +333,7 @@ export default function Home() {
                     <div className="p-6 flex flex-col h-full">
                       {/* Featured label */}
                       <div className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-4 self-start">
-                        Featured
+                        {siteConfig.ui.badges.featured}
                       </div>
                       {/* Make the project title a clickable Link */}
                       <Link to={`/projects/${project.id}`}>
@@ -380,7 +362,7 @@ export default function Home() {
                             rel="noopener noreferrer"
                           >
                             <Github className="mr-1 h-3 w-3" />
-                            Code
+                            {siteConfig.ui.buttons.code}
                           </a>
                         </Button>
                         {project.demoUrl && (
@@ -390,7 +372,7 @@ export default function Home() {
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              Live Demo
+                              {siteConfig.ui.buttons.liveDemo}
                             </a>
                           </Button>
                         )}
