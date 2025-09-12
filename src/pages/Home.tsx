@@ -14,6 +14,7 @@ import { delay } from "../utils/delay";
 import { BlogPostCard } from "@/components/blog-post-card";
 import { ProfileSlideshow } from "@/components/ProfileSlideshow";
 import { siteConfig } from "@/config";
+import { homeStyles } from "./home.styles";
 
 export default function Home() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -57,17 +58,17 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
-        <div className="mx-auto max-w-5xl">
-          <div className="flex flex-col items-center justify-center space-y-6">
-            <div className="relative">
-              <Sparkles className="h-16 w-16 text-primary animate-pulse" />
+      <div className={homeStyles.loading.container}>
+        <div className={homeStyles.loading.wrapper}>
+          <div className={homeStyles.loading.content}>
+            <div className={homeStyles.loading.iconWrapper}>
+              <Sparkles className={homeStyles.loading.icon} />
             </div>
-            <div className="text-center space-y-2">
-              <h2 className="text-2xl font-semibold">
+            <div className={homeStyles.loading.textWrapper}>
+              <h2 className={homeStyles.loading.title}>
                 {siteConfig.loading.home.title}
               </h2>
-              <p className="text-muted-foreground">
+              <p className={homeStyles.loading.message}>
                 {siteConfig.loading.home.message}
               </p>
             </div>
@@ -79,29 +80,29 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className={homeStyles.main}>
       {/* Hero Section */}
-      <section className="flex-1 flex items-center relative overflow-hidden">
-        <div className="container px-4 md:px-6 space-y-10 py-16 md:py-24">
-          <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_500px]">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+      <section className={homeStyles.hero.section}>
+        <div className={homeStyles.hero.container}>
+          <div className={homeStyles.hero.grid}>
+            <div className={homeStyles.hero.content}>
+              <div className={homeStyles.hero.textWrapper}>
+                <h1 className={homeStyles.hero.title}>
                   {siteConfig.personal.role}
                 </h1>
-                <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400 whitespace-pre-line">
+                <p className={homeStyles.hero.bio}>
                   {siteConfig.personal.fullBio}
                 </p>
               </div>
               <br />
-              <div className="flex flex-col sm:flex-row gap-2">
-                <Button asChild className="inline-flex items-center">
+              <div className={homeStyles.hero.buttons}>
+                <Button asChild className={homeStyles.hero.button}>
                   <a
                     href={siteConfig.social.github}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Github className="mr-2 h-4 w-4" />
+                    <Github className={homeStyles.hero.buttonIcon} />
                     {siteConfig.ui.buttons.githubProfile}
                   </a>
                 </Button>
@@ -111,7 +112,7 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Linkedin className="mr-2 h-4 w-4" />
+                    <Linkedin className={homeStyles.hero.buttonIcon} />
                     {siteConfig.ui.buttons.linkedin}
                   </a>
                 </Button>
@@ -123,14 +124,14 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-            <div className="flex items-center justify-center">
+            <div className={homeStyles.hero.imageWrapper}>
               <ProfileSlideshow />
             </div>
           </div>
         </div>
 
         {/* Decorative elements */}
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(rgba(var(--primary-rgb),0.06)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:20px_20px] [mask-image:radial-gradient(ellipse_at_center,white,transparent)]"></div>
+        <div className={homeStyles.hero.decorativeBg}></div>
       </section>
 
       {/* My Talks Section */}

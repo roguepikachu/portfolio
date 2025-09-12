@@ -9,6 +9,8 @@ import { Project } from '@/types/project';
 import { loadProjects } from '@/utils/content-loader';
 import { LoadingDots } from '../components/ui/LoadingDots';
 import { delay } from '../utils/delay';
+import { projectsStyles } from './projects.styles';
+import { siteConfig } from '@/config';
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);

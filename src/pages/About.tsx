@@ -6,7 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Download, ExternalLink } from "lucide-react";
 import { ContactModal } from "@/components/contact-modal";
 import { CareerTimeline } from "@/components/CareerTimeline";
-import { siteConfig, careerData, techStack, education, openSourceContributions, uiStrings } from "@/config";
+import { siteConfig, careerData, techStack, education, openSourceContributions } from "@/config";
+import { aboutStyles } from "./about.styles";
 
 export default function About() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -264,7 +265,7 @@ export default function About() {
           </div>
         </div>
 
-        <Separator className="my-12" />
+        <Separator className={aboutStyles.separator} />
 
         {/* Career Timeline */}
         <CareerTimeline 
@@ -272,7 +273,7 @@ export default function About() {
           title="Professional Journey" 
         />
 
-        <Separator className="my-12" />
+        <Separator className={aboutStyles.separator} />
 
         {/* Tech Stack section */}
         <section className="space-y-8">
@@ -317,7 +318,7 @@ export default function About() {
           </div>
         </section>
 
-        <Separator className="my-12" />
+        <Separator className={aboutStyles.separator} />
 
         {/* Education section */}
         <section className="space-y-8">
@@ -338,7 +339,7 @@ export default function About() {
           </div>
         </section>
 
-        <Separator className="my-12" />
+        <Separator className={aboutStyles.separator} />
 
         {/* Open Source & Community */}
         <section className="space-y-8">
