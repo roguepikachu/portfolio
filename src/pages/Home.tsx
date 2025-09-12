@@ -210,6 +210,102 @@ export default function Home() {
         </section>
       )}
 
+      {/* My Talks Section */}
+      <section className="py-16 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div className="container px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl mb-4">
+              My Talks & Presentations
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Sharing knowledge and insights with the community through talks, workshops, and presentations
+            </p>
+          </div>
+          
+          <div className="grid gap-8 lg:grid-cols-2 items-start">
+            {/* Video Embed */}
+            <div className="group">
+              <div className="relative overflow-hidden rounded-xl border shadow-lg bg-card hover:shadow-xl transition-all duration-300">
+                <div className="aspect-video">
+                  <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube.com/embed/MOkPoKh0-hA?si=DSxFyJUbzf3PMt9g" 
+                    title="YouTube video player" 
+                    frameBorder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerPolicy="strict-origin-when-cross-origin" 
+                    allowFullScreen
+                    className="rounded-t-xl"
+                  ></iframe>
+                </div>
+                <div className="p-6">
+                  <h3 className="font-semibold text-lg mb-2">Featured Talk</h3>
+                  <p className="text-muted-foreground text-sm">
+                    Deep dive into modern development practices and cloud architecture
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Meetup Event */}
+            <div className="space-y-6">
+              <div className="group cursor-pointer">
+                <div className="relative overflow-hidden rounded-xl border bg-card shadow-lg hover:shadow-xl transition-all duration-300 p-6">
+                  <div className="absolute top-4 right-4">
+                    <div className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                      Live Event
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                        <Sparkles className="w-6 h-6 text-primary-foreground" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-lg">Collabnix Meetup</h3>
+                        <p className="text-muted-foreground text-sm">Community Event</p>
+                      </div>
+                    </div>
+                    
+                    <p className="text-muted-foreground">
+                      Engaged with the developer community to share insights on scalable systems, 
+                      cloud architecture, and modern development practices.
+                    </p>
+                    
+                    <Button asChild variant="outline" className="w-full">
+                      <a 
+                        href="https://www.meetup.com/collabnix/events/300163572/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center"
+                      >
+                        View Event Details <ArrowRight className="ml-2 h-4 w-4" />
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Additional Talk Placeholder */}
+              <div className="relative overflow-hidden rounded-xl border bg-card/50 shadow-sm p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-semibold">More Talks Coming Soon</h3>
+                  <div className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-xs font-semibold text-muted-foreground">
+                    Coming Soon
+                  </div>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  Stay tuned for upcoming presentations and workshop sessions on 
+                  distributed systems, AI/ML implementations, and cloud-native architectures.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Projects Section - Conditional based on sectionConfig */}
       {sectionConfig.projects && (
         <section className="bg-muted/50 py-16">
