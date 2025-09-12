@@ -7,8 +7,8 @@ import { ArrowLeft, Calendar, ExternalLink, GraduationCap } from 'lucide-react';
 import { Publication as PublicationType } from '@/types/publication';
 import { MarkdownRenderer } from '@/utils/markdown-utils';
 import { VotingButtons } from '@/components/VotingButtons';
-import { LoadingDots } from '../components/ui/LoadingDots';
-import { delay } from '../utils/delay';
+import { LoadingDots } from '@/components/ui/LoadingDots';
+import { delay } from '@/utils/delay';
 
 export default function Publication() {
   const { id } = useParams<{ id: string }>();

@@ -13,8 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { LoadingDots } from '../components/ui/LoadingDots';
-import { delay } from '../utils/delay';
+import { LoadingDots } from '@/components/ui/LoadingDots';
+import { delay } from '@/utils/delay';
 import { Link } from "react-router-dom";
 import styles from './Blog.module.css';
 

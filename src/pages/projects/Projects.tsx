@@ -7,8 +7,8 @@ import { Github, Search, ExternalLink, Folder, Code2, Loader2, X } from 'lucide-
 import { Link } from 'react-router-dom';
 import { Project } from '@/types/project';
 import { loadProjects } from '@/utils/content-loader';
-import { LoadingDots } from '../components/ui/LoadingDots';
-import { delay } from '../utils/delay';
+import { LoadingDots } from '@/components/ui/LoadingDots';
+import { delay } from '@/utils/delay';
 import styles from './Projects.module.css';
 import { siteConfig } from '@/config';
 

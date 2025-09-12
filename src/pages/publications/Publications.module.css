@@ -1,4 +1,4 @@
-/* Projects Page CSS Module */
+/* Publications Page CSS Module */
 
 /* Loading Section */
 .loadingContainer {
@@ -60,20 +60,16 @@
   @apply mt-8 space-y-6;
 }
 
-.filtersRow {
-  @apply flex flex-col gap-4 sm:flex-row;
-}
-
 .searchWrapper {
-  @apply relative flex-1;
+  @apply relative;
 }
 
 .searchIcon {
-  @apply absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground;
+  @apply absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground;
 }
 
 .searchInput {
-  @apply pl-8;
+  @apply !pl-12;
 }
 
 .clearButton {
@@ -88,20 +84,24 @@
   @apply sr-only;
 }
 
-.selectWrapper {
-  @apply w-full sm:w-[180px];
+.filtersGrid {
+  @apply grid gap-6 md:grid-cols-2;
 }
 
-.selectHeader {
+.filterHeader {
   @apply flex items-center justify-between;
 }
 
-.selectTitle {
-  @apply text-sm font-medium sm:hidden;
+.filterTitle {
+  @apply text-sm font-medium;
 }
 
-.clearButtonSmall {
-  @apply h-7 text-xs hover:bg-transparent hover:underline sm:hidden;
+.clearFilterButton {
+  @apply h-7 text-xs hover:bg-transparent hover:underline;
+}
+
+.filterDropdown {
+  @apply mt-2;
 }
 
 .selectTrigger {
@@ -109,20 +109,8 @@
 }
 
 /* Selected Tags */
-.selectedTagsHeader {
-  @apply hidden sm:flex items-center justify-between;
-}
-
-.selectedTagsTitle {
-  @apply text-sm font-medium;
-}
-
-.selectedTagsClear {
-  @apply h-7 text-xs hover:bg-transparent hover:underline;
-}
-
 .selectedTagsContainer {
-  @apply mt-2 flex flex-wrap gap-2;
+  @apply mt-4 flex flex-wrap gap-2;
 }
 
 .selectedTag {
@@ -142,20 +130,24 @@
   @apply px-1 rounded bg-primary/20 text-primary dark:bg-primary/40 dark:text-primary font-semibold;
 }
 
-/* Project Grid */
-.projectGrid {
-  @apply mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3;
+/* Publications Grid */
+.publicationsSection {
+  @apply mt-12;
 }
 
-.projectCard {
+.publicationsGrid {
+  @apply grid gap-6 sm:grid-cols-2;
+}
+
+.publicationCard {
   @apply overflow-hidden rounded-lg border bg-card hover:shadow-md;
 }
 
-.projectCardFeatured {
+.publicationCardFeatured {
   @apply overflow-hidden rounded-lg border bg-card hover:shadow-md ring-2 ring-primary/20;
 }
 
-.projectCardInner {
+.publicationCardInner {
   @apply p-6 flex flex-col h-full;
 }
 
@@ -167,35 +159,43 @@
   @apply mb-4;
 }
 
-.projectTitle {
+.publicationTitle {
   @apply text-xl font-bold hover:text-primary;
 }
 
-.projectDescription {
+.publicationSummary {
   @apply mt-2 text-muted-foreground text-sm flex-grow;
 }
 
-.projectTags {
+.publicationTags {
   @apply mt-4 flex flex-wrap gap-2;
 }
 
-.projectTag {
+.publicationTag {
   @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold;
 }
 
-.projectActions {
+.publicationActions {
   @apply mt-6 pt-4 border-t flex items-center gap-3;
 }
 
 .actionIcon {
+  @apply mr-2 h-4 w-4;
+}
+
+.actionIconSmall {
   @apply mr-1 h-3 w-3;
 }
 
 /* No Results */
 .noResults {
-  @apply mt-16 text-center;
+  @apply py-12 text-center;
 }
 
 .noResultsText {
   @apply text-muted-foreground;
+}
+
+.clearFiltersButton {
+  @apply mt-2;
 }

@@ -73,7 +73,7 @@
 }
 
 .searchInput {
-  @apply pl-8;
+  @apply !pl-12;
 }
 
 .clearButton {

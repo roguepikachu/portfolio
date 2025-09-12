@@ -7,8 +7,8 @@ import { MarkdownRenderer } from '@/utils/markdown-utils';
 import { VotingButtons } from '@/components/VotingButtons';
 import { loadProjects } from '@/utils/content-loader';
 import { Project as ProjectType } from '@/types/project';
-import { LoadingDots } from '../components/ui/LoadingDots';
-import { delay } from '../utils/delay';
+import { LoadingDots } from '@/components/ui/LoadingDots';
+import { delay } from '@/utils/delay';
 import styles from './Project.module.css';
 
 export default function Project() {

@@ -9,8 +9,8 @@ import {
   loadPublications,
 } from "@/utils/content-loader";
 import { PublicationCard } from "@/components/publication-card";
-import { LoadingDots } from "../components/ui/LoadingDots";
-import { delay } from "../utils/delay";
+import { LoadingDots } from "@/components/ui/LoadingDots";
+import { delay } from "@/utils/delay";
 import { BlogPostCard } from "@/components/blog-post-card";
 import { ProfileSlideshow } from "@/components/ProfileSlideshow";
 import { siteConfig } from "@/config";
