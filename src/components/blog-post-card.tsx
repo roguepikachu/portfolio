@@ -2,6 +2,8 @@ import { BlogPost } from '@/types/blog';
 import { Badge } from '@/components/ui/badge';
 import { Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import styles from './blog-post-card.module.css';
+import badgeStyles from '@/styles/badges.module.css';
 
 interface BlogPostCardProps {
   post: BlogPost;
@@ -18,49 +20,49 @@ export function BlogPostCard({ post, className = '' }: BlogPostCardProps) {
 
   return (
     <article
-      className={`group overflow-hidden rounded-lg border bg-card transition-colors hover:bg-accent/50 h-full flex flex-col ${className} ${
-        post.pinned ? 'ring-2 ring-primary/20' : ''
+      className={`group ${styles.card} ${className} ${
+        post.pinned ? styles.pinnedCard : ''
       }`}
     >
       {post.image && (
-        <div className="aspect-[2/1] w-full overflow-hidden bg-muted">
+        <div className={styles.imageContainer}>
           <img
             src={post.image}
             alt={post.title}
-            className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+            className={styles.image}
             loading="lazy"
           />
         </div>
       )}
-      <div className="p-6 flex flex-col flex-grow">
-        <div className="flex flex-wrap items-center gap-2 mb-3">
+      <div className={styles.content}>
+        <div className={styles.badgeContainer}>
           {post.pinned && (
-            <Badge variant="outline" className="bg-primary/10 hover:bg-primary/20 text-primary border-primary/10">
+            <Badge variant="outline" className={badgeStyles.pinned}>
               Pinned
             </Badge>
           )}
           {post.release && (
-            <Badge variant="outline" className="bg-primary/10 hover:bg-primary/20 text-primary border-primary/10">
+            <Badge variant="outline" className={badgeStyles.new}>
               New
             </Badge>
           )}
-          <div className="flex items-center text-xs text-muted-foreground ml-auto">
-            <Calendar className="mr-1 h-3 w-3" />
+          <div className={styles.dateContainer}>
+            <Calendar className={styles.dateIcon} />
             <time dateTime={post.date}>{formattedDate}</time>
           </div>
         </div>
 
-        <h3 className="text-xl font-bold hover:text-primary transition-colors line-clamp-2">
-          <Link to={`/blog/${post.id}`} className="block">
+        <h3 className={styles.title}>
+          <Link to={`/blog/${post.id}`} className={styles.titleLink}>
             {post.title}
           </Link>
         </h3>
 
-        <p className="mt-2 text-muted-foreground line-clamp-3 flex-grow">{post.excerpt}</p>
+        <p className={styles.excerpt}>{post.excerpt}</p>
 
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className={styles.tagsContainer}>
           {post.tags.map(tag => (
-            <Badge key={tag} variant="secondary" className="hover:bg-secondary/80">
+            <Badge key={tag} variant="secondary" className={styles.tag}>
               {tag}
             </Badge>
           ))}

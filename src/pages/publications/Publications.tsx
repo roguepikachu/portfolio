@@ -6,10 +6,12 @@ import { loadPublications } from '@/utils/content-loader';
 import { PublicationCard } from '@/components/publication-card';
 import { ScrollText, Search, X } from 'lucide-react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { LoadingDots } from '../components/ui/LoadingDots';
-import { delay } from '../utils/delay';
+import { LoadingDots } from '@/components/ui/LoadingDots';
+import { delay } from '@/utils/delay';
 import { Link } from 'react-router-dom';
 import { FileText, ExternalLink } from 'lucide-react';
+import styles from './Publications.module.css';
+import badgeStyles from '@/styles/badges.module.css';
 
 export default function Publications() {
   const [publications, setPublications] = useState([]);
@@ -143,9 +145,9 @@ export default function Publications() {
     const match = plainText.slice(idx, idx + query.length);
     const after = plainText.slice(idx + query.length, end);
     return (
-      <span className="block text-xs mt-1 text-muted-foreground">
+      <span className={styles.snippetText}>
         ...{before}
-        <mark className="px-1 rounded bg-primary/20 text-primary dark:bg-primary/40 dark:text-primary font-semibold">{match}</mark>
+        <mark className={styles.highlightMatch}>{match}</mark>
         {after}...
       </span>
     );
@@ -153,15 +155,15 @@ export default function Publications() {
 
   if (loading) {
     return (
-      <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
-        <div className="mx-auto max-w-5xl">
-          <div className="flex flex-col items-center justify-center space-y-6">
-            <div className="relative">
-              <ScrollText className="h-16 w-16 text-primary animate-pulse" />
+      <div className={`container ${styles.loadingContainer}`}>
+        <div className={styles.loadingWrapper}>
+          <div className={styles.loadingContent}>
+            <div className={styles.loadingIconWrapper}>
+              <ScrollText className={styles.loadingIcon} />
             </div>
-            <div className="text-center space-y-2">
-              <h2 className="text-2xl font-semibold">Curating knowledge...</h2>
-              <p className="text-muted-foreground">Gathering the latest publications and research</p>
+            <div className={styles.loadingTextWrapper}>
+              <h2 className={styles.loadingTitle}>Curating knowledge...</h2>
+              <p className={styles.loadingMessage}>Gathering the latest publications and research</p>
             </div>
             <LoadingDots size="md" />
           </div>
@@ -171,23 +173,23 @@ export default function Publications() {
   }
 
   return (
-    <div className="container px-4 py-12 md:px-6 md:py-16 lg:py-24">
-      <div className="mx-auto max-w-5xl">
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Publications</h1>
-          <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed dark:text-gray-400">
+    <div className={`container ${styles.container}`}>
+      <div className={styles.wrapper}>
+        <div className={styles.headerSection}>
+          <h1 className={styles.title}>Publications</h1>
+          <p className={styles.subtitle}>
             Academic papers, articles, and research publications
           </p>
         </div>
 
         {/* Search and filters */}
-        <div className="mt-8 space-y-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <div className={styles.filtersSection}>
+          <div className={styles.searchWrapper}>
+            <Search className={styles.searchIcon} />
             <Input
               type="search"
               placeholder="Search publications..."
-              className="pl-10"
+              className={styles.searchInput}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
             />
@@ -195,25 +197,25 @@ export default function Publications() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2"
+                className={styles.clearButton}
                 onClick={() => setSearchQuery('')}
               >
-                <X className="h-4 w-4" />
-                <span className="sr-only">Clear search</span>
+                <X className={styles.clearIcon} />
+                <span className={styles.screenReaderOnly}>Clear search</span>
               </Button>
             )}
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className={styles.filtersGrid}>
             {/* Tags filter */}
             <div>
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium">Filter by tag</h3>
+              <div className={styles.filterHeader}>
+                <h3 className={styles.filterTitle}>Filter by tag</h3>
                 {selectedTags.length > 0 && (
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-7 text-xs hover:bg-transparent hover:underline"
+                    className={styles.clearFilterButton}
                     onClick={() => setSelectedTags([])}
                   >
                     Clear ({selectedTags.length})
@@ -222,9 +224,9 @@ export default function Publications() {
               </div>
 
               {/* Tags dropdown */}
-              <div className="mt-2">
+              <div className={styles.filterDropdown}>
                 <Select onValueChange={handleTagSelect}>
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className={styles.selectTrigger}>
                     <SelectValue placeholder="Select a tag to filter" />
                   </SelectTrigger>
                   <SelectContent>
@@ -242,11 +244,11 @@ export default function Publications() {
 
               {/* Selected tags */}
               {selectedTags.length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className={styles.selectedTagsContainer}>
                   {selectedTags.map(tag => (
-                    <Badge key={tag} variant="default" className="cursor-pointer" onClick={() => toggleTag(tag)}>
+                    <Badge key={tag} variant="default" className={styles.selectedTag} onClick={() => toggleTag(tag)}>
                       {tag}
-                      <X className="ml-1 h-3 w-3" />
+                      <X className={styles.selectedTagIcon} />
                     </Badge>
                   ))}
                 </div>
@@ -255,13 +257,13 @@ export default function Publications() {
 
             {/* Years filter */}
             <div>
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium">Filter by year</h3>
+              <div className={styles.filterHeader}>
+                <h3 className={styles.filterTitle}>Filter by year</h3>
                 {selectedYear && (
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="h-7 text-xs hover:bg-transparent hover:underline"
+                    className={styles.clearFilterButton}
                     onClick={() => setSelectedYear(null)}
                   >
                     Clear
@@ -270,9 +272,9 @@ export default function Publications() {
               </div>
 
               {/* Year dropdown */}
-              <div className="mt-2">
+              <div className={styles.filterDropdown}>
                 <Select onValueChange={handleYearSelect} value={selectedYear || 'all'}>
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className={styles.selectTrigger}>
                     <SelectValue placeholder="Select a year" />
                   </SelectTrigger>
                   <SelectContent>
@@ -290,9 +292,9 @@ export default function Publications() {
         </div>
 
         {/* Publications grid */}
-        <div className="mt-12">
+        <div className={styles.publicationsSection}>
           {sortedPublications.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className={styles.publicationsGrid}>
               {sortedPublications.map(publication => {
                 let snippet = null;
                 if (searchQuery) {
@@ -305,42 +307,40 @@ export default function Publications() {
                 return (
                   <div
                     key={publication.id}
-                    className={`group overflow-hidden rounded-lg border bg-card hover:shadow-md ${
-                      publication.featured ? 'ring-2 ring-primary/20' : ''
-                    }`}
+                    className={publication.featured ? styles.publicationCardFeatured : styles.publicationCard}
                   >
-                    <div className="p-6 flex flex-col h-full">
+                    <div className={styles.publicationCardInner}>
                       {/* Featured label (or placeholder) above the title for alignment */}
                       {publication.featured ? (
-                        <div className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-4 self-start" style={{ minHeight: '24px' }}>
+                        <div className={`${badgeStyles.featuredDiv} ${styles.featuredBadge}`} style={{ minHeight: '24px' }}>
                           Featured
                         </div>
                       ) : (
-                        <div className="mb-4" style={{ minHeight: '24px' }}></div>
+                        <div className={styles.featuredSpacer} style={{ minHeight: '24px' }}></div>
                       )}
                       <Link to={`/publications/${publication.id}`}>
-                        <h2 className="publication-title text-xl font-bold hover:text-primary">{publication.title}</h2>
+                        <h2 className={styles.publicationTitle}>{publication.title}</h2>
                       </Link>
-                      <p className="mt-2 text-muted-foreground text-sm flex-grow">{publication.summary}</p>
+                      <p className={styles.publicationSummary}>{publication.summary}</p>
                       {snippet}
-                      <div className="mt-4 flex flex-wrap gap-2">
+                      <div className={styles.publicationTags}>
                         {publication.tags.map(tag => (
-                          <div key={tag} className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
+                          <div key={tag} className={styles.publicationTag}>
                             {tag}
                           </div>
                         ))}
                       </div>
-                      <div className="mt-6 pt-4 border-t flex items-center gap-3">
+                      <div className={styles.publicationActions}>
                         <Button size="sm" asChild>
                           <a href={publication.link} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="mr-2 h-4 w-4" />
+                            <ExternalLink className={styles.actionIcon} />
                             View Publication
                           </a>
                         </Button>
                         {publication.doiUrl && (
                           <Button size="sm" variant="outline" asChild>
                             <a href={publication.doiUrl} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="mr-1 h-3 w-3" />
+                              <ExternalLink className={styles.actionIconSmall} />
                               DOI
                             </a>
                           </Button>
@@ -352,9 +352,9 @@ export default function Publications() {
               })}
             </div>
           ) : (
-            <div className="py-12 text-center">
-              <p className="text-muted-foreground">No publications found matching your criteria.</p>
-              <Button variant="link" onClick={clearFilters} className="mt-2">
+            <div className={styles.noResults}>
+              <p className={styles.noResultsText}>No publications found matching your criteria.</p>
+              <Button variant="link" onClick={clearFilters} className={styles.clearFiltersButton}>
                 Clear all filters
               </Button>
             </div>

@@ -1,0 +1,29 @@
+/* Layout Component CSS Module */
+
+.layoutContainer {
+  @apply relative min-h-screen flex flex-col;
+}
+
+.main {
+  @apply flex-1 pt-16;
+}
+
+.footer {
+  @apply border-t py-6 md:py-8;
+}
+
+.footerContent {
+  @apply flex flex-col items-center justify-between gap-4 md:flex-row;
+}
+
+.copyright {
+  @apply text-center text-sm leading-loose text-muted-foreground md:text-left;
+}
+
+.socialLinks {
+  @apply flex items-center gap-4;
+}
+
+.socialLink {
+  @apply text-muted-foreground hover:text-foreground;
+}

@@ -1,0 +1,253 @@
+/* Career Timeline Component CSS Module */
+
+.section {
+  @apply space-y-6;
+}
+
+.title {
+  @apply text-xl font-bold;
+}
+
+.timelineContainer {
+  @apply relative;
+}
+
+.mainTimelineLine {
+  @apply absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/60 to-primary/20;
+}
+
+.timelineItems {
+  @apply space-y-8;
+}
+
+.companyItem {
+  @apply relative;
+}
+
+.companyHeader {
+  @apply relative flex items-start gap-6 mb-4;
+}
+
+.companyNode {
+  @apply relative z-10 flex-shrink-0;
+}
+
+.companyNodeCircle {
+  @apply w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/60 shadow-md flex items-center justify-center border-2 border-background;
+}
+
+.companyIcon {
+  @apply w-4 h-4 text-primary-foreground;
+}
+
+.companyConnector {
+  @apply absolute top-6 left-12 w-6 h-0.5 bg-gradient-to-r from-primary/60 to-transparent;
+}
+
+.companyContent {
+  @apply flex-1 min-w-0;
+}
+
+.companyCard {
+  @apply shadow-md border-l-4 border-l-primary bg-primary/5;
+}
+
+.companyCard .cardHeader {
+  @apply px-4 py-3;
+}
+
+.companyCardHeader {
+  @apply pb-2;
+}
+
+.companyInfo {
+  @apply flex flex-wrap items-start justify-between gap-2;
+}
+
+.companyDetails {
+  @apply space-y-1;
+}
+
+.companyName {
+  @apply text-lg font-bold text-foreground;
+}
+
+.locationContainer {
+  @apply flex items-center gap-2 text-muted-foreground;
+}
+
+.locationIcon {
+  @apply w-4 h-4;
+}
+
+.locationText {
+  @apply text-sm;
+}
+
+.periodBadge {
+  @apply flex items-center gap-1 pt-2;
+}
+
+.periodIcon {
+  @apply w-3 h-3;
+}
+
+.rolesSection {
+  @apply ml-12 relative;
+}
+
+.rolesTimelineLine {
+  @apply absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-blue-500/80 to-blue-500/40;
+}
+
+.rolesItems {
+  @apply space-y-6;
+}
+
+.roleItem {
+  @apply relative flex items-start gap-4;
+}
+
+.roleNode {
+  @apply relative z-10 flex-shrink-0;
+}
+
+.roleNodeCircle {
+  @apply w-8 h-8 rounded-full bg-gradient-to-br from-secondary to-secondary/60 shadow-sm flex items-center justify-center border-2 border-background;
+}
+
+.roleNodeDot {
+  @apply w-1.5 h-1.5 rounded-full bg-secondary-foreground;
+}
+
+.roleConnector {
+  @apply absolute top-4 left-8 w-4 h-0.5 bg-gradient-to-r from-secondary/60 to-transparent;
+}
+
+.roleContent {
+  @apply flex-1 min-w-0;
+}
+
+.roleCard {
+  @apply shadow-sm hover:shadow-md transition-all duration-300 border-l-2 border-l-secondary/30;
+}
+
+.roleCard .cardHeader {
+  @apply px-4 py-2;
+}
+
+.roleCard .cardContent {
+  @apply px-4 py-2;
+}
+
+.roleCardHeader {
+  @apply pb-2 pt-3;
+}
+
+.roleInfo {
+  @apply flex flex-wrap items-start justify-between gap-2;
+}
+
+.roleTitle {
+  @apply text-base font-bold text-foreground pt-2;
+}
+
+.roleCardContent {
+  @apply pt-3 space-y-2;
+}
+
+.sectionHeader {
+  @apply font-semibold text-foreground mb-1 flex items-center gap-2 text-sm;
+}
+
+.sectionDot {
+  @apply w-1.5 h-1.5 rounded-full;
+}
+
+.achievementsDot {
+  @apply bg-primary;
+}
+
+.responsibilitiesDot {
+  @apply bg-primary/80;
+}
+
+.milestonesDot {
+  @apply bg-primary/60;
+}
+
+.list {
+  @apply space-y-1 ml-2;
+}
+
+.listItem {
+  @apply text-muted-foreground flex items-start gap-2;
+}
+
+.listItemDot {
+  @apply w-1 h-1 rounded-full mt-2 flex-shrink-0;
+}
+
+.achievementsListDot {
+  @apply bg-secondary;
+}
+
+.responsibilitiesListDot {
+  @apply bg-secondary/80;
+}
+
+.listItemText {
+  @apply text-sm leading-relaxed;
+}
+
+.milestonesGrid {
+  @apply grid gap-2 sm:grid-cols-2 ml-2;
+}
+
+.milestoneItem {
+  @apply bg-muted/50 rounded-md p-2 border border-muted;
+}
+
+.milestoneText {
+  @apply text-xs text-foreground font-medium;
+}
+
+.roleProgression {
+  @apply mt-3 ml-4 flex items-center gap-2 text-muted-foreground;
+}
+
+.progressionLineBefore {
+  @apply flex-1 h-px bg-gradient-to-r from-secondary/20 to-transparent;
+}
+
+.progressionBadge {
+  @apply text-xs font-medium bg-secondary/10 px-2 py-1 rounded-full border border-secondary/20;
+}
+
+.progressionLineAfter {
+  @apply flex-1 h-px bg-gradient-to-l from-secondary/20 to-transparent;
+}
+
+.companyProgression {
+  @apply mt-6 ml-6 flex items-center gap-3 text-muted-foreground;
+}
+
+.companyProgressionLineBefore {
+  @apply flex-1 h-px bg-gradient-to-r from-primary/30 to-transparent;
+}
+
+.companyProgressionBadge {
+  @apply text-xs font-medium bg-muted px-3 py-1 rounded-full;
+}
+
+.companyProgressionLineAfter {
+  @apply flex-1 h-px bg-gradient-to-l from-primary/30 to-transparent;
+}
+
+.timelineEnd {
+  @apply absolute left-6 bottom-0 w-0.5 h-8 bg-gradient-to-b from-primary/20 to-transparent;
+}
+
+.timelineEndDot {
+  @apply absolute left-5 -bottom-1 w-3 h-3 rounded-full bg-primary/20 border-2 border-background;
+}

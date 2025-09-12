@@ -1,0 +1,21 @@
+/* NotFound Page CSS Module */
+
+.container {
+  @apply min-h-screen flex items-center justify-center bg-gray-100;
+}
+
+.content {
+  @apply text-center;
+}
+
+.title {
+  @apply text-4xl font-bold mb-4;
+}
+
+.message {
+  @apply text-xl text-gray-600 mb-4;
+}
+
+.homeLink {
+  @apply text-blue-500 hover:text-blue-700 underline;
+}

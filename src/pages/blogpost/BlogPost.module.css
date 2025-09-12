@@ -1,0 +1,198 @@
+/* BlogPost Page CSS Module */
+
+/* Loading Section */
+.loadingContainer {
+  @apply py-16 flex items-center justify-center;
+}
+
+.loadingContent {
+  @apply flex flex-col items-center space-y-6;
+}
+
+.loadingIconWrapper {
+  @apply relative;
+}
+
+.loadingIcon {
+  @apply h-16 w-16 text-primary animate-pulse;
+}
+
+.loadingTextWrapper {
+  @apply text-center space-y-2;
+}
+
+.loadingTitle {
+  @apply text-2xl font-semibold;
+}
+
+.loadingMessage {
+  @apply text-muted-foreground;
+}
+
+/* Not Found Section */
+.notFoundContainer {
+  @apply py-16 flex items-center justify-center;
+}
+
+.notFoundContent {
+  @apply text-center;
+}
+
+.notFoundTitle {
+  @apply text-xl;
+}
+
+.backToBlogatButton {
+  @apply mt-4;
+}
+
+/* Main Container */
+.container {
+  @apply py-12 md:py-16;
+}
+
+.wrapper {
+  @apply mx-auto max-w-3xl;
+}
+
+/* Back Link */
+.backLink {
+  @apply inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-8;
+}
+
+.backIcon {
+  @apply mr-2 h-4 w-4;
+}
+
+/* Post Header */
+.postHeader {
+  @apply mb-10;
+}
+
+.badgesWrapper {
+  @apply flex flex-wrap items-center gap-2 mb-4;
+}
+
+/* .pinnedBadge styles now handled by .badge-featured utility class */
+
+/* .newBadge styles now handled by .badge-featured utility class */
+
+.postTitle {
+  @apply text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4;
+}
+
+.postMeta {
+  @apply flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground;
+}
+
+.metaItem {
+  @apply flex items-center;
+}
+
+.metaIcon {
+  @apply mr-1 h-4 w-4;
+}
+
+.tagsWrapper {
+  @apply mt-4 flex flex-wrap gap-2;
+}
+
+.tagLink {
+  @apply hover:bg-secondary/80;
+}
+
+.votingWrapper {
+  @apply mt-6;
+}
+
+/* Post Content */
+.contentPlaceholder {
+  @apply text-muted-foreground;
+}
+
+/* Share Section */
+.shareSection {
+  @apply mt-10 flex flex-wrap items-center gap-3 border-t pt-6;
+}
+
+.shareLabel {
+  @apply text-sm font-medium;
+}
+
+.shareButton {
+  @apply rounded-full;
+}
+
+.shareButtonCopy {
+  @apply ml-auto;
+}
+
+.shareIcon {
+  @apply h-4 w-4;
+}
+
+.shareIconSmall {
+  @apply mr-1 h-4 w-4;
+}
+
+.screenReaderOnly {
+  @apply sr-only;
+}
+
+/* Post Navigation */
+.postNavigation {
+  @apply mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2;
+}
+
+.navLink {
+  @apply flex flex-col gap-1 rounded-lg border p-4 transition-colors hover:bg-muted;
+}
+
+.navLinkNext {
+  @apply flex flex-col gap-1 rounded-lg border p-4 transition-colors hover:bg-muted;
+}
+
+.navLinkNextSingle {
+  @apply flex flex-col gap-1 rounded-lg border p-4 transition-colors hover:bg-muted sm:col-start-2;
+}
+
+.navLabel {
+  @apply text-sm text-muted-foreground flex items-center;
+}
+
+.navLabelNext {
+  @apply text-sm text-muted-foreground flex items-center justify-end;
+}
+
+.navIcon {
+  @apply mr-1 h-3 w-3;
+}
+
+.navIconNext {
+  @apply ml-1 h-3 w-3;
+}
+
+.navTitle {
+  @apply font-medium group-hover:text-foreground/80;
+}
+
+.navTitleNext {
+  @apply font-medium text-right group-hover:text-foreground/80;
+}
+
+/* Related Posts */
+.relatedSection {
+  @apply mt-16;
+}
+
+.relatedSeparator {
+  @apply my-8;
+}
+
+.relatedTitle {
+  @apply text-2xl font-bold mb-8;
+}
+
+.relatedGrid {
+  @apply grid gap-6 sm:grid-cols-2;
+}

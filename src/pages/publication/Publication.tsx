@@ -7,8 +7,9 @@ import { ArrowLeft, Calendar, ExternalLink, GraduationCap } from 'lucide-react';
 import { Publication as PublicationType } from '@/types/publication';
 import { MarkdownRenderer } from '@/utils/markdown-utils';
 import { VotingButtons } from '@/components/VotingButtons';
-import { LoadingDots } from '../components/ui/LoadingDots';
-import { delay } from '../utils/delay';
+import { LoadingDots } from '@/components/ui/LoadingDots';
+import { delay } from '@/utils/delay';
+import badgeStyles from '@/styles/badges.module.css';
 
 export default function Publication() {
   const { id } = useParams<{ id: string }>();
@@ -95,7 +96,7 @@ export default function Publication() {
           <header className="mb-10">
             <div className="flex flex-wrap items-center gap-2 mb-4">
               {publication.featured && (
-                <Badge variant="outline" className="bg-primary/10 hover:bg-primary/20 text-primary border-primary/10">
+                <Badge variant="outline" className={badgeStyles.featured}>
                   Featured
                 </Badge>
               )}

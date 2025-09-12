@@ -1,5 +1,6 @@
 
 import { MainNav } from "./main-nav";
+import styles from './layout.module.css';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -7,20 +8,20 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="relative min-h-screen flex flex-col">
+    <div className={styles.layoutContainer}>
       <MainNav />
-      <main className="flex-1 pt-16">{children}</main>
-      <footer className="border-t py-6 md:py-8">
-        <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
+      <main className={styles.main}>{children}</main>
+      <footer className={styles.footer}>
+        <div className={`container ${styles.footerContent}`}>
+          <p className={styles.copyright}>
             © {new Date().getFullYear()} Ayush Kumar. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
+          <div className={styles.socialLinks}>
             <a 
               href="https://github.com/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground"
+              className={styles.socialLink}
             >
               GitHub
             </a>
@@ -28,7 +29,7 @@ export function Layout({ children }: LayoutProps) {
               href="https://linkedin.com/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground"
+              className={styles.socialLink}
             >
               LinkedIn
             </a>

@@ -1,0 +1,164 @@
+/* Blog Page CSS Module */
+
+/* Loading Section */
+.loadingContainer {
+  @apply px-4 py-12 md:px-6 md:py-16 lg:py-24;
+}
+
+.loadingWrapper {
+  @apply mx-auto max-w-4xl;
+}
+
+.loadingContent {
+  @apply flex flex-col items-center justify-center space-y-6;
+}
+
+.loadingIconWrapper {
+  @apply relative;
+}
+
+.loadingIcon {
+  @apply h-16 w-16 text-primary animate-pulse;
+}
+
+.loadingTextWrapper {
+  @apply text-center space-y-2;
+}
+
+.loadingTitle {
+  @apply text-2xl font-semibold;
+}
+
+.loadingMessage {
+  @apply text-muted-foreground;
+}
+
+/* Main Container */
+.container {
+  @apply px-4 py-12 md:px-6 md:py-16 lg:py-24;
+}
+
+.wrapper {
+  @apply mx-auto max-w-4xl;
+}
+
+/* Header Section */
+.headerSection {
+  @apply space-y-2 text-center;
+}
+
+.title {
+  @apply text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl;
+}
+
+.subtitle {
+  @apply mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed dark:text-gray-400;
+}
+
+/* Filters Section */
+.filtersSection {
+  @apply mt-8 space-y-6;
+}
+
+.filtersRow {
+  @apply flex flex-col gap-4 sm:flex-row;
+}
+
+.searchWrapper {
+  @apply relative flex-1;
+}
+
+.searchIcon {
+  @apply absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground;
+}
+
+.searchInput {
+  @apply !pl-12;
+}
+
+.clearButton {
+  @apply absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2;
+}
+
+.clearIcon {
+  @apply h-4 w-4;
+}
+
+.screenReaderOnly {
+  @apply sr-only;
+}
+
+.selectWrapper {
+  @apply w-full sm:w-[180px];
+}
+
+.selectHeader {
+  @apply flex items-center justify-between;
+}
+
+.selectTitle {
+  @apply text-sm font-medium sm:hidden;
+}
+
+.clearButtonSmall {
+  @apply h-7 text-xs hover:bg-transparent hover:underline sm:hidden;
+}
+
+.selectTrigger {
+  @apply w-full;
+}
+
+/* Selected Tags */
+.selectedTagsHeader {
+  @apply hidden sm:flex items-center justify-between;
+}
+
+.selectedTagsTitle {
+  @apply text-sm font-medium;
+}
+
+.selectedTagsClear {
+  @apply h-7 text-xs hover:bg-transparent hover:underline;
+}
+
+.selectedTagsContainer {
+  @apply mt-2 flex flex-wrap gap-2;
+}
+
+.selectedTag {
+  @apply cursor-pointer;
+}
+
+.selectedTagIcon {
+  @apply ml-1 h-3 w-3;
+}
+
+/* Blog Posts Section */
+.postsSection {
+  @apply mt-12;
+}
+
+.postsGrid {
+  @apply grid gap-6 sm:grid-cols-2;
+}
+
+.postWrapper {
+  @apply h-full;
+}
+
+.postCard {
+  @apply h-full;
+}
+
+/* No Results */
+.noResults {
+  @apply py-12 text-center;
+}
+
+.noResultsText {
+  @apply text-muted-foreground;
+}
+
+.clearFiltersButton {
+  @apply mt-2;
+}

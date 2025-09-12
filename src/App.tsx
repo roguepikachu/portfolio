@@ -5,17 +5,17 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Layout } from "@/components/layout";
-import Home from "./pages/Home";
-import Projects from "./pages/Projects";
-import Project from "./pages/Project";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import About from "./pages/About";
-import Publications from "./pages/Publications";
-import Publication from "./pages/Publication";
-import NotFound from "./pages/NotFound";
+import Home from "./pages/home/Home";
+import Projects from "./pages/projects/Projects";
+import Project from "./pages/project/Project";
+import Blog from "./pages/blog/Blog";
+import BlogPost from "./pages/blogpost/BlogPost";
+import About from "./pages/about/About";
+import Publications from "./pages/publications/Publications";
+import Publication from "./pages/publication/Publication";
+import NotFound from "./pages/notfound/NotFound";
 import { sectionConfig } from "./config/sectionConfig";
-import AuthCallback from "@/pages/AuthCallback";
+import AuthCallback from "./pages/authcallback/AuthCallback";
 
 const queryClient = new QueryClient();
 
