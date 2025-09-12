@@ -67,7 +67,7 @@ export function ProfileSlideshow() {
   const currentSlide = slideData[currentIndex];
 
   return (
-    <div className="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px]">
+    <div className="relative w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] md:w-[480px] md:h-[480px] lg:w-[520px] lg:h-[520px]">
       <div className="relative w-full h-full group cursor-pointer" onClick={() => setIsPlaying(!isPlaying)}>
         {/* Stacked Cards */}
         {slideData.map((slide, index) => {
@@ -88,25 +88,25 @@ export function ProfileSlideshow() {
             borderColor = 'border-primary/20';
             shadowClass = 'shadow-2xl shadow-primary/20';
           } else if (offset === 1) {
-            // Next image - slightly behind and to the right
-            transform = 'translateX(12px) translateY(12px) scale(0.94) rotate(3deg)';
-            opacity = 0.85;
+            // Next image - more visible with gentle offset
+            transform = 'translateX(20px) translateY(15px) scale(0.92) rotate(4deg)';
+            opacity = 0.9;
             zIndex = 30;
-            borderColor = 'border-muted/30';
-            shadowClass = 'shadow-xl shadow-black/10';
+            borderColor = 'border-muted/40';
+            shadowClass = 'shadow-xl shadow-primary/10';
           } else if (offset === 2) {
-            // Third image - further behind
-            transform = 'translateX(24px) translateY(24px) scale(0.88) rotate(6deg)';
-            opacity = 0.7;
+            // Third image - clearly visible in background
+            transform = 'translateX(40px) translateY(30px) scale(0.84) rotate(8deg)';
+            opacity = 0.8;
             zIndex = 20;
-            borderColor = 'border-muted/20';
-            shadowClass = 'shadow-lg shadow-black/5';
+            borderColor = 'border-muted/30';
+            shadowClass = 'shadow-lg shadow-primary/5';
           } else if (offset === 3) {
-            // Fourth image - deepest in the stack
-            transform = 'translateX(36px) translateY(36px) scale(0.82) rotate(9deg)';
-            opacity = 0.55;
+            // Fourth image - still partially visible
+            transform = 'translateX(60px) translateY(45px) scale(0.76) rotate(12deg)';
+            opacity = 0.7;
             zIndex = 10;
-            borderColor = 'border-muted/10';
+            borderColor = 'border-muted/20';
             shadowClass = 'shadow-md shadow-black/5';
           }
           
@@ -148,29 +148,29 @@ export function ProfileSlideshow() {
           );
         })}
 
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows - Always visible and more prominent */}
         <Button
-          variant="ghost"
+          variant="secondary"
           size="icon"
-          className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/10 hover:bg-white/20 text-white border-white/20 z-40"
+          className="absolute left-4 top-1/2 -translate-y-1/2 opacity-80 hover:opacity-100 transition-all bg-background/90 hover:bg-background border-2 border-primary/20 hover:border-primary/40 z-50 hover:scale-110 shadow-lg"
           onClick={(e) => {
             e.stopPropagation();
             goToPrevious();
           }}
         >
-          <ChevronLeft className="h-4 w-4" />
+          <ChevronLeft className="h-5 w-5 text-primary" />
         </Button>
 
         <Button
-          variant="ghost"
+          variant="secondary"
           size="icon"
-          className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/10 hover:bg-white/20 text-white border-white/20 z-40"
+          className="absolute right-4 top-1/2 -translate-y-1/2 opacity-80 hover:opacity-100 transition-all bg-background/90 hover:bg-background border-2 border-primary/20 hover:border-primary/40 z-50 hover:scale-110 shadow-lg"
           onClick={(e) => {
             e.stopPropagation();
             goToNext();
           }}
         >
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="h-5 w-5 text-primary" />
         </Button>
 
         {/* Play/Pause Indicator */}
@@ -181,16 +181,16 @@ export function ProfileSlideshow() {
         </div>
       </div>
 
-      {/* Dots Indicator */}
-      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex space-x-2">
+      {/* Dots Indicator - Larger and more prominent */}
+      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex space-x-3">
         {slideData.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+            className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 ${
               index === currentIndex 
-                ? 'bg-primary scale-125' 
-                : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                ? 'bg-primary scale-125 shadow-lg shadow-primary/30' 
+                : 'bg-muted-foreground/40 hover:bg-muted-foreground/70'
             }`}
           />
         ))}

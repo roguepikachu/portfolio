@@ -150,66 +150,6 @@ export default function Home() {
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(rgba(var(--primary-rgb),0.06)_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:20px_20px] [mask-image:radial-gradient(ellipse_at_center,white,transparent)]"></div>
       </section>
 
-      {/* Blog Posts Section */}
-      {sectionConfig.blog && (
-        <section className="py-16">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
-              <div>
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                  Recent Blog Posts
-                </h2>
-                <p className="text-muted-foreground">
-                  Thoughts, ideas, and tutorials
-                </p>
-              </div>
-              <Button asChild variant="secondary">
-                <Link to="/blog" className="inline-flex items-center">
-                  View All Posts <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {posts.slice(0, 3).map((post) => (
-                <BlogPostCard key={post.id} post={post} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Publications Section - Conditional based on sectionConfig */}
-      {sectionConfig.publications && (
-        <section className="py-16 bg-muted/30">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
-              <div>
-                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-                  Featured Publications
-                </h2>
-                <p className="text-muted-foreground">
-                  Academic papers and research articles
-                </p>
-              </div>
-              <Button asChild variant="secondary">
-                <Link to="/publications" className="inline-flex items-center">
-                  View All Publications <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {featuredPublications.map((publication) => (
-                <PublicationCard
-                  key={publication.id}
-                  publication={publication}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* My Talks Section */}
       <section className="py-16 bg-gradient-to-br from-primary/5 to-secondary/5">
         <div className="container px-4 md:px-6">
@@ -305,6 +245,66 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Blog Posts Section */}
+      {sectionConfig.blog && (
+        <section className="py-16">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
+              <div>
+                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                  Recent Blog Posts
+                </h2>
+                <p className="text-muted-foreground">
+                  Thoughts, ideas, and tutorials
+                </p>
+              </div>
+              <Button asChild variant="secondary">
+                <Link to="/blog" className="inline-flex items-center">
+                  View All Posts <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {posts.slice(0, 3).map((post) => (
+                <BlogPostCard key={post.id} post={post} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Publications Section - Conditional based on sectionConfig */}
+      {sectionConfig.publications && (
+        <section className="py-16 bg-muted/30">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
+              <div>
+                <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                  Featured Publications
+                </h2>
+                <p className="text-muted-foreground">
+                  Academic papers and research articles
+                </p>
+              </div>
+              <Button asChild variant="secondary">
+                <Link to="/publications" className="inline-flex items-center">
+                  View All Publications <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {featuredPublications.map((publication) => (
+                <PublicationCard
+                  key={publication.id}
+                  publication={publication}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Featured Projects Section - Conditional based on sectionConfig */}
       {sectionConfig.projects && (
