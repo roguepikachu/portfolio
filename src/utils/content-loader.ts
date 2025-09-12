@@ -1,3 +1,5 @@
+import { getSortedBlogs, getSortedProjects, getSortedPublications } from '@/config/content-registry';
+
 interface FrontMatter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
@@ -97,85 +99,80 @@ function parseFrontMatter(frontMatterText: string): FrontMatter {
 }
 
 export async function loadBlogPosts() {
-  const blogSlugs = [
-    'understanding-javascript-closures',
-    'building-responsive-layouts-with-tailwind-css',
-    'getting-started-with-react-hooks',
-  ];
-
+  const blogRegistry = getSortedBlogs();
   const posts = [];
 
-  // Default fallback image if no image is specified in frontMatter
+  // Default fallback image if no image is specified in registry
   const defaultImage = 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=600&q=80';
 
-  for (const slug of blogSlugs) {
-    const contentItem = await loadMarkdownFile(`/blog/${slug}.md`);
-    if (contentItem) {
-      posts.push({
-        id: contentItem.frontMatter.id || slug,
-        title: contentItem.frontMatter.title || 'Untitled',
-        excerpt: contentItem.frontMatter.excerpt || '',
-        date: contentItem.frontMatter.date || new Date().toISOString(),
-        tags: contentItem.frontMatter.tags || [],
-        pinned: contentItem.frontMatter.pinned || false,
-        release: contentItem.frontMatter.release || false,
-        image: contentItem.frontMatter.image || defaultImage,
-        content: contentItem.content,
-      });
-    }
+  for (const blogEntry of blogRegistry) {
+    const contentItem = await loadMarkdownFile(`/blog/${blogEntry.id}.md`);
+    
+    // Use registry data as primary source, fallback to markdown frontMatter
+    posts.push({
+      id: blogEntry.id,
+      title: blogEntry.title,
+      excerpt: blogEntry.excerpt,
+      date: blogEntry.date,
+      tags: blogEntry.tags,
+      pinned: blogEntry.pinned || false,
+      release: blogEntry.release || false,
+      featured: blogEntry.featured || false,
+      image: blogEntry.image || defaultImage,
+      content: contentItem?.content || '',
+      // Keep any additional frontMatter from markdown
+      ...(contentItem?.frontMatter || {}),
+    });
   }
 
   return posts;
 }
 
 export async function loadProjects() {
-  const projectSlugs = ['personal-portfolio', 'blog-platform', 'ecommerce-dashboard', 'weather-app', 'task-manager', 'recipe-finder'];
-
+  const projectRegistry = getSortedProjects();
   const projects = [];
 
-  for (const slug of projectSlugs) {
-    const contentItem = await loadMarkdownFile(`/projects/${slug}.md`);
-    if (contentItem) {
-      projects.push({
-        id: slug,
-        title: contentItem.frontMatter.title || 'Untitled',
-        description: contentItem.frontMatter.description || '',
-        tags: contentItem.frontMatter.tags || [],
-        githubUrl: contentItem.frontMatter.githubUrl || '',
-        demoUrl: contentItem.frontMatter.demoUrl || '',
-        featured: contentItem.frontMatter.featured || false,
-        readme: contentItem.content,
-      });
-    }
+  for (const projectEntry of projectRegistry) {
+    const contentItem = await loadMarkdownFile(`/projects/${projectEntry.id}.md`);
+    
+    // Use registry data as primary source, fallback to markdown frontMatter
+    projects.push({
+      id: projectEntry.id,
+      title: projectEntry.title,
+      description: projectEntry.description,
+      tags: projectEntry.tags,
+      githubUrl: projectEntry.githubUrl,
+      demoUrl: projectEntry.demoUrl || '',
+      featured: projectEntry.featured || false,
+      readme: contentItem?.content || '',
+      // Keep any additional frontMatter from markdown
+      ...(contentItem?.frontMatter || {}),
+    });
   }
 
   return projects;
 }
 
 export async function loadPublications() {
-  const publicationSlugs = [
-    'aerial-vehicle-detection-pca-deep-learning',
-    'bert-tamil-dependency-parsing',
-    'mosquito-classification-deep-learning',
-    'speech-emotion-recognition-using-cnn-lstm-vit',
-  ];
-
+  const publicationRegistry = getSortedPublications();
   const publications = [];
 
-  for (const slug of publicationSlugs) {
-    const contentItem = await loadMarkdownFile(`/publications/${slug}.md`);
-    if (contentItem) {
-      publications.push({
-        id: contentItem.frontMatter.id || slug,
-        title: contentItem.frontMatter.title || 'Untitled',
-        date: contentItem.frontMatter.date || new Date().toISOString(),
-        summary: contentItem.frontMatter.summary || '',
-        link: contentItem.frontMatter.link || '',
-        tags: contentItem.frontMatter.tags || [],
-        featured: contentItem.frontMatter.featured || false,
-        content: contentItem.content,
-      });
-    }
+  for (const pubEntry of publicationRegistry) {
+    const contentItem = await loadMarkdownFile(`/publications/${pubEntry.id}.md`);
+    
+    // Use registry data as primary source, fallback to markdown frontMatter
+    publications.push({
+      id: pubEntry.id,
+      title: pubEntry.title,
+      date: pubEntry.date,
+      summary: pubEntry.summary,
+      link: pubEntry.link,
+      tags: pubEntry.tags,
+      featured: pubEntry.featured || false,
+      content: contentItem?.content || '',
+      // Keep any additional frontMatter from markdown
+      ...(contentItem?.frontMatter || {}),
+    });
   }
 
   return publications;
