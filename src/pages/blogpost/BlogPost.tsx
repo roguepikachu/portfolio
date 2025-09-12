@@ -13,6 +13,7 @@ import { CommentSection } from '@/components/blog/CommentSection';
 import { VotingButtons } from '@/components/VotingButtons';
 import { LoadingDots } from '@/components/ui/LoadingDots';
 import { delay } from '@/utils/delay';
+import badgeStyles from '@/styles/badges.module.css';
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 import styles from './BlogPost.module.css';
@@ -151,12 +152,12 @@ export default function BlogPost() {
           <header className={styles.postHeader}>
             <div className={styles.badgesWrapper}>
               {post.pinned && (
-                <Badge variant="outline" className={styles.pinnedBadge}>
+                <Badge variant="outline" className={badgeStyles.pinned}>
                   Pinned
                 </Badge>
               )}
               {post.release && (
-                <Badge variant="outline" className={styles.newBadge}>
+                <Badge variant="outline" className={badgeStyles.new}>
                   New
                 </Badge>
               )}

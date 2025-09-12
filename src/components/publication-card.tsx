@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import styles from './publication-card.module.css';
+import badgeStyles from '@/styles/badges.module.css';
 
 interface PublicationCardProps {
   publication: Publication;
@@ -17,7 +18,7 @@ export function PublicationCard({ publication, showFullSummary = false }: Public
       <CardHeader>
         <div className={styles.badgeContainer}>
           {publication.featured && (
-            <Badge variant="outline" className={styles.featuredBadge}>
+            <Badge variant="outline" className={badgeStyles.featured}>
               Featured
             </Badge>
           )}

@@ -8,9 +8,7 @@
   @apply flex flex-wrap gap-2 mb-2;
 }
 
-.featuredBadge {
-  @apply bg-primary/10 hover:bg-primary/20 text-primary border-primary/10;
-}
+/* .featuredBadge styles now handled by .badge-featured utility class */
 
 .title {
   @apply line-clamp-2;

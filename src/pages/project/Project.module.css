@@ -73,9 +73,7 @@
   @apply flex flex-wrap items-center gap-2 mb-4;
 }
 
-.featuredBadge {
-  @apply bg-primary/10 hover:bg-primary/20 text-primary border-primary/10;
-}
+/* .featuredBadge styles now handled by .badge-featured utility class */
 
 .projectTitle {
   @apply text-3xl font-bold tracking-tight sm:text-4xl mb-4;

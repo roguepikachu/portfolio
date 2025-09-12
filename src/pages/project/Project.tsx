@@ -10,6 +10,7 @@ import { Project as ProjectType } from '@/types/project';
 import { LoadingDots } from '@/components/ui/LoadingDots';
 import { delay } from '@/utils/delay';
 import styles from './Project.module.css';
+import badgeStyles from '@/styles/badges.module.css';
 
 export default function Project() {
   const { id } = useParams<{ id: string }>();
@@ -98,7 +99,7 @@ export default function Project() {
           <header className={styles.projectHeader}>
             <div className={styles.badgesWrapper}>
               {project.featured && (
-                <Badge variant="outline" className={styles.featuredBadge}>
+                <Badge variant="outline" className={badgeStyles.featured}>
                   Featured
                 </Badge>
               )}

@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import styles from './blog-post-card.module.css';
+import badgeStyles from '@/styles/badges.module.css';
 
 interface BlogPostCardProps {
   post: BlogPost;
@@ -36,12 +37,12 @@ export function BlogPostCard({ post, className = '' }: BlogPostCardProps) {
       <div className={styles.content}>
         <div className={styles.badgeContainer}>
           {post.pinned && (
-            <Badge variant="outline" className={styles.pinnedBadge}>
+            <Badge variant="outline" className={badgeStyles.pinned}>
               Pinned
             </Badge>
           )}
           {post.release && (
-            <Badge variant="outline" className={styles.pinnedBadge}>
+            <Badge variant="outline" className={badgeStyles.new}>
               New
             </Badge>
           )}

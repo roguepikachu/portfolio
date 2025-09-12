@@ -24,9 +24,7 @@
   @apply flex flex-wrap items-center gap-2 mb-3;
 }
 
-.pinnedBadge {
-  @apply bg-primary/10 hover:bg-primary/20 text-primary border-primary/10;
-}
+/* .pinnedBadge styles now handled by .badge-featured utility class */
 
 .dateContainer {
   @apply flex items-center text-xs text-muted-foreground ml-auto;

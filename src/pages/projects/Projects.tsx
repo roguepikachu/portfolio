@@ -11,6 +11,7 @@ import { LoadingDots } from '@/components/ui/LoadingDots';
 import { delay } from '@/utils/delay';
 import styles from './Projects.module.css';
 import { siteConfig } from '@/config';
+import badgeStyles from '@/styles/badges.module.css';
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -247,7 +248,7 @@ export default function Projects() {
                 <div className={styles.projectCardInner}>
                   {/* Featured label (or placeholder) above the title for alignment */}
                   {project.featured ? (
-                    <div className={styles.featuredBadge} style={{ minHeight: '24px' }}>
+                    <div className={`${badgeStyles.featuredDiv} ${styles.featuredBadge}`} style={{ minHeight: '24px' }}>
                       Featured
                     </div>
                   ) : (

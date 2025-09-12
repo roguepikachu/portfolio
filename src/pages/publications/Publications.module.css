@@ -152,7 +152,7 @@
 }
 
 .featuredBadge {
-  @apply inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary mb-4 self-start;
+  @apply badge-featured-div mb-4 self-start;
 }
 
 .featuredSpacer {
