@@ -232,10 +232,11 @@ export default function About() {
         <div className={styles.profileSection}>
           <div className={styles.imageWrapper}>
             <div className={styles.imagePlaceholder}>
-              {/* Replace with your image */}
-              <div className={styles.avatarPlaceholder}>
-                AK
-              </div>
+              <img 
+                src="https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/personal/kubecon-hyderbad-2025.jpeg"
+                alt="Ayush Kumar"
+                className={styles.profileImage}
+              />
             </div>
           </div>
           <div className={styles.profileContent}>

@@ -28,15 +28,23 @@
 }
 
 .imageWrapper {
-  @apply aspect-square overflow-hidden rounded-xl border;
+  @apply overflow-hidden rounded-xl border;
+  aspect-ratio: 0.85/1; /* Make it narrower - 0.85:1 ratio instead of 1:1 square */
+  margin: 0 auto; /* Center the wrapper */
 }
 
 .imagePlaceholder {
   @apply h-full w-full flex items-center justify-center bg-muted;
+  position: relative;
 }
 
 .avatarPlaceholder {
   @apply flex items-center justify-center h-full w-full bg-gradient-to-br from-primary/20 to-secondary text-6xl font-bold text-primary;
+}
+
+.profileImage {
+  @apply w-full h-full object-cover;
+  object-position: center center; /* Center the image in the frame */
 }
 
 .profileContent {
