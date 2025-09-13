@@ -12,7 +12,7 @@
 
 /* Navigation Buttons */
 .navButton {
-  @apply absolute top-1/2 -translate-y-1/2 w-10 h-20 flex items-center justify-center transition-all hover:scale-105 cursor-pointer;
+  @apply absolute top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-105 cursor-pointer;
   /* Light mode - white with subtle blue tint */
   background-color: rgba(240, 249, 255, 0.6); /* sky-50 with 60% opacity */
   backdrop-filter: blur(8px);
@@ -44,13 +44,11 @@
 }
 
 .navButtonLeft {
-  @apply rounded-r-2xl;
-  left: -11px;
+  left: -50px;
 }
 
 .navButtonRight {
-  @apply rounded-l-2xl;
-  right: -11px;
+  right: -50px;
 }
 
 .navIcon {
@@ -206,7 +204,7 @@
   }
 
   .navButton {
-    @apply w-8 h-16;
+    @apply w-10 h-10 rounded-full;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -233,6 +231,7 @@
   }
 
   .navButton {
+    @apply w-9 h-9 rounded-full;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -240,10 +239,10 @@
   }
 
   .navButtonLeft {
-    left: -9px;
+    left: -40px;
   }
 
   .navButtonRight {
-    right: -9px;
+    right: -40px;
   }
 }

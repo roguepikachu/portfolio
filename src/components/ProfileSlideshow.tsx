@@ -178,7 +178,25 @@ export function ProfileSlideshow() {
     <div className={styles.container}>
       {/* Slideshow Container */}
       <div className={styles.slideshowContainer}>
-        {/* Navigation Buttons - Curved rectangles with transparency */}
+        {/* Play/Pause Indicator - Move outside of slideshowInner for better positioning */}
+        <div className={styles.playPauseContainer}>
+          <Badge
+            variant="outline"
+            className={`${styles.playPauseButton} ${
+              isPlaying
+                ? styles.playPauseButtonPlaying
+                : styles.playPauseButtonPaused
+            }`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsPlaying(!isPlaying);
+            }}
+          >
+            {isPlaying ? '▶ Playing' : '⏸ Paused'}
+          </Badge>
+        </div>
+
+        {/* Navigation Buttons - Position relative to slideshowInner boundaries */}
         <button
           className={`${styles.navButton} ${styles.navButtonLeft}`}
           onClick={(e) => {
@@ -200,24 +218,6 @@ export function ProfileSlideshow() {
         >
           <ChevronRight className={styles.navIcon} />
         </button>
-
-        {/* Play/Pause Indicator - Move outside of slideshowInner for better positioning */}
-        <div className={styles.playPauseContainer}>
-          <Badge
-            variant="outline"
-            className={`${styles.playPauseButton} ${
-              isPlaying
-                ? styles.playPauseButtonPlaying
-                : styles.playPauseButtonPaused
-            }`}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsPlaying(!isPlaying);
-            }}
-          >
-            {isPlaying ? '▶ Playing' : '⏸ Paused'}
-          </Badge>
-        </div>
 
         <div className={styles.slideshowInner} onClick={() => setIsPlaying(!isPlaying)}>
         {/* Stacked Cards - Simplified transforms for better performance */}
