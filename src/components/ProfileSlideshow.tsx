@@ -200,6 +200,25 @@ export function ProfileSlideshow() {
         >
           <ChevronRight className={styles.navIcon} />
         </button>
+
+        {/* Play/Pause Indicator - Move outside of slideshowInner for better positioning */}
+        <div className={styles.playPauseContainer}>
+          <Badge
+            variant="outline"
+            className={`${styles.playPauseButton} ${
+              isPlaying
+                ? styles.playPauseButtonPlaying
+                : styles.playPauseButtonPaused
+            }`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsPlaying(!isPlaying);
+            }}
+          >
+            {isPlaying ? '▶ Playing' : '⏸ Paused'}
+          </Badge>
+        </div>
+
         <div className={styles.slideshowInner} onClick={() => setIsPlaying(!isPlaying)}>
         {/* Stacked Cards - Simplified transforms for better performance */}
         {slideData.map((slide, index) => {
@@ -269,24 +288,6 @@ export function ProfileSlideshow() {
             </div>
           );
         })}
-
-        {/* Play/Pause Indicator - Always visible and prominent */}
-        <div className={styles.playPauseContainer}>
-          <Badge 
-            variant="outline"
-            className={`${styles.playPauseButton} ${
-              isPlaying 
-                ? styles.playPauseButtonPlaying
-                : styles.playPauseButtonPaused
-            }`}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsPlaying(!isPlaying);
-            }}
-          >
-            {isPlaying ? '▶ Playing' : '⏸ Paused'}
-          </Badge>
-        </div>
 
         {/* Dots Indicator - Below slideshow with mobile-friendly spacing */}
         <div className={styles.dotsContainer}>

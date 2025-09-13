@@ -6,7 +6,7 @@
   /* Fixed max-width for consistent sizing */
   max-width: 900px;
   padding: 0 20px;
-  margin-left: -30px;
+  margin-left: 0;
   margin-top: -20px;
 }
 
@@ -137,8 +137,9 @@
 
 /* Play/Pause Indicator */
 .playPauseContainer {
-  @apply absolute top-4 left-4 transition-all;
-  z-index: 150;
+  @apply absolute top-2 left-2 transition-all;
+  z-index: 300;
+  pointer-events: auto;
 }
 
 .playPauseButton {
@@ -146,11 +147,12 @@
 }
 
 .playPauseButtonPlaying {
-  @apply bg-primary/90 text-primary-foreground border-primary hover:bg-primary;
+  @apply bg-primary/90 border-primary hover:bg-primary;
+  color: white !important;
 }
 
 .playPauseButtonPaused {
-  @apply bg-secondary/90 text-secondary-foreground border-secondary hover:bg-secondary;
+  @apply bg-secondary/90 text-white border-secondary hover:bg-secondary;
 }
 
 /* Dots Indicator */
@@ -179,18 +181,35 @@
 }
 
 @media (max-width: 768px) {
+  .container {
+    margin-left: 0;
+    justify-content: center;
+  }
+
   .slideshowContainer {
     max-width: min(600px, calc(100vw - 40px));
+  }
+
+  .navButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 200;
   }
 }
 
 @media (max-width: 640px) {
   .container {
     padding: 0 15px;
+    margin-left: 0;
+    justify-content: center;
   }
 
   .navButton {
     @apply w-8 h-16;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .navIcon {
@@ -205,10 +224,19 @@
 @media (max-width: 480px) {
   .container {
     padding: 0 10px;
+    margin-left: 0;
+    justify-content: center;
   }
 
   .slideshowContainer {
     max-width: min(480px, calc(100vw - 20px));
+  }
+
+  .navButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 200;
   }
 
   .navButtonLeft {
