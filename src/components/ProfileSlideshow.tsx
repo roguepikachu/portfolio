@@ -67,23 +67,9 @@ export function ProfileSlideshow() {
   const currentSlide = slideData[currentIndex];
 
   return (
-    <div className="relative flex items-center justify-center gap-12">
-      {/* Left Navigation Button - Outside slideshow */}
-      <Button
-        variant="outline"
-        size="icon"
-        className="bg-background hover:bg-primary hover:text-primary-foreground border-2 border-primary/40 hover:border-primary shadow-lg hover:shadow-xl transition-all dark:bg-card dark:hover:bg-primary dark:border-primary/50"
-        onClick={(e) => {
-          e.stopPropagation();
-          goToPrevious();
-          setIsPlaying(false);
-        }}
-      >
-        <ChevronLeft className="h-5 w-5" />
-      </Button>
-
+    <div className="relative flex items-center justify-center w-full max-w-[520px] mx-auto px-8 sm:px-4 lg:px-0">
       {/* Slideshow Container */}
-      <div className="relative w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] md:w-[480px] md:h-[480px] lg:w-[520px] lg:h-[520px]">
+      <div className="relative w-full aspect-square max-w-[280px] sm:max-w-[320px] md:max-w-[400px] lg:max-w-[440px] xl:max-w-[480px]">
         <div className="relative w-full h-full group cursor-pointer" onClick={() => setIsPlaying(!isPlaying)} style={{ perspective: '800px', transformStyle: 'preserve-3d' }}>
         {/* Stacked Cards - Simplified transforms for better performance */}
         {slideData.map((slide, index) => {
@@ -160,6 +146,33 @@ export function ProfileSlideshow() {
         })}
 
 
+        {/* Navigation Buttons - Inside slideshow for mobile compatibility */}
+        <Button
+          variant="outline"
+          size="icon"
+          className="absolute left-2 top-1/2 -translate-y-1/2 bg-background/80 hover:bg-primary hover:text-primary-foreground border-2 border-primary/40 hover:border-primary shadow-lg hover:shadow-xl transition-all dark:bg-card/80 dark:hover:bg-primary dark:border-primary/50 z-50"
+          onClick={(e) => {
+            e.stopPropagation();
+            goToPrevious();
+            setIsPlaying(false);
+          }}
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </Button>
+        
+        <Button
+          variant="outline"
+          size="icon"
+          className="absolute right-2 top-1/2 -translate-y-1/2 bg-background/80 hover:bg-primary hover:text-primary-foreground border-2 border-primary/40 hover:border-primary shadow-lg hover:shadow-xl transition-all dark:bg-card/80 dark:hover:bg-primary dark:border-primary/50 z-50"
+          onClick={(e) => {
+            e.stopPropagation();
+            goToNext();
+            setIsPlaying(false);
+          }}
+        >
+          <ChevronRight className="h-4 w-4" />
+        </Button>
+
         {/* Play/Pause Indicator - Always visible and prominent */}
         <div className="absolute top-4 left-4 transition-all" style={{ zIndex: 9999 }}>
           <Badge 
@@ -178,8 +191,8 @@ export function ProfileSlideshow() {
           </Badge>
         </div>
 
-        {/* Dots Indicator - Further below slideshow */}
-        <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 flex space-x-3" style={{ zIndex: 9999 }}>
+        {/* Dots Indicator - Below slideshow with mobile-friendly spacing */}
+        <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex space-x-2" style={{ zIndex: 9999 }}>
           {slideData.map((_, index) => (
             <button
               key={index}
@@ -197,20 +210,6 @@ export function ProfileSlideshow() {
         </div>
       </div>
       </div>
-
-      {/* Right Navigation Button - Outside slideshow */}
-      <Button
-        variant="outline"
-        size="icon"
-        className="bg-background hover:bg-primary hover:text-primary-foreground border-2 border-primary/40 hover:border-primary shadow-lg hover:shadow-xl transition-all dark:bg-card dark:hover:bg-primary dark:border-primary/50"
-        onClick={(e) => {
-          e.stopPropagation();
-          goToNext();
-          setIsPlaying(false);
-        }}
-      >
-        <ChevronRight className="h-5 w-5" />
-      </Button>
     </div>
   );
 }
