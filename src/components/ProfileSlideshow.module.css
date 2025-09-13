@@ -4,8 +4,10 @@
 .container {
   @apply relative flex items-center justify-center w-full mx-auto;
   /* Fixed max-width for consistent sizing */
-  max-width: 600px;
+  max-width: 900px;
   padding: 0 20px;
+  margin-left: -30px;
+  margin-top: -20px;
 }
 
 /* Navigation Buttons */
@@ -61,10 +63,10 @@
 
 /* Slideshow Container */
 .slideshowContainer {
-  @apply relative w-full aspect-square overflow-visible;
+  @apply relative w-full aspect-[4/3] overflow-visible;
   /* Fixed size for consistency */
   width: 100%;
-  max-width: 500px;
+  max-width: 750px;
   height: auto;
 }
 
@@ -113,7 +115,11 @@
 }
 
 .slideOverlay {
-  @apply absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent;
+  @apply absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent;
+}
+
+:global(.dark) .slideOverlay {
+  @apply bg-gradient-to-t from-black/60 via-transparent to-transparent;
 }
 
 /* Caption */
@@ -166,9 +172,15 @@
 }
 
 /* Responsive adjustments */
+@media (max-width: 800px) {
+  .slideshowContainer {
+    max-width: min(650px, calc(100vw - 40px));
+  }
+}
+
 @media (max-width: 768px) {
   .slideshowContainer {
-    max-width: min(450px, calc(100vw - 40px));
+    max-width: min(600px, calc(100vw - 40px));
   }
 }
 
@@ -186,7 +198,7 @@
   }
 
   .slideshowContainer {
-    max-width: min(400px, calc(100vw - 30px));
+    max-width: min(550px, calc(100vw - 30px));
   }
 }
 
@@ -196,7 +208,7 @@
   }
 
   .slideshowContainer {
-    max-width: min(350px, calc(100vw - 20px));
+    max-width: min(480px, calc(100vw - 20px));
   }
 
   .navButtonLeft {

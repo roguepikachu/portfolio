@@ -13,30 +13,137 @@ interface SlideItem {
 // Just add new images to this array - no need to manage IDs!
 const slideData: SlideItem[] = [
   {
-    image: 'https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/amrita-2024-placement-talk-1.jpeg',
-    caption: 'Placement Talk at Amrita',
-    date: '2024'
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/guidewire-ceo-2025.jpeg",
+    caption: "With Guidewire CEO Mike Rosenbaum",
+    date: "2025",
   },
   {
-    image: 'https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/amrita-2024-placement-talk-2.jpeg',
-    caption: 'Engaging with Students',
-    date: '2024'
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/amrita-2024-placement-talk-1.jpeg",
+    caption: "Guidewire Basecamp Programme at Amrita University",
+    date: "2024",
   },
   {
-    image: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=400&fit=crop&crop=face',
-    caption: 'Building the future',
-    date: '2024'
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/amrita-2024-placement-talk-2.jpeg",
+    caption: "Guidewire Campus Ambassador at Amrita University",
+    date: "2024",
   },
   {
-    image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop',
-    caption: 'Deep in code',
-    date: '2023'
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/diwali-celebration-2024.jpeg",
+    caption: "Office Diwali Celebrations",
+    date: "2024",
   },
   {
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=400&fit=crop',
-    caption: 'Innovation mindset',
-    date: '2023'
-  }
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/guidewire-mixer-ram-iyengar-2025.jpeg",
+    caption: "With Ram Iyengar",
+    date: "2025",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/guidewire-onam-celebration-2024.jpeg",
+    caption: "Office Onam Celebrations",
+    date: "2024",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/guidewire-open-circlemixer-2025.jpeg",
+    caption: "Guidewire Open Circle Mixer",
+    date: "2025",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/guidewire-opne-circle-mixer-2025.jpeg",
+    caption: "Guidewire Open Circle Networking",
+    date: "2025",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/kcd-bangalore-2025.jpeg",
+    caption: "Kubernetes Community Days (KCD) Bangalore",
+    date: "2025",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/kubecon-2025-team.jpeg",
+    caption: "KubeCon Team",
+    date: "2025",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/office-diwali-kite-making.jpeg",
+    caption: "Office Diwali Kite Making",
+    date: "2024",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/office-diwali-team-competition.jpeg",
+    caption: "Office Diwali Team Competition",
+    date: "2024",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/open-source-summit-kubevela-booth.jpeg",
+    caption: "KubeVela Booth at OSS",
+    date: "2025",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/open-source-summit-kubevela-tech-talk-2025-2.jpeg",
+    caption: "KubeVela Tech Talk",
+    date: "2025",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/open-source-summit-kubevela-tech-talk-2025-3.jpeg",
+    caption: "Open Source Summit Talk",
+    date: "2025",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/open-source-summit-kubevela-tech-talk-2025-4.jpeg",
+    caption: "OSS Presentation",
+    date: "2025",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/open-source-summit-kubevela-tech-talk-2025.jpeg",
+    caption: "KubeVela at OSS",
+    date: "2025",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/sayim-pathak-guidewire-mixer-2025.jpeg",
+    caption: "With Sayim Pathak",
+    date: "2025",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/software-supply-chain-security-tech-talk-2024-2.jpeg",
+    caption: "Software Supply Chain Security Talk - 1",
+    date: "2024",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/software-supply-chain-security-tech-talk-2024.jpeg",
+    caption: "Software Supply Chain Security Tech Talk - 2",
+    date: "2024",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/tech-talk-awards-2024.jpeg",
+    caption: "Tech Talk Awards",
+    date: "2024",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/undergrad-graduation-2023.jpeg",
+    caption: "Amrita University - Graduation Day",
+    date: "2023",
+  },
 ];
 
 export function ProfileSlideshow() {

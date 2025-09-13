@@ -64,7 +64,7 @@
 }
 
 .heroBio {
-  @apply max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400 whitespace-pre-line;
+  @apply max-w-[800px] text-gray-500 md:text-xl dark:text-gray-400 whitespace-pre-line;
 }
 
 .heroButtons {
