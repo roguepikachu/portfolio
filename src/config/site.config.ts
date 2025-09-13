@@ -7,7 +7,10 @@ export const siteConfig = {
     role: "Researcher, Developer, Writer",
     tagline: "Engineer by trade, Designer by instinct, and Writer by habit",
     shortBio: "Hi, I'm Ayush Kumar",
-    fullBio: `Hey there, I see you've stumbled across my portfolio. Since you're here, I'm Ayush. I'm a software engineer who likes building backend systems that actually hold up under pressure: scalable, resilient, and clean. I've got a bias for minimalism, so I keep things simple and straightforward wherever I can. Most of the time I'm experimenting with new tech, hacking together projects, or diving deep into cloud infrastructure and distributed systems. I'm also trying to pick up some guitar skills (slowly but surely), and when I need a break, fictional story-driven games have me hooked. Uncharted in particular — man, that's some serious storytelling and adventure.
+    fullBio: `Hey there, 
+      I see you've stumbled across my portfolio. Since you're here, I'm Ayush. I'm a software engineer who likes building backend systems that actually hold up under pressure: scalable, resilient, and clean. I've got a bias for minimalism, so I keep things simple and straightforward wherever I can.
+      
+      Most of the time I'm experimenting with new tech, hacking together projects, or diving deep into cloud infrastructure and distributed systems. I'm also trying to pick up some guitar skills (slowly but surely), and when I need a break, fictional story-driven games have me hooked. Uncharted in particular — man, that's some serious storytelling and adventure.
 
 Pretty much always down to chat about code, cloud architectures, or why AI is either going to save us all or make us completely obsolete — haven't decided which yet! What brings you here?`,
     aboutBio: `I work mostly with Go, Kubernetes, and cloud infrastructure — building backend systems that are meant to scale and stay up. My focus is on clean, maintainable architecture, automation, and performance. I've spent a lot of time designing microservices, setting up CI/CD pipelines, and getting things to run smoothly in production. I have a strong foundation in AI and data systems, with hands-on experience in applying machine learning where it genuinely improves outcomes — and the judgment to avoid it where simpler solutions are more effective.
@@ -75,9 +78,11 @@ Outside of code, I write technical articles, contribute to open-source when I ca
         "Sharing knowledge and insights with the community through talks, workshops, and presentations",
     },
     featuredTalk: {
-      title: "Platform Engineering with Kubevela - Shipping Applications the Cloud Native Way",
+      title:
+        "Platform Engineering with Kubevela - Shipping Applications the Cloud Native Way",
       subtitle: "Featured Tech Talk",
-      description: "Explored how KubeVela simplifies application delivery in cloud-native environments by providing a unified platform for developers and operators. Demonstrated practical approaches to managing application lifecycle, deployments, and scaling using modern platform engineering principles.",
+      description:
+        "Explored how KubeVela simplifies application delivery in cloud-native environments by providing a unified platform for developers and operators. Demonstrated practical approaches to managing application lifecycle, deployments, and scaling using modern platform engineering principles.",
       badge: "Live Event",
     },
     collabnixMeetup: {

@@ -240,17 +240,9 @@ export default function About() {
             </div>
           </div>
           <div className={styles.profileContent}>
-            <h2 className={styles.profileTitle}>Hi, I'm Ayush Kumar</h2>
+            <h2 className={styles.profileTitle}>{siteConfig.personal.shortBio}</h2>
             <p className={styles.profileBio}>
-              I work mostly with Go, Kubernetes, and cloud infrastructure — building backend systems that are meant to scale and stay up. My
-              focus is on clean, maintainable architecture, automation, and performance. I’ve spent a lot of time designing microservices,
-              setting up CI/CD pipelines, and getting things to run smoothly in production. I have a strong foundation in AI and data
-              systems, with hands-on experience in applying machine learning where it genuinely improves outcomes — and the judgment to
-              avoid it where simpler solutions are more effective..
-              <p className={styles.profileBio}>
-                Outside of code, I write technical articles, contribute to open-source when I can, and keep learning whatever tool or system
-                looks like it’ll help me do better work. Not big on fluff. Just here to build useful stuff and keep improving.
-              </p>
+              {siteConfig.personal.aboutBio}
             </p>
             <div className={styles.profileButtons}>
               <Button asChild>
@@ -325,19 +317,20 @@ export default function About() {
         <section className={styles.educationSection}>
           <h2 className={styles.sectionTitle}>Education</h2>
 
-          <div className={styles.educationCard}>
-            <div className={styles.educationHeader}>
-              <div>
-                <h3 className={styles.educationTitle}>Bachelor of Science in Computer Science</h3>
-                <p className={styles.educationInstitution}>University Name</p>
+          {education.map((edu, index) => (
+            <div key={index} className={styles.educationCard}>
+              <div className={styles.educationHeader}>
+                <div>
+                  <h3 className={styles.educationTitle}>{edu.degree}</h3>
+                  <p className={styles.educationInstitution}>{edu.institution}</p>
+                </div>
+                <Badge variant="outline">{edu.period}</Badge>
               </div>
-              <Badge variant="outline">2015 - 2019</Badge>
+              <p className={styles.educationDescription}>
+                {edu.description}
+              </p>
             </div>
-            <p className={styles.educationDescription}>
-              Graduated with honors. Specialized in web technologies and software engineering. Completed a senior project on real-time
-              collaborative web applications.
-            </p>
-          </div>
+          ))}
         </section>
 
         <Separator className={styles.separator} />
@@ -348,26 +341,26 @@ export default function About() {
 
           <div className={styles.openSourceGrid}>
             <div className={styles.openSourceCard}>
-              <h3 className={styles.openSourceTitle}>Open Source Contributions</h3>
+              <h3 className={styles.openSourceTitle}>{openSourceContributions.contributions.title}</h3>
               <p className={styles.openSourceDescription}>
-                Active contributor to several open-source projects including React-based libraries and developer tools.
+                {openSourceContributions.contributions.description}
               </p>
               <Button variant="link" size="sm" asChild className={styles.openSourceButton}>
-                <a href="https://github.com/" target="_blank" rel="noopener noreferrer" className={styles.openSourceButtonInner}>
-                  View on GitHub
+                <a href={openSourceContributions.contributions.linkUrl} target="_blank" rel="noopener noreferrer" className={styles.openSourceButtonInner}>
+                  {openSourceContributions.contributions.linkText}
                   <ExternalLink className="ml-1 h-3 w-3" />
                 </a>
               </Button>
             </div>
 
             <div className={styles.openSourceCard}>
-              <h3 className={styles.openSourceTitle}>Speaker & Writer</h3>
+              <h3 className={styles.openSourceTitle}>{openSourceContributions.speakerWriter.title}</h3>
               <p className={styles.openSourceDescription}>
-                Regularly speak at local meetups and occasionally at conferences. Published technical articles on web development.
+                {openSourceContributions.speakerWriter.description}
               </p>
               <Button variant="link" size="sm" asChild className={styles.openSourceButton}>
-                <a href="#" target="_blank" rel="noopener noreferrer" className={styles.openSourceButtonInner}>
-                  See Talks & Articles
+                <a href={openSourceContributions.speakerWriter.linkUrl} target="_blank" rel="noopener noreferrer" className={styles.openSourceButtonInner}>
+                  {openSourceContributions.speakerWriter.linkText}
                   <ExternalLink className="ml-1 h-3 w-3" />
                 </a>
               </Button>

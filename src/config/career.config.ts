@@ -222,10 +222,10 @@ export const techStack = {
 
 export const education = [
   {
-    degree: "Bachelor of Science in Computer Science",
-    institution: "University Name",
-    period: "2015 - 2019",
-    description: "Graduated with honors. Specialized in web technologies and software engineering. Completed a senior project on real-time collaborative web applications."
+    degree: "Bachelor of Technology in Computer Science and Engineering - Artificial Intelligence",
+    institution: "Amrita Vishwa Vidyapeetham, Coimbatore, India",
+    period: "2019 - 2023",
+  description: "Graduated with a stellar CGPA of 9.1, specializing in Artificial Intelligence and Machine Learning, and distinguished by publishing impactful research in renowned conferences and book chapters."
   }
 ];
 
