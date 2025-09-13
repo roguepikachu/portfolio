@@ -2,19 +2,22 @@
 
 /* Main Container */
 .container {
-  @apply relative flex items-center justify-center w-full max-w-[520px] mx-auto px-8 sm:px-4 lg:px-0;
+  @apply relative flex items-center justify-center w-full mx-auto;
+  /* Fixed max-width for consistent sizing */
+  max-width: 600px;
+  padding: 0 20px;
 }
 
 /* Navigation Buttons */
 .navButton {
-  @apply absolute top-1/2 -translate-y-1/2 w-8 h-16 flex items-center justify-center transition-all hover:scale-105 cursor-pointer;
+  @apply absolute top-1/2 -translate-y-1/2 w-10 h-20 flex items-center justify-center transition-all hover:scale-105 cursor-pointer;
   /* Light mode - white with subtle blue tint */
   background-color: rgba(240, 249, 255, 0.6); /* sky-50 with 60% opacity */
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 2px solid rgba(147, 197, 253, 0.5); /* blue-300 with 50% opacity */
   box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
-  z-index: 9999;
+  z-index: 200;
 }
 
 .navButton:hover {
@@ -39,11 +42,13 @@
 }
 
 .navButtonLeft {
-  @apply left-[-12px] sm:left-[-14px] lg:left-[-16px] rounded-r-2xl;
+  @apply rounded-r-2xl;
+  left: -11px;
 }
 
 .navButtonRight {
-  @apply right-[-10px] sm:right-[-12px] lg:right-[-14px] rounded-l-2xl;
+  @apply rounded-l-2xl;
+  right: -11px;
 }
 
 .navIcon {
@@ -56,7 +61,11 @@
 
 /* Slideshow Container */
 .slideshowContainer {
-  @apply relative w-full aspect-square max-w-[280px] sm:max-w-[320px] md:max-w-[400px] lg:max-w-[440px] xl:max-w-[480px] overflow-visible;
+  @apply relative w-full aspect-square overflow-visible;
+  /* Fixed size for consistency */
+  width: 100%;
+  max-width: 500px;
+  height: auto;
 }
 
 .slideshowInner {
@@ -123,7 +132,7 @@
 /* Play/Pause Indicator */
 .playPauseContainer {
   @apply absolute top-4 left-4 transition-all;
-  z-index: 9999;
+  z-index: 150;
 }
 
 .playPauseButton {
@@ -141,7 +150,7 @@
 /* Dots Indicator */
 .dotsContainer {
   @apply absolute -bottom-12 left-1/2 -translate-x-1/2 flex space-x-2;
-  z-index: 9999;
+  z-index: 150;
 }
 
 .dot {
@@ -154,4 +163,47 @@
 
 .dotInactive {
   @apply bg-background border-primary/60 hover:border-primary hover:bg-primary/20 hover:scale-110;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .slideshowContainer {
+    max-width: min(450px, calc(100vw - 40px));
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  .navButton {
+    @apply w-8 h-16;
+  }
+
+  .navIcon {
+    @apply h-4 w-4;
+  }
+
+  .slideshowContainer {
+    max-width: min(400px, calc(100vw - 30px));
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .slideshowContainer {
+    max-width: min(350px, calc(100vw - 20px));
+  }
+
+  .navButtonLeft {
+    left: -9px;
+  }
+
+  .navButtonRight {
+    right: -9px;
+  }
 }

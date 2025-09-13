@@ -69,31 +69,30 @@ export function ProfileSlideshow() {
 
   return (
     <div className={styles.container}>
-      {/* Navigation Buttons - Curved rectangles with transparency */}
-      <button
-        className={`${styles.navButton} ${styles.navButtonLeft}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          goToPrevious();
-          setIsPlaying(false);
-        }}
-      >
-        <ChevronLeft className={styles.navIcon} />
-      </button>
-      
-      <button
-        className={`${styles.navButton} ${styles.navButtonRight}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          goToNext();
-          setIsPlaying(false);
-        }}
-      >
-        <ChevronRight className={styles.navIcon} />
-      </button>
-
       {/* Slideshow Container */}
       <div className={styles.slideshowContainer}>
+        {/* Navigation Buttons - Curved rectangles with transparency */}
+        <button
+          className={`${styles.navButton} ${styles.navButtonLeft}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            goToPrevious();
+            setIsPlaying(false);
+          }}
+        >
+          <ChevronLeft className={styles.navIcon} />
+        </button>
+
+        <button
+          className={`${styles.navButton} ${styles.navButtonRight}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            goToNext();
+            setIsPlaying(false);
+          }}
+        >
+          <ChevronRight className={styles.navIcon} />
+        </button>
         <div className={styles.slideshowInner} onClick={() => setIsPlaying(!isPlaying)}>
         {/* Stacked Cards - Simplified transforms for better performance */}
         {slideData.map((slide, index) => {
@@ -192,14 +191,14 @@ export function ProfileSlideshow() {
                 setIsPlaying(false);
               }}
               className={`${styles.dot} ${
-                index === currentIndex 
+                index === currentIndex
                   ? styles.dotActive
                   : styles.dotInactive
               }`}
             />
           ))}
         </div>
-      </div>
+        </div>
       </div>
     </div>
   );
