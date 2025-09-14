@@ -210,6 +210,14 @@
     transform: translateY(-50%);
   }
 
+  .navButtonLeft {
+    left: -30px;
+  }
+
+  .navButtonRight {
+    right: -30px;
+  }
+
   .navIcon {
     @apply h-4 w-4;
   }
@@ -239,10 +247,10 @@
   }
 
   .navButtonLeft {
-    left: -40px;
+    left: -25px;
   }
 
   .navButtonRight {
-    right: -40px;
+    right: -25px;
   }
 }
