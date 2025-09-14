@@ -19,7 +19,7 @@
   -webkit-backdrop-filter: blur(8px);
   border: 2px solid rgba(147, 197, 253, 0.5); /* blue-300 with 50% opacity */
   box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
-  z-index: 200;
+  z-index: 10;
 }
 
 .navButton:hover {
@@ -136,7 +136,7 @@
 /* Play/Pause Indicator */
 .playPauseContainer {
   @apply absolute top-2 left-2 transition-all;
-  z-index: 300;
+  z-index: 15;
   pointer-events: auto;
 }
 
@@ -192,7 +192,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 200;
+    z-index: 10;
   }
 }
 
@@ -243,7 +243,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 200;
+    z-index: 10;
   }
 
   .navButtonLeft {
