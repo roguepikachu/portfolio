@@ -21,26 +21,123 @@ const MermaidDiagram = ({ code, theme }: { code: string; theme: string }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Detect diagram type and determine appropriate container size
+  const getDiagramSize = (code: string): string => {
+    const trimmedCode = code.trim().toLowerCase();
+
+    // Simple vertical diagrams (like Architecture at a Glance)
+    // Check for simple diagrams with basic elements
+    if ((trimmedCode.includes('graph tb') || trimmedCode.includes('graph td')) &&
+        (trimmedCode.includes('http client') ||
+         trimmedCode.includes('gin http') ||
+         trimmedCode.includes('middleware layer') ||
+         trimmedCode.includes('bonsai api server') ||
+         trimmedCode.length < 500)) {
+      return 'max-w-md'; // 448px - much smaller for simple architecture diagrams
+    }
+
+    // Sequence diagrams need more width
+    if (trimmedCode.includes('sequencediagram')) {
+      return 'max-w-5xl'; // 1024px
+    }
+
+    // Graph LR (horizontal) diagrams need more width
+    if (trimmedCode.includes('graph lr')) {
+      // Clean Architecture diagram needs extra width for all the layers
+      if (trimmedCode.includes('http layer') ||
+          trimmedCode.includes('business layer') ||
+          trimmedCode.includes('data layer') ||
+          trimmedCode.includes('repository interface')) {
+        return 'max-w-5xl'; // 1024px for Clean Architecture diagram
+      }
+      return 'max-w-4xl'; // 896px - standard for other graph LR
+    }
+
+    // Graph TD/TB (vertical) diagrams with subgraphs
+    if ((trimmedCode.includes('graph td') || trimmedCode.includes('graph tb')) &&
+        trimmedCode.includes('subgraph')) {
+      // Test Pyramid diagram should be smaller
+      if (trimmedCode.includes('test pyramid') ||
+          trimmedCode.includes('acceptance tests') ||
+          trimmedCode.includes('unit tests')) {
+        return 'custom-pyramid'; // Custom small size for Test Pyramid
+      }
+      return 'max-w-3xl'; // 768px - standard for other subgraph diagrams
+    }
+
+    // Flowcharts
+    if (trimmedCode.includes('flowchart')) {
+      return 'max-w-4xl'; // 896px
+    }
+
+    // Default for other diagram types
+    return 'max-w-3xl'; // 768px
+  };
+
+  const containerSize = getDiagramSize(code);
+
   useEffect(() => {
     const renderDiagram = async () => {
       if (!ref.current) return;
 
       try {
         // Configure mermaid
-        mermaid.initialize({
+        const currentTheme: 'dark' | 'default' = theme === 'dark' ? 'dark' : 'default';
+
+        // Use different config for pyramid
+        const config = containerSize === 'custom-pyramid' ? {
           startOnLoad: false,
-          theme: theme === 'dark' ? 'dark' : 'default',
+          theme: currentTheme,
           securityLevel: 'loose',
           fontFamily: 'ui-sans-serif, system-ui, sans-serif',
-        });
+          flowchart: {
+            useMaxWidth: false,
+            htmlLabels: true,
+            curve: 'basis',
+            rankSpacing: 30,
+            nodeSpacing: 20,
+            padding: 10,
+            diagramPadding: 10,
+          },
+        } : {
+          startOnLoad: false,
+          theme: currentTheme,
+          securityLevel: 'loose',
+          fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+          flowchart: {
+            useMaxWidth: true,
+            htmlLabels: true,
+            curve: 'basis',
+            rankSpacing: 60,
+            nodeSpacing: 60,
+          },
+          sequence: {
+            useMaxWidth: true,
+          },
+        };
 
-        const { svg } = await mermaid.render(`mermaid-${Date.now()}`, code);
+        mermaid.initialize(config);
+
+        const uniqueId = `mermaid-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        const { svg } = await mermaid.render(uniqueId, code);
+
+        if (!ref.current) return;
+
         ref.current.innerHTML = svg;
         setError(null);
+
+        // Simple approach - just ensure SVG fits in container
+        const svgElement = ref.current.querySelector('svg');
+        if (svgElement) {
+          svgElement.style.maxWidth = '100%';
+          svgElement.style.height = 'auto';
+        }
       } catch (err) {
         console.error('Mermaid rendering error:', err);
         setError('Failed to render diagram');
-        ref.current.innerHTML = `<pre class="text-red-500 bg-red-50 dark:bg-red-950/20 p-4 rounded border">${code}</pre>`;
+        if (ref.current) {
+          ref.current.innerHTML = `<pre class="text-red-500 bg-red-50 dark:bg-red-950/20 p-4 rounded border text-xs">${code}</pre>`;
+        }
       }
     };
 
@@ -56,9 +153,28 @@ const MermaidDiagram = ({ code, theme }: { code: string; theme: string }) => {
     );
   }
 
+  // Special handling for Test Pyramid - small container
+  if (containerSize === 'custom-pyramid') {
+    return (
+      <div className="my-8 flex justify-center w-full">
+        <div
+          ref={ref}
+          className="mermaid-diagram overflow-hidden p-2 bg-white dark:bg-gray-900 rounded-lg border shadow-sm"
+          style={{
+            width: '300px',
+            maxWidth: '300px',
+            fontSize: '12px',
+            transform: 'scale(0.7)',
+            transformOrigin: 'top center'
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className="my-8 flex justify-center">
-      <div ref={ref} className="mermaid-diagram max-w-full overflow-auto p-4 bg-white dark:bg-gray-900 rounded-lg border shadow-sm" />
+    <div className="my-8 flex justify-center w-full">
+      <div ref={ref} className={`mermaid-diagram w-full ${containerSize} overflow-x-auto p-4 bg-white dark:bg-gray-900 rounded-lg border shadow-sm`} />
     </div>
   );
 };
