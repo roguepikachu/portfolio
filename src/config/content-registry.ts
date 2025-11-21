@@ -86,43 +86,6 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
     demoUrl: 'https://roguepikachu.github.io/portfolio',
     order: 2,
     featured: true,
-  },
-  {
-    id: 'ecommerce-dashboard',
-    title: 'E-commerce Dashboard',
-    description: 'A comprehensive admin dashboard for e-commerce management',
-    tags: ['React', 'Node.js', 'MongoDB', 'Chart.js'],
-    githubUrl: 'https://github.com/roguepikachu/ecommerce-dashboard',
-    order: 3,
-    featured: true,
-  },
-  {
-    id: 'weather-app',
-    title: 'Weather App',
-    description: 'A beautiful weather application with location-based forecasts',
-    tags: ['React', 'OpenWeather API', 'CSS3'],
-    githubUrl: 'https://github.com/roguepikachu/weather-app',
-    demoUrl: 'https://weather-app-demo.vercel.app',
-    order: 4,
-    featured: false,
-  },
-  {
-    id: 'task-manager',
-    title: 'Task Manager',
-    description: 'A productivity app for managing tasks and projects efficiently',
-    tags: ['Vue.js', 'Firebase', 'Vuetify'],
-    githubUrl: 'https://github.com/roguepikachu/task-manager',
-    order: 5,
-    featured: false,
-  },
-  {
-    id: 'recipe-finder',
-    title: 'Recipe Finder',
-    description: 'Find and save your favorite recipes with this intuitive app',
-    tags: ['React Native', 'Recipe API', 'SQLite'],
-    githubUrl: 'https://github.com/roguepikachu/recipe-finder',
-    order: 6,
-    featured: false,
   }
 ];
 
