@@ -16,19 +16,21 @@ const slideData: SlideItem[] = [
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/guidewire-ceo-2025.jpeg",
-    caption: "Meeting with Mike Rosenbaum, CEO of Guidewire",
+    caption: "Meeting with Mike Rosenbaum, CEO of Guidewire Software",
     date: "2025",
   },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/guidewire-mixer-ram-iyengar-2025.jpeg",
-    caption: "Networking with Ram Iyengar at Guidewire Mixer",
+    caption:
+      "Networking with Ram Iyengar, Chief Evangelist at Cloud Foundry Foundation",
     date: "2025",
   },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/sayim-pathak-guidewire-mixer-2025.jpeg",
-    caption: "Discussion with Sayim Pathak at Guidewire Event",
+    caption:
+      "Engaging with Sayim Pathak, Head of Developer Relations, vCluster",
     date: "2025",
   },
 
@@ -36,49 +38,53 @@ const slideData: SlideItem[] = [
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/open-source-summit-kubevela-tech-talk-2025-2.jpeg",
-    caption: "Speaking on KubeVela Platform Engineering at OSS",
+    caption:
+      "Presenting KubeVela Platform Engineering at Open Source Summit - Hyderabad",
     date: "2025",
   },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/open-source-summit-kubevela-tech-talk-2025-3.jpeg",
-    caption: "Technical Session at Open Source Summit 2025",
+    caption:
+      "Speaking on Cloud-Native Application Delivery at Open Source Summit - Hyderabad",
     date: "2025",
   },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/open-source-summit-kubevela-tech-talk-2025-4.jpeg",
-    caption: "Presenting Cloud-Native Solutions at OSS",
+    caption:
+      "Demonstrating KubeVela Architecture at Open Source Summit - Hyderabad",
     date: "2025",
   },
-  {
-    image:
-      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/open-source-summit-kubevela-tech-talk-2025.jpeg",
-    caption: "KubeVela Technical Deep-Dive at OSS 2025",
-    date: "2025",
-  },
+  // {
+  //   image:
+  //     "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/open-source-summit-kubevela-tech-talk-2025.jpeg",
+  //   caption:
+  //     "Delivering Technical Deep-Dive on KubeVela at Open Source Summit - Hyderabad",
+  //   date: "2025",
+  // },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/software-supply-chain-security-tech-talk-2024-2.jpeg",
-    caption: "Leading Software Supply Chain Security Workshop",
+    caption: "Leading Workshop on Software Supply Chain Security",
     date: "2024",
   },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/software-supply-chain-security-tech-talk-2024.jpeg",
-    caption: "Technical Talk on Container Security Best Practices",
+    caption: "Presenting Container Security Best Practices and DevSecOps",
     date: "2024",
   },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/amrita-2024-placement-talk-1.jpeg",
-    caption: "Leading Guidewire Basecamp Programme at Amrita",
+    caption: "Leading Guidewire Basecamp Program at Amrita University",
     date: "2024",
   },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/amrita-2024-placement-talk-2.jpeg",
-    caption: "Campus Ambassador - Mentoring Future Engineers",
+    caption: "Mentoring Engineering Students as Guidewire Campus Ambassador",
     date: "2024",
   },
 
@@ -86,25 +92,26 @@ const slideData: SlideItem[] = [
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/guidewire-onam-celebration-2024.jpeg",
-    caption: "Celebrating Onam with the Guidewire Team",
+    caption: "Celebrating Onam Festival with Guidewire Engineering Team",
     date: "2024",
   },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/diwali-celebration-2024.jpeg",
-    caption: "Diwali Festivities at Guidewire Office",
+    caption:
+      "Participating in Diwali Festivities at Guidewire Bangalore Office",
     date: "2024",
   },
-  {
-    image:
-      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/office-diwali-kite-making.jpeg",
-    caption: "Team Building - Traditional Kite Making Activity",
-    date: "2024",
-  },
+  // {
+  //   image:
+  //     "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/office-diwali-kite-making.jpeg",
+  //   caption: "Engaging in Traditional Kite-Making Team Building Activity",
+  //   date: "2024",
+  // },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/office-diwali-team-competition.jpeg",
-    caption: "Leading Team in Diwali Competition",
+    caption: "Leading Cross-Functional Team in Diwali Celebration Competition",
     date: "2024",
   },
 
@@ -112,13 +119,13 @@ const slideData: SlideItem[] = [
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/guidewire-open-circlemixer-2025.jpeg",
-    caption: "Guidewire Open Circle Innovation Mixer",
+    caption: "Attending Guidewire Open Circle Innovation Mixer",
     date: "2025",
   },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/guidewire-opne-circle-mixer-2025.jpeg",
-    caption: "Professional Networking at Open Circle Event",
+    caption: "Networking with Industry Leaders at Guidewire Open Circle Event",
     date: "2025",
   },
 
@@ -126,33 +133,47 @@ const slideData: SlideItem[] = [
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/kcd-bangalore-2025.jpeg",
-    caption: "Kubernetes Community Days - Bangalore Chapter",
+    caption: "Attending Kubernetes Community Days Bangalore",
     date: "2025",
   },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/kubecon-2025-team.jpeg",
-    caption: "With the Cloud-Native Team at KubeCon",
+    caption:
+      "Collaborating with Cloud-Native Computing Foundation Team at KubeCon",
     date: "2025",
   },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/open-source-summit-kubevela-booth.jpeg",
-    caption: "Representing KubeVela at Open Source Summit",
+    caption: "Representing KubeVela Project at Open Source Summit Booth",
     date: "2025",
   },
 
   // === ACHIEVEMENTS & MILESTONES ===
   {
     image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/individual-award-2025.jpeg",
+    caption: "Receiving Employee of the Year Award at Guidewire Software",
+    date: "2025",
+  },
+  {
+    image:
+      "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/awards-gallore-2025.jpeg",
+    caption: "Collection of Awards and Recognition from Guidewire Software",
+    date: "2025",
+  },
+  {
+    image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/tech-talk-awards-2024.jpeg",
-    caption: "Receiving Excellence Award for Technical Presentations",
+    caption:
+      "Receiving Excellence Award for Outstanding Technical Presentations",
     date: "2024",
   },
   {
     image:
       "https://xrcjirnfklgxmamutbpz.supabase.co/storage/v1/object/public/ayush-portfolio/events/undergrad-graduation-2023.jpeg",
-    caption: "B.Tech Graduation - Amrita Vishwa Vidyapeetham",
+    caption: "Graduating with B.Tech from Amrita Vishwa Vidyapeetham",
     date: "2023",
   },
 ];

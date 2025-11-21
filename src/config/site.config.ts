@@ -7,13 +7,14 @@ export const siteConfig = {
     role: "Researcher, Developer, Writer",
     tagline: "Engineer by trade, Designer by instinct, and Writer by habit",
     shortBio: "Hi, I'm Ayush Kumar",
-    fullBio: `Hey there, 
-      I see you've stumbled across my portfolio. Since you're here, I'm Ayush. I'm a software engineer who likes building backend systems that actually hold up under pressure: scalable, resilient, and clean. I've got a bias for minimalism, so I keep things simple and straightforward wherever I can.
-      
-      Most of the time I'm experimenting with new tech, hacking together projects, or diving deep into cloud infrastructure and distributed systems. I'm also trying to pick up some guitar skills (slowly but surely), and when I need a break, fictional story-driven games have me hooked. Uncharted in particular — man, that's some serious storytelling and adventure.
+    fullBio: ` How did you get here? Well, you've stumbled across my portfolio, so... I'm Ayush!
 
-Pretty much always down to chat about code, cloud architectures, or why AI is either going to save us all or make us completely obsolete — haven't decided which yet! What brings you here?`,
-    aboutBio: `I work mostly with Go, Kubernetes, and cloud infrastructure — building backend systems that are meant to scale and stay up. My focus is on clean, maintainable architecture, automation, and performance. I've spent a lot of time designing microservices, setting up CI/CD pipelines, and getting things to run smoothly in production. I have a strong foundation in AI and data systems, with hands-on experience in applying machine learning where it genuinely improves outcomes — and the judgment to avoid it where simpler solutions are more effective.
+This is basically my corner of the internet where I dump everything I'm working on or thinking about. Projects I've built, things I've learned, talks I've given, random thoughts on tech. It's all here.
+
+I work on backend systems and spend a lot of time with cloud infrastructure. Most days I'm trying to figure out how to make things scale without overcomplicating them. I'm into distributed systems, Kubernetes, and the occasional rabbit hole about whether AI is actually helping us or just really good at pretending. Jury's still out.
+
+Feel free to look around, and if you want to chat about code, cloud stuff, or literally anything tech, hmu!`,
+    aboutBio: `I work mostly with Go, Kubernetes, and cloud infrastructure — building backend systems that are meant to scale and stay up. My focus is on clean, maintainable architecture, automation, and performance. I've spent a lot of time designing microservices, setting up CI/CD pipelines, and getting things to run smoothly in production. I have a strong foundation in AI and data systems, with hands-on experience in applying machine learning where it genuinely improves outcomes and the judgment to avoid it where simpler solutions are more effective.
 
 Outside of code, I write technical articles, contribute to open-source when I can, and keep learning whatever tool or system looks like it'll help me do better work. Not big on fluff. Just here to build useful stuff and keep improving.`,
   },
