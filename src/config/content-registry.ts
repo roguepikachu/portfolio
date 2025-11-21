@@ -69,13 +69,22 @@ export const BLOG_REGISTRY: BlogEntry[] = [
 // PROJECTS - Add new projects here
 export const PROJECT_REGISTRY: ProjectEntry[] = [
   {
+    id: 'bonsai',
+    title: 'Bonsai',
+    description: 'A simple Go API for snippet sharing with intelligent Redis caching, automatic expiration, and tag based organization. Built for speed and simplicity.',
+    tags: ['Microservices', 'Go', 'PostgreSQL', 'Cache', 'Redis', 'REST API', 'Docker', 'Kubernetes', 'Atlas'],
+    githubUrl: 'https://github.com/roguepikachu/bonsai',
+    order: 1,
+    featured: true,
+  },
+  {
     id: 'personal-portfolio',
     title: 'Personal Portfolio Website',
-    description: 'A modern, full-featured personal portfolio with 3D photo carousel, blog system, career timeline, and interactive social features. Built with React, TypeScript, Shadcn/ui, and Supabase.',
+    description: 'A modern, full featured personal portfolio with blog system, career timeline, and interactive social features. Built with React, TypeScript, Shadcn/ui, and Supabase.',
     tags: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Shadcn/ui', 'Supabase', 'React Query', 'Markdown', 'GitHub Pages'],
     githubUrl: 'https://github.com/roguepikachu/portfolio',
     demoUrl: 'https://roguepikachu.github.io/portfolio',
-    order: 1,
+    order: 2,
     featured: true,
   },
   {
@@ -85,7 +94,7 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
     tags: ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL'],
     githubUrl: 'https://github.com/roguepikachu/blog-platform',
     demoUrl: 'https://blog-platform-demo.vercel.app',
-    order: 2,
+    order: 3,
     featured: true,
   },
   {

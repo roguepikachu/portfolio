@@ -1,7 +1,7 @@
 ---
 id: personal-portfolio
 title: Personal Portfolio
-description: A modern, full-featured personal portfolio with 3D photo carousel, blog system, career timeline, and interactive social features. Built with React, TypeScript, Shadcn/ui, and Supabase.
+description: A modern, full-featured personal portfolio with blog system, career timeline, and interactive social features. Built with React, TypeScript, Shadcn/ui, and Supabase.
 tags: [React, TypeScript, Vite, Tailwind CSS, Shadcn/ui, Supabase, React Query, Markdown, GitHub Pages]
 githubUrl: https://github.com/roguepikachu/portfolio
 demoUrl: https://roguepikachu.github.io/portfolio
