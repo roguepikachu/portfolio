@@ -1,5 +1,5 @@
 ---
-id: 4
+id: weather-app
 title: Weather App
 description: A simple weather application that shows current conditions and forecasts.
 tags: [JavaScript, React, API]

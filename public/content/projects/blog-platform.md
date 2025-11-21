@@ -1,5 +1,5 @@
 ---
-id: 2
+id: blog-platform
 title: Blog Platform
 description: A full-featured blog platform with markdown support and comment system.
 tags: [Next.js, React, MDX]

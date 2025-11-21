@@ -70,11 +70,11 @@ export const BLOG_REGISTRY: BlogEntry[] = [
 export const PROJECT_REGISTRY: ProjectEntry[] = [
   {
     id: 'personal-portfolio',
-    title: 'Personal Portfolio',
-    description: 'A modern, responsive portfolio website built with React and TypeScript',
-    tags: ['React', 'TypeScript', 'Tailwind CSS', 'Vite'],
+    title: 'Personal Portfolio Website',
+    description: 'A modern, full-featured personal portfolio with 3D photo carousel, blog system, career timeline, and interactive social features. Built with React, TypeScript, Shadcn/ui, and Supabase.',
+    tags: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Shadcn/ui', 'Supabase', 'React Query', 'Markdown', 'GitHub Pages'],
     githubUrl: 'https://github.com/roguepikachu/portfolio',
-    demoUrl: 'https://ayushkumar.dev',
+    demoUrl: 'https://roguepikachu.github.io/portfolio',
     order: 1,
     featured: true,
   },

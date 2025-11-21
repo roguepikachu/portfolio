@@ -1,5 +1,5 @@
 ---
-id: 3
+id: ecommerce-dashboard
 title: E-Commerce Dashboard
 description: An admin dashboard for managing e-commerce products and orders.
 tags: [React, Node.js, MongoDB]

@@ -1,5 +1,5 @@
 ---
-id: 6
+id: recipe-finder
 title: Recipe Finder
 description: An application to search for recipes based on ingredients you have.
 tags: [JavaScript, API, CSS]

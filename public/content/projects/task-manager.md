@@ -1,5 +1,5 @@
 ---
-id: 5
+id: task-manager
 title: Task Manager
 description: A productivity tool for managing tasks and projects with drag-and-drop functionality.
 tags: [React, Redux, Firebase]
