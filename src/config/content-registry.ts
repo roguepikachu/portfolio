@@ -88,16 +88,6 @@ export const PROJECT_REGISTRY: ProjectEntry[] = [
     featured: true,
   },
   {
-    id: 'blog-platform',
-    title: 'Blog Platform',
-    description: 'A full-stack blog platform with user authentication and content management',
-    tags: ['Next.js', 'TypeScript', 'Prisma', 'PostgreSQL'],
-    githubUrl: 'https://github.com/roguepikachu/blog-platform',
-    demoUrl: 'https://blog-platform-demo.vercel.app',
-    order: 3,
-    featured: true,
-  },
-  {
     id: 'ecommerce-dashboard',
     title: 'E-commerce Dashboard',
     description: 'A comprehensive admin dashboard for e-commerce management',
