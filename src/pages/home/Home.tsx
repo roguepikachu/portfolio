@@ -17,6 +17,23 @@ import { siteConfig } from "@/config";
 import styles from "./Home.module.css";
 import badgeStyles from "@/styles/badges.module.css";
 
+const TalkVideo = ({ src, title }: { src: string; title: string }) => (
+  <div className={styles.videoWrapper}>
+    <iframe
+      width="100%"
+      height="100%"
+      src={src}
+      title={title}
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerPolicy="strict-origin-when-cross-origin"
+      allowFullScreen
+      loading="lazy"
+      className={styles.videoIframe}
+    ></iframe>
+  </div>
+);
+
 export default function Home() {
   const [contactModalOpen, setContactModalOpen] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -168,6 +185,7 @@ export default function Home() {
                       </div>
                       <div className={styles.talkTextContainer}>
                         <h3 className={styles.talkTitle}>{siteConfig.sections.featuredTalk.title}</h3>
+                        <p className={styles.talkSubtitle}>{siteConfig.sections.featuredTalk.subtitle}</p>
                       </div>
                     </div>
                     
@@ -175,26 +193,48 @@ export default function Home() {
                       {siteConfig.sections.featuredTalk.description}
                     </p>
                     
-                    <div className={styles.videoWrapper}>
-                      <iframe 
-                        width="100%" 
-                        height="100%" 
-                        src={siteConfig.external.featuredVideoUrl} 
-                        title="YouTube video player" 
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        referrerPolicy="strict-origin-when-cross-origin" 
-                        allowFullScreen
-                        className={styles.videoIframe}
-                      ></iframe>
-                    </div>
+                    <TalkVideo
+                      src={siteConfig.external.featuredVideoUrl}
+                      title={siteConfig.sections.featuredTalk.title}
+                    />
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Meetup Event */}
             <div className={styles.talksColumn}>
+              {/* Earlier talk */}
+              <div className={styles.talkCard}>
+                <div className={styles.talkCardInner}>
+                  <div className={styles.talkBadgeWrapper}>
+                    <div className={styles.talkBadge}>
+                      {siteConfig.ui.badges.liveEvent}
+                    </div>
+                  </div>
+
+                  <div className={styles.talkContent}>
+                    <div className={styles.talkHeader}>
+                      <div className={styles.talkIconCircle}>
+                        <Play className={styles.talkIcon} />
+                      </div>
+                      <div className={styles.talkTextContainer}>
+                        <h3 className={styles.talkTitle}>{siteConfig.sections.kubevelaTalk.title}</h3>
+                      </div>
+                    </div>
+
+                    <p className={styles.talkDescription}>
+                      {siteConfig.sections.kubevelaTalk.description}
+                    </p>
+
+                    <TalkVideo
+                      src={siteConfig.external.kubevelaVideoUrl}
+                      title={siteConfig.sections.kubevelaTalk.title}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Meetup Event */}
               <div className={styles.talkCard}>
                 <div className={styles.talkCardInner}>
                   <div className={styles.talkBadgeWrapper}>
@@ -232,19 +272,6 @@ export default function Home() {
                 </div>
               </div>
               
-              {/* Additional Talk Placeholder */}
-              <div className={styles.comingSoonCard}>
-                <div className={styles.comingSoonHeader}>
-                  <h3 className={styles.comingSoonTitle}>More Talks Coming Soon</h3>
-                  <div className={styles.comingSoonBadge}>
-                    Coming Soon
-                  </div>
-                </div>
-                <p className={styles.comingSoonText}>
-                  Stay tuned for upcoming presentations and workshop sessions on 
-                  distributed systems, AI/ML implementations, and cloud-native architectures.
-                </p>
-              </div>
             </div>
           </div>
         </div>
