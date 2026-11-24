@@ -36,33 +36,16 @@ export interface PublicationEntry extends ContentEntry {
 // BLOG POSTS - Add new blog posts here
 export const BLOG_REGISTRY: BlogEntry[] = [
   {
-    id: 'understanding-javascript-closures',
-    title: 'Understanding JavaScript Closures',
-    excerpt: 'A deep dive into JavaScript closures and their practical applications',
-    date: '2024-01-15',
-    tags: ['JavaScript', 'Web Development', 'Programming'],
+    id: 'mac-github-actions-runner',
+    title: 'Turning My Mac into a GitHub Actions Runner',
+    excerpt: 'A small experiment - run GitHub Actions jobs on an Apple silicon Mac inside a sealed Lima VM, scale it from 1 to N runners, and switch CI back to GitHub with one variable.',
+    date: '2026-11-25',
+    tags: ['GitHub Actions', 'CI/CD', 'Lima', 'macOS', 'DevOps'],
     order: 1,
     featured: true,
-    pinned: false,
-    image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=600&q=80'
-  },
-  {
-    id: 'building-responsive-layouts-with-tailwind-css',
-    title: 'Building Responsive Layouts with Tailwind CSS',
-    excerpt: 'Learn how to create beautiful, responsive layouts using Tailwind CSS utility classes',
-    date: '2024-01-10',
-    tags: ['CSS', 'Tailwind', 'Web Design', 'Responsive'],
-    order: 2,
-    featured: false,
-  },
-  {
-    id: 'getting-started-with-react-hooks',
-    title: 'Getting Started with React Hooks',
-    excerpt: 'Master React Hooks and modern functional component patterns',
-    date: '2024-01-05',
-    tags: ['React', 'Hooks', 'JavaScript', 'Frontend'],
-    order: 3,
-    featured: true,
+    pinned: true,
+    release: true,
+    image: '/portfolio/images/blog/mac-github-actions-runner/cover.svg'
   }
 ];
 

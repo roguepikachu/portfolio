@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="A Mac laptop running a Linux VM with two GitHub Actions runners">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1117"/>
+      <stop offset="1" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="vm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a7f37"/>
+      <stop offset="1" stop-color="#116329"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#21262d" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.6"/>
+
+  <g font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+    <text x="72" y="120" fill="#7ee787" font-size="22" font-family="ui-monospace, 'SF Mono', Menlo, monospace">$ make ci-on</text>
+    <text x="72" y="210" fill="#f0f6fc" font-size="56" font-weight="700">Your Mac as a</text>
+    <text x="72" y="278" fill="#f0f6fc" font-size="56" font-weight="700">GitHub Actions</text>
+    <text x="72" y="346" fill="#f0f6fc" font-size="56" font-weight="700">runner</text>
+    <text x="72" y="410" fill="#8b949e" font-size="24">Lima VM · Rosetta · two runners · zero mounts</text>
+    <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="18">
+      <text x="72" y="520" fill="#8b949e">runner: <tspan fill="#f0f6fc">mac-gha-1</tspan> <tspan fill="#3fb950">online</tspan></text>
+      <text x="72" y="550" fill="#8b949e">runner: <tspan fill="#f0f6fc">mac-gha-2</tspan> <tspan fill="#3fb950">online</tspan></text>
+    </g>
+  </g>
+
+  <g transform="translate(660 150)">
+    <path d="M150 40 C 150 -20, 330 -40, 360 10" fill="none" stroke="#388bfd" stroke-width="3" stroke-dasharray="8 8"/>
+    <path d="M352 2 L364 14 L348 18 Z" fill="#388bfd"/>
+    <g transform="translate(330 -60)">
+      <path d="M30 60 a28 28 0 0 1 8 -54 a38 38 0 0 1 70 6 a26 26 0 0 1 18 48 Z" fill="#161b22" stroke="#388bfd" stroke-width="3"/>
+      <text x="64" y="44" text-anchor="middle" fill="#79c0ff" font-family="ui-monospace, Menlo, monospace" font-size="15">jobs</text>
+    </g>
+
+    <rect x="20" y="60" width="440" height="280" rx="18" fill="#21262d" stroke="#484f58" stroke-width="4"/>
+    <rect x="38" y="78" width="404" height="244" rx="8" fill="#0d1117"/>
+    <path d="M-20 340 H500 L478 372 H2 Z" fill="#30363d"/>
+    <rect x="200" y="340" width="80" height="10" rx="4" fill="#484f58"/>
+
+    <rect x="66" y="102" width="348" height="196" rx="12" fill="url(#vm)" opacity="0.18" stroke="#3fb950" stroke-width="2"/>
+    <text x="84" y="132" fill="#7ee787" font-family="ui-monospace, Menlo, monospace" font-size="16">lima: gha-runner</text>
+
+    <g font-family="ui-monospace, Menlo, monospace" font-size="15">
+      <rect x="86" y="150" width="148" height="56" rx="8" fill="#0d1117" stroke="#3fb950" stroke-width="2"/>
+      <circle cx="104" cy="178" r="6" fill="#3fb950"/>
+      <text x="118" y="183" fill="#f0f6fc">mac-gha-1</text>
+      <rect x="246" y="150" width="148" height="56" rx="8" fill="#0d1117" stroke="#3fb950" stroke-width="2"/>
+      <circle cx="264" cy="178" r="6" fill="#3fb950"/>
+      <text x="278" y="183" fill="#f0f6fc">mac-gha-2</text>
+      <rect x="86" y="222" width="308" height="52" rx="8" fill="#0d1117" stroke="#388bfd" stroke-width="2"/>
+      <text x="240" y="253" fill="#79c0ff" text-anchor="middle">docker · rosetta · mounts: []</text>
+    </g>
+  </g>
+</svg>
