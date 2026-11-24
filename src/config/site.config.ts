@@ -30,7 +30,8 @@ Outside of code, I write technical articles, contribute to open-source when I ca
   // External Links
   external: {
     resumePath: "/resume.pdf",
-    featuredVideoUrl:
+    featuredVideoUrl: "https://www.youtube.com/embed/zVwOelL1iI4?start=167",
+    kubevelaVideoUrl:
       "https://www.youtube.com/embed/MOkPoKh0-hA?si=DSxFyJUbzf3PMt9g",
     meetupEventUrl: "https://www.meetup.com/collabnix/events/300163572/",
   },
@@ -79,9 +80,16 @@ Outside of code, I write technical articles, contribute to open-source when I ca
         "Sharing knowledge and insights with the community through talks, workshops, and presentations",
     },
     featuredTalk: {
+      title: "Terraform to Crossplane: The Art of Zero-Downtime Migration",
+      subtitle: "KCD Kochi 2026",
+      description:
+        "How to hand existing cloud infrastructure over from Terraform to Crossplane without recreating resources or interrupting the services that depend on them.",
+      badge: "Live Event",
+    },
+    kubevelaTalk: {
       title:
         "Platform Engineering with Kubevela - Shipping Applications the Cloud Native Way",
-      subtitle: "Featured Tech Talk",
+      subtitle: "Tech Talk",
       description:
         "Explored how KubeVela simplifies application delivery in cloud-native environments by providing a unified platform for developers and operators. Demonstrated practical approaches to managing application lifecycle, deployments, and scaling using modern platform engineering principles.",
       badge: "Live Event",
