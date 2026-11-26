@@ -106,7 +106,7 @@ export default function Home() {
             <div className={styles.heroContent}>
               <div className={styles.heroTextWrapper}>
                 <h1 className={styles.heroTitle}>
-                  {siteConfig.personal.role}
+                  {siteConfig.personal.greeting}
                 </h1>
                 <p className={styles.heroBio}>
                   {siteConfig.personal.fullBio}

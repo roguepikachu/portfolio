@@ -1,28 +1,11 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Building, Calendar, MapPin } from "lucide-react";
+import type { CareerCompany } from "@/config/career.config";
 import styles from './CareerTimeline.module.css';
 
-interface Role {
-  id: string;
-  title: string;
-  period: string;
-  achievements: string[];
-  responsibilities?: string[];
-  milestones?: string[];
-}
-
-interface TimelineItem {
-  id: string;
-  company: string;
-  location?: string;
-  overallPeriod: string;
-  roles: Role[];
-  type: 'company';
-}
-
 interface CareerTimelineProps {
-  items: TimelineItem[];
+  items: CareerCompany[];
   title?: string;
 }
 
@@ -105,54 +88,16 @@ export function CareerTimeline({ items, title = "Career Journey" }: CareerTimeli
                           </CardHeader>
                           
                           <CardContent className={`${styles.roleCardContent} px-4 py-2`}>
-                            {/* Key Achievements */}
-                            {role.achievements.length > 0 && (
-                              <div>
-                                <h5 className={styles.sectionHeader}>
-                                  Key Achievements
-                                </h5>
-                                <ul className={styles.list}>
-                                  {role.achievements.map((achievement, idx) => (
-                                    <li key={idx} className={styles.listItem}>
-                                      <div className={`${styles.listItemDot} ${styles.achievementsListDot}`} />
-                                      <span className={styles.listItemText}>{achievement}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-                            
-                            {/* Responsibilities */}
-                            {role.responsibilities && role.responsibilities.length > 0 && (
-                              <div>
-                                <h5 className={styles.sectionHeader}>
-                                  Core Responsibilities
-                                </h5>
-                                <ul className={styles.list}>
-                                  {role.responsibilities.map((responsibility, idx) => (
-                                    <li key={idx} className={styles.listItem}>
-                                      <div className={`${styles.listItemDot} ${styles.responsibilitiesListDot}`} />
-                                      <span className={styles.listItemText}>{responsibility}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-                            
-                            {/* Milestones */}
-                            {role.milestones && role.milestones.length > 0 && (
-                              <div>
-                                <h5 className={styles.sectionHeader}>
-                                  Key Milestones
-                                </h5>
-                                <div className={styles.milestonesGrid}>
-                                  {role.milestones.map((milestone, idx) => (
-                                    <div key={idx} className={styles.milestoneItem}>
-                                      <span className={styles.milestoneText}>{milestone}</span>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
+                            <p className={styles.summary}>{role.summary}</p>
+                            {role.highlights && role.highlights.length > 0 && (
+                              <ul className={styles.list}>
+                                {role.highlights.map((highlight) => (
+                                  <li key={highlight} className={styles.listItem}>
+                                    <div className={styles.listItemDot} />
+                                    <span className={styles.listItemText}>{highlight}</span>
+                                  </li>
+                                ))}
+                              </ul>
                             )}
                           </CardContent>
                         </Card>

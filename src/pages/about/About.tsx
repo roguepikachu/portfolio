@@ -223,9 +223,6 @@ export default function About() {
       <div className={styles.wrapper}>
         <div className={styles.headerSection}>
           <h1 className={styles.title}>{siteConfig.pages.about.title}</h1>
-          <p className={styles.tagline}>
-            {siteConfig.personal.tagline}
-          </p>
         </div>
 
         {/* Profile section */}
@@ -272,42 +269,22 @@ export default function About() {
         <section className={styles.techSection}>
           <h2 className={styles.sectionTitle}>Tech Stack</h2>
 
+          <p className={styles.techIntro}>{techStack.intro}</p>
+
           <div className={styles.techGrid}>
-            {/* Frontend */}
-            <div className={styles.techCard}>
-              <h3 className={styles.techCardTitle}>Frontend</h3>
-              <div className={styles.techBadges}>
-                {techStack.frontend.map(tech => (
-                  <Badge key={tech} variant="secondary">
-                    {tech}
-                  </Badge>
-                ))}
+            {techStack.groups.map((group) => (
+              <div key={group.title} className={styles.techCard}>
+                <h3 className={styles.techCardTitle}>{group.title}</h3>
+                <p className={styles.techCardNote}>{group.note}</p>
+                <div className={styles.techBadges}>
+                  {group.items.map((item) => (
+                    <Badge key={item} variant="secondary">
+                      {item}
+                    </Badge>
+                  ))}
+                </div>
               </div>
-            </div>
-
-            {/* Backend */}
-            <div className={styles.techCard}>
-              <h3 className={styles.techCardTitle}>Backend</h3>
-              <div className={styles.techBadges}>
-                {techStack.backend.map(tech => (
-                  <Badge key={tech} variant="secondary">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-
-            {/* Tools */}
-            <div className={styles.techCard}>
-              <h3 className={styles.techCardTitle}>Tools & DevOps</h3>
-              <div className={styles.techBadges}>
-                {techStack.tools.map(tech => (
-                  <Badge key={tech} variant="secondary">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 

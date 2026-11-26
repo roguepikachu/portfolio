@@ -1,256 +1,200 @@
-/* ProfileSlideshow CSS Module */
+/* ProfileSlideshow: a small stack of photos with a segmented progress bar. */
 
-/* Main Container */
-.container {
-  @apply relative flex items-center justify-center w-full mx-auto;
-  /* Fixed max-width for consistent sizing */
-  max-width: 900px;
-  padding: 0 20px;
-  margin-left: 0;
-  margin-top: -20px;
+.root {
+  --card-radius: 1.25rem;
+  --card-ring: rgba(15, 23, 42, 0.08);
+  --card-shadow: 0 1px 2px rgba(15, 23, 42, 0.06),
+    0 18px 40px -12px rgba(15, 23, 42, 0.28);
+  --back-shadow: 0 10px 24px -10px rgba(15, 23, 42, 0.25);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  @apply relative w-full mx-auto;
+  max-width: 480px;
+  margin: 0;
 }
 
-/* Navigation Buttons */
-.navButton {
-  @apply absolute top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-105 cursor-pointer;
-  /* Light mode - white with subtle blue tint */
-  background-color: rgba(240, 249, 255, 0.6); /* sky-50 with 60% opacity */
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 2px solid rgba(147, 197, 253, 0.5); /* blue-300 with 50% opacity */
-  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
+:global(.dark) .root {
+  --card-ring: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.4),
+    0 18px 40px -12px rgba(0, 0, 0, 0.7);
+  --back-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- Photo stack ---------- */
+
+.stage {
+  @apply relative w-full;
+  aspect-ratio: 4 / 3;
+}
+
+.card {
+  @apply absolute inset-0 overflow-hidden bg-muted;
+  border-radius: var(--card-radius);
+  box-shadow: 0 0 0 1px var(--card-ring), var(--card-shadow);
+  transform-origin: 50% 60%;
+  transition:
+    transform 800ms var(--ease),
+    opacity 600ms var(--ease),
+    filter 800ms var(--ease);
+  will-change: transform, opacity;
+}
+
+.image {
+  @apply block w-full h-full object-cover select-none;
+}
+
+.cardFront {
+  z-index: 30;
+  transform: none;
+  opacity: 1;
+}
+
+/* Next two photos peek out from behind, like loose prints. */
+.cardBack1 {
+  z-index: 20;
+  transform: translate(12px, 8px) rotate(4deg) scale(0.95);
+  box-shadow: 0 0 0 1px var(--card-ring), var(--back-shadow);
+  filter: brightness(0.92) saturate(0.85);
+}
+
+.cardBack2 {
   z-index: 10;
+  transform: translate(-14px, 12px) rotate(-4.5deg) scale(0.92);
+  box-shadow: 0 0 0 1px var(--card-ring), var(--back-shadow);
+  filter: brightness(0.85) saturate(0.7);
 }
 
-.navButton:hover {
-  background-color: rgba(240, 249, 255, 0.8); /* sky-50 with 80% opacity */
-  border-color: rgba(96, 165, 250, 0.6); /* blue-400 with 60% opacity */
-  box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.15);
+/* The photo that just left slides off to the side and fades. */
+.cardExit {
+  z-index: 40;
+  transform: translate(-14%, -2%) rotate(-7deg) scale(1.02);
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* Dark mode styles */
-:global(.dark) .navButton {
-  background-color: rgba(15, 23, 42, 0.4); /* slate-900 with 40% opacity */
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-color: rgba(71, 85, 105, 0.6); /* slate-600 with 60% opacity */
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+.cardHidden {
+  z-index: 0;
+  transform: scale(0.9);
+  opacity: 0;
+  pointer-events: none;
 }
 
-:global(.dark) .navButton:hover {
-  background-color: rgba(30, 41, 59, 0.6); /* slate-800 with 60% opacity */
-  border-color: rgba(100, 116, 139, 0.7); /* slate-500 with 70% opacity */
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+/* ---------- Progress segments ---------- */
+
+.progress {
+  @apply flex items-center mt-8;
+  gap: 4px;
 }
 
-.navButtonLeft {
-  left: -50px;
+.segment {
+  @apply relative flex-1 cursor-pointer;
+  height: 16px; /* comfortable hit area around a thin bar */
+  background: none;
+  border: 0;
+  padding: 0;
 }
 
-.navButtonRight {
-  right: -50px;
+.segment::before {
+  content: "";
+  @apply absolute inset-x-0 rounded-full bg-foreground/10;
+  top: 50%;
+  height: 3px;
+  transform: translateY(-50%);
+  transition: background-color 200ms ease;
 }
 
-.navIcon {
-  @apply h-5 w-5 text-blue-600;
+.segment:hover::before {
+  @apply bg-foreground/25;
 }
 
-:global(.dark) .navIcon {
-  @apply text-white;
+.segment:focus-visible {
+  @apply outline-none;
 }
 
-/* Slideshow Container */
-.slideshowContainer {
-  @apply relative w-full aspect-[4/3] overflow-visible;
-  /* Fixed size for consistency */
-  width: 100%;
-  max-width: 750px;
-  height: auto;
+.segment:focus-visible::before {
+  @apply ring-2 ring-ring ring-offset-2 ring-offset-background;
 }
 
-.slideshowInner {
-  @apply relative w-full h-full cursor-pointer overflow-visible;
-  perspective: 800px;
-  transform-style: preserve-3d;
+.segmentFill {
+  @apply absolute inset-x-0 rounded-full bg-primary pointer-events-none;
+  top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  transform: scaleX(0);
+  transform-origin: left center;
 }
 
-/* Slide Cards */
-.slideCard {
-  @apply absolute inset-0 rounded-[2rem] overflow-hidden border-2 will-change-transform;
-  transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+.segmentDone .segmentFill {
+  @apply bg-foreground/30;
+  transform: scaleX(1);
 }
 
-.slideCardCurrent {
-  @apply border-primary/40 shadow-2xl shadow-primary/30;
+.segmentActive .segmentFill {
+  animation: fill var(--slide-duration) linear forwards;
 }
 
-.slideCardNext {
-  @apply border-primary/25 shadow-xl shadow-primary/20;
+.paused .segmentActive .segmentFill {
+  animation-play-state: paused;
 }
 
-.slideCardThird {
-  @apply border-primary/15 shadow-lg shadow-primary/15;
+.stopped .segmentActive .segmentFill {
+  animation: none;
+  transform: scaleX(1);
 }
 
-.slideVisible {
-  @apply visible;
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
-.slideHidden {
-  @apply invisible;
+/* ---------- Caption + controls ---------- */
+
+.footer {
+  @apply flex items-start justify-between gap-4 mt-3;
 }
 
-/* Slide Content */
-.slideContent {
-  @apply relative w-full h-full;
+.captionBlock {
+  @apply min-w-0 flex-1;
 }
 
-.slideImage {
-  @apply w-full h-full object-cover;
-}
-
-.slideOverlay {
-  @apply absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent;
-}
-
-:global(.dark) .slideOverlay {
-  @apply bg-gradient-to-t from-black/60 via-transparent to-transparent;
-}
-
-/* Caption */
-.captionContainer {
-  @apply absolute bottom-4 left-4 right-4 text-center;
-}
-
-.dateBadge {
-  @apply mb-2 bg-white/10 text-white border-white/20;
+.meta {
+  @apply block text-xs font-medium text-muted-foreground tabular-nums tracking-wide;
 }
 
 .caption {
-  @apply text-white font-medium text-sm;
+  @apply mt-1 text-sm font-medium text-foreground leading-snug;
+  min-height: 2.5em; /* two lines, so the controls don't jump around */
 }
 
-/* Play/Pause Indicator */
-.playPauseContainer {
-  @apply absolute top-2 left-2 transition-all;
-  z-index: 15;
-  pointer-events: auto;
+.controls {
+  @apply flex items-center gap-1.5 shrink-0;
 }
 
-.playPauseButton {
-  @apply text-xs cursor-pointer border-2 shadow-lg font-semibold hover:shadow-xl transition-all;
+.control {
+  @apply inline-flex h-9 w-9 items-center justify-center rounded-full border border-border
+    bg-background text-foreground/80 transition-colors
+    hover:bg-muted hover:text-foreground
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
 }
 
-.playPauseButtonPlaying {
-  @apply bg-primary/90 border-primary hover:bg-primary;
-  color: white !important;
+.controlIcon {
+  @apply h-4 w-4;
 }
 
-.playPauseButtonPaused {
-  @apply bg-secondary/90 text-white border-secondary hover:bg-secondary;
-}
+/* ---------- Reduced motion ---------- */
 
-/* Dots Indicator */
-.dotsContainer {
-  @apply absolute -bottom-12 left-1/2 -translate-x-1/2 flex space-x-2;
-  z-index: 150;
-}
-
-.dot {
-  @apply w-3 h-3 rounded-full transition-all duration-300 border-2 cursor-pointer;
-}
-
-.dotActive {
-  @apply bg-primary border-primary scale-125 shadow-lg shadow-primary/40;
-}
-
-.dotInactive {
-  @apply bg-background border-primary/60 hover:border-primary hover:bg-primary/20 hover:scale-110;
-}
-
-/* Responsive adjustments */
-@media (max-width: 800px) {
-  .slideshowContainer {
-    max-width: min(650px, calc(100vw - 40px));
-  }
-}
-
-@media (max-width: 768px) {
-  .container {
-    margin-left: 0;
-    justify-content: center;
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: opacity 200ms linear;
   }
 
-  .slideshowContainer {
-    max-width: min(600px, calc(100vw - 40px));
-  }
-
-  .navButton {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-  }
-}
-
-@media (max-width: 640px) {
-  .container {
-    padding: 0 15px;
-    margin-left: 0;
-    justify-content: center;
-  }
-
-  .navButton {
-    @apply w-10 h-10 rounded-full;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .navButtonLeft {
-    left: -30px;
-  }
-
-  .navButtonRight {
-    right: -30px;
-  }
-
-  .navIcon {
-    @apply h-4 w-4;
-  }
-
-  .slideshowContainer {
-    max-width: min(550px, calc(100vw - 30px));
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 0 10px;
-    margin-left: 0;
-    justify-content: center;
-  }
-
-  .slideshowContainer {
-    max-width: min(480px, calc(100vw - 20px));
-  }
-
-  .navButton {
-    @apply w-9 h-9 rounded-full;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-  }
-
-  .navButtonLeft {
-    left: -25px;
-  }
-
-  .navButtonRight {
-    right: -25px;
+  /* Autoplay starts off for these users; the progress bar still runs if they press play. */
+  .cardExit,
+  .cardHidden {
+    transform: none;
   }
 }
