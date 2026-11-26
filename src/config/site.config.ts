@@ -4,19 +4,16 @@ export const siteConfig = {
     name: "Ayush Kumar",
     initials: "AK",
     email: "kumar.ayush.cs@gmail.com",
-    role: "Researcher, Developer, Writer",
-    tagline: "Engineer by trade, Designer by instinct, and Writer by habit",
+    greeting: "Hi, I'm Ayush",
     shortBio: "Hi, I'm Ayush Kumar",
-    fullBio: ` How did you get here? Well, you've stumbled across my portfolio, so... I'm Ayush!
+    fullBio: `I'm a software engineer at Guidewire, working mostly with Go, Kubernetes and cloud infrastructure.
 
-This is basically my corner of the internet where I dump everything I'm working on or thinking about. Projects I've built, things I've learned, talks I've given, random thoughts on tech. It's all here.
+Outside of work I follow whatever I'm curious about. Lately that's distributed systems, and whether AI tools are actually making us better engineers. This site is where all of that ends up: blog posts, side projects, and talks I've given. It's a personal space, but it's open, so feel free to look around.`,
+    aboutBio: `On the internet I'm roguepikachu. I picked the name after I started rewatching Pokémon. There's an episode where Ash's Pikachu finds a whole group of wild Pikachu and could stay with them for good, but he walks back out to keep travelling with Ash. Leaving the comfortable option behind to go find your own adventure felt like a properly rogue move to me, and that's where the name comes from.
 
-I work on backend systems and spend a lot of time with cloud infrastructure. Most days I'm trying to figure out how to make things scale without overcomplicating them. I'm into distributed systems, Kubernetes, and the occasional rabbit hole about whether AI is actually helping us or just really good at pretending. Jury's still out.
+The rest of the time I'm a software engineer at Guidewire. I work mostly in Go and Kubernetes, on backend services, CI/CD pipelines and the infrastructure that keeps them running in production. I like keeping systems simple enough that the next person can follow them.
 
-Feel free to look around, and if you want to chat about code, cloud stuff, or literally anything tech, hmu!`,
-    aboutBio: `I work mostly with Go, Kubernetes, and cloud infrastructure — building backend systems that are meant to scale and stay up. My focus is on clean, maintainable architecture, automation, and performance. I've spent a lot of time designing microservices, setting up CI/CD pipelines, and getting things to run smoothly in production. I have a strong foundation in AI and data systems, with hands-on experience in applying machine learning where it genuinely improves outcomes and the judgment to avoid it where simpler solutions are more effective.
-
-Outside of code, I write technical articles, contribute to open-source when I can, and keep learning whatever tool or system looks like it'll help me do better work. Not big on fluff. Just here to build useful stuff and keep improving.`,
+I have a background in AI and data systems, though my opinions about AI change roughly every quarter. Outside of work I write here, give the odd talk, and contribute to open source when I find something worth fixing.`,
   },
 
   // Social Links
@@ -118,11 +115,6 @@ Outside of code, I write technical articles, contribute to open-source when I ca
     },
     techStack: {
       title: "Tech Stack",
-      categories: {
-        frontend: "Frontend",
-        backend: "Backend",
-        tools: "Tools & DevOps",
-      },
     },
     education: {
       title: "Education",

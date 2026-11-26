@@ -156,28 +156,12 @@
   @apply pt-3 space-y-2;
 }
 
-.sectionHeader {
-  @apply font-semibold text-foreground mb-1 flex items-center gap-2 text-sm;
-}
-
-.sectionDot {
-  @apply w-1.5 h-1.5 rounded-full;
-}
-
-.achievementsDot {
-  @apply bg-primary;
-}
-
-.responsibilitiesDot {
-  @apply bg-primary/80;
-}
-
-.milestonesDot {
-  @apply bg-primary/60;
+.summary {
+  @apply text-sm leading-relaxed text-muted-foreground whitespace-pre-line;
 }
 
 .list {
-  @apply space-y-1 ml-2;
+  @apply space-y-1;
 }
 
 .listItem {
@@ -185,31 +169,11 @@
 }
 
 .listItemDot {
-  @apply w-1 h-1 rounded-full mt-2 flex-shrink-0;
-}
-
-.achievementsListDot {
-  @apply bg-secondary;
-}
-
-.responsibilitiesListDot {
-  @apply bg-secondary/80;
+  @apply w-1 h-1 rounded-full mt-2 flex-shrink-0 bg-primary/70;
 }
 
 .listItemText {
   @apply text-sm leading-relaxed;
-}
-
-.milestonesGrid {
-  @apply grid gap-2 sm:grid-cols-2 ml-2;
-}
-
-.milestoneItem {
-  @apply bg-muted/50 rounded-md p-2 border border-muted;
-}
-
-.milestoneText {
-  @apply text-xs text-foreground font-medium;
 }
 
 .roleProgression {

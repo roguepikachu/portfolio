@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useCallback, useEffect, useState, type CSSProperties, type KeyboardEvent } from 'react';
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import styles from './ProfileSlideshow.module.css';
 
 interface SlideItem {
@@ -10,6 +8,8 @@ interface SlideItem {
   date: string;
   /** Kept for later, but not shown on the site. */
   hidden?: boolean;
+  /** CSS object-position for photos whose subject isn't centred. */
+  focus?: string;
 }
 
 const IMAGE_BASE =
@@ -153,168 +153,164 @@ const allSlides: SlideItem[] = [
 
 const slideData = allSlides.filter((slide) => !slide.hidden);
 
+const SLIDE_DURATION_MS = 5000;
+
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/** Where a card sits relative to the current one. */
+function positionClass(rel: number, total: number) {
+  if (rel === 0) return styles.cardFront;
+  if (rel === 1) return styles.cardBack1;
+  if (rel === 2) return styles.cardBack2;
+  if (rel === total - 1) return styles.cardExit;
+  return styles.cardHidden;
+}
+
 export function ProfileSlideshow() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const total = slideData.length;
+  const [current, setCurrent] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(() => !prefersReducedMotion());
+  const [isHovered, setIsHovered] = useState(false);
 
+  const next = useCallback(() => setCurrent((i) => (i + 1) % total), [total]);
+  const prev = useCallback(() => setCurrent((i) => (i - 1 + total) % total), [total]);
+
+  // Preload the next photo so it never appears blank.
   useEffect(() => {
-    if (!isPlaying) return;
-    
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % slideData.length);
-    }, 4000);
+    const img = new Image();
+    img.src = slideData[(current + 1) % total].image;
+  }, [current, total]);
 
-    return () => clearInterval(interval);
-  }, [isPlaying]);
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
+  const goTo = (index: number) => {
+    setCurrent(index);
+    setIsPlaying(false);
   };
 
-  const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev - 1 + slideData.length) % slideData.length);
+  const onKeyDown = (e: KeyboardEvent<HTMLElement>) => {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      next();
+      setIsPlaying(false);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      prev();
+      setIsPlaying(false);
+    }
   };
 
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % slideData.length);
-  };
-
-  const currentSlide = slideData[currentIndex];
+  const slide = slideData[current];
+  const rootClass = [
+    styles.root,
+    !isPlaying && styles.stopped,
+    isPlaying && isHovered && styles.paused,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <div className={styles.container}>
-      {/* Slideshow Container */}
-      <div className={styles.slideshowContainer}>
-        {/* Play/Pause Indicator - Move outside of slideshowInner for better positioning */}
-        <div className={styles.playPauseContainer}>
-          <Badge
-            variant="outline"
-            className={`${styles.playPauseButton} ${
-              isPlaying
-                ? styles.playPauseButtonPlaying
-                : styles.playPauseButtonPaused
-            }`}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsPlaying(!isPlaying);
-            }}
-          >
-            {isPlaying ? '▶ Playing' : '⏸ Paused'}
-          </Badge>
-        </div>
-
-        {/* Navigation Buttons - Position relative to slideshowInner boundaries */}
-        <button
-          className={`${styles.navButton} ${styles.navButtonLeft}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            goToPrevious();
-            setIsPlaying(false);
-          }}
-        >
-          <ChevronLeft className={styles.navIcon} />
-        </button>
-
-        <button
-          className={`${styles.navButton} ${styles.navButtonRight}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            goToNext();
-            setIsPlaying(false);
-          }}
-        >
-          <ChevronRight className={styles.navIcon} />
-        </button>
-
-        <div className={styles.slideshowInner} onClick={() => setIsPlaying(!isPlaying)}>
-        {/* Stacked Cards - Simplified transforms for better performance */}
-        {slideData.map((slide, index) => {
-          const offset = (index - currentIndex + slideData.length) % slideData.length;
-          const isVisible = offset <= 2; // Show background cards
-          
-          let transform = '';
-          let opacity = 0;
-          let zIndex = 0;
-          
-          if (offset === 0) {
-            // Current image - front and center - full priority
-            transform = 'translateX(0px) translateY(0px) translateZ(50px) scale(1) rotateY(0deg) rotateZ(0deg)';
-            opacity = 1;
-            zIndex = 100;
-          } else if (offset === 1) {
-            // Next image - more visible behind and to the right
-            transform = 'translateX(35px) translateY(20px) translateZ(0px) scale(0.92) rotateY(-6deg) rotateZ(2deg)';
-            opacity = 0.85;
-            zIndex = 50;
-          } else if (offset === 2) {
-            // Third image - visible further back
-            transform = 'translateX(65px) translateY(35px) translateZ(-30px) scale(0.84) rotateY(-12deg) rotateZ(4deg)';
-            opacity = 0.7;
-            zIndex = 25;
-          }
-          
-          let cardClass = styles.slideCard;
-          if (offset === 0) {
-            cardClass += ' ' + styles.slideCardCurrent;
-          } else if (offset === 1) {
-            cardClass += ' ' + styles.slideCardNext;
-          } else if (offset === 2) {
-            cardClass += ' ' + styles.slideCardThird;
-          }
-          
+    <figure
+      className={rootClass}
+      aria-roledescription="carousel"
+      aria-label="Photos from talks and events"
+      onKeyDown={onKeyDown}
+      onPointerEnter={(e) => e.pointerType === 'mouse' && setIsHovered(true)}
+      onPointerLeave={() => setIsHovered(false)}
+      style={{ '--slide-duration': `${SLIDE_DURATION_MS}ms` } as CSSProperties}
+    >
+      <div className={styles.stage}>
+        {slideData.map((item, index) => {
+          const rel = (index - current + total) % total;
+          const isNear = rel <= 2 || rel === total - 1;
           return (
             <div
-              key={index}
-              className={`${cardClass} ${isVisible ? styles.slideVisible : styles.slideHidden}`}
-              style={{
-                transform,
-                opacity,
-                zIndex,
-              }}
+              key={item.image}
+              className={`${styles.card} ${positionClass(rel, total)}`}
+              aria-hidden={rel !== 0}
             >
-              <div className={styles.slideContent}>
+              {isNear && (
                 <img
-                  src={slide.image}
-                  alt={slide.caption}
-                  className={styles.slideImage}
-                  loading="lazy"
+                  src={item.image}
+                  alt={rel === 0 ? item.caption : ''}
+                  className={styles.image}
+                  style={item.focus ? { objectPosition: item.focus } : undefined}
+                  decoding="async"
+                  draggable={false}
                 />
-                {/* Overlay */}
-                <div className={styles.slideOverlay} />
-                
-                {/* Caption and Date - only show for current image */}
-                {offset === 0 && (
-                  <div className={styles.captionContainer}>
-                    <Badge variant="secondary" className={styles.dateBadge}>
-                      {slide.date}
-                    </Badge>
-                    <p className={styles.caption}>{slide.caption}</p>
-                  </div>
-                )}
-              </div>
+              )}
             </div>
           );
         })}
-
-        {/* Dots Indicator - Below slideshow with mobile-friendly spacing */}
-        <div className={styles.dotsContainer}>
-          {slideData.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                goToSlide(index);
-                setIsPlaying(false);
-              }}
-              className={`${styles.dot} ${
-                index === currentIndex
-                  ? styles.dotActive
-                  : styles.dotInactive
-              }`}
-            />
-          ))}
-        </div>
-        </div>
       </div>
-    </div>
+
+      <div className={styles.progress} role="group" aria-label="Choose a photo">
+        {slideData.map((item, index) => (
+          <button
+            key={item.image}
+            type="button"
+            className={`${styles.segment} ${
+              index === current ? styles.segmentActive : index < current ? styles.segmentDone : ''
+            }`}
+            onClick={() => goTo(index)}
+            aria-label={`Photo ${index + 1}: ${item.caption}`}
+            aria-current={index === current}
+          >
+            <span
+              className={styles.segmentFill}
+              onAnimationEnd={index === current ? next : undefined}
+            />
+          </button>
+        ))}
+      </div>
+
+      <figcaption className={styles.footer}>
+        <div className={styles.captionBlock} aria-live={isPlaying ? 'off' : 'polite'}>
+          <span className={styles.meta}>
+            {slide.date}
+            <span aria-hidden="true"> · </span>
+            {String(current + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+          </span>
+          <p className={styles.caption}>{slide.caption}</p>
+        </div>
+
+        <div className={styles.controls}>
+          <button
+            type="button"
+            className={styles.control}
+            onClick={() => {
+              prev();
+              setIsPlaying(false);
+            }}
+            aria-label="Previous photo"
+          >
+            <ChevronLeft className={styles.controlIcon} />
+          </button>
+          <button
+            type="button"
+            className={styles.control}
+            onClick={() => setIsPlaying((p) => !p)}
+            aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
+          >
+            {isPlaying ? (
+              <Pause className={styles.controlIcon} />
+            ) : (
+              <Play className={styles.controlIcon} />
+            )}
+          </button>
+          <button
+            type="button"
+            className={styles.control}
+            onClick={() => {
+              next();
+              setIsPlaying(false);
+            }}
+            aria-label="Next photo"
+          >
+            <ChevronRight className={styles.controlIcon} />
+          </button>
+        </div>
+      </figcaption>
+    </figure>
   );
 }
